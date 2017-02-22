@@ -4,8 +4,9 @@ import javax.persistence.*;
 import java.util.Date;
 
 /**
- * For product_discount table
+ * Handles discounts for products in the webstore
  */
+
 @Entity
 @Table(name = "product_discount")
 public class ProductDiscount {

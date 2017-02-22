@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <property name="connection.url">jdbc:mysql://localhost:3306/jennifer_db</property>
+        <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+        <mapping class="com.jennifer.entity.CampaignProduct"/>
+        <mapping class="com.jennifer.entity.CategoryInfo"/>
+        <mapping class="com.jennifer.entity.DeliveryMethod"/>
+        <mapping class="com.jennifer.entity.FavoriteBag"/>
+        <mapping class="com.jennifer.entity.FeaturedProduct"/>
+        <mapping class="com.jennifer.entity.MarketingCampaign"/>
+        <mapping class="com.jennifer.entity.OrderDetail"/>
+        <mapping class="com.jennifer.entity.OrderInfo"/>
+        <mapping class="com.jennifer.entity.PaymentInvoice"/>
+        <mapping class="com.jennifer.entity.ProductDiscount"/>
+        <mapping class="com.jennifer.entity.ProductInfo"/>
+        <mapping class="com.jennifer.entity.ProductPrice"/>
+        <mapping class="com.jennifer.entity.ShippingAddress"/>
+        <mapping class="com.jennifer.entity.ShoppingBag"/>
+        <mapping class="com.jennifer.entity.ShoppingProduct"/>
+        <mapping class="com.jennifer.entity.UserInfo"/>
+        <mapping class="com.jennifer.entity.ViewedProduct"/>
+        <mapping class="com.jennifer.entity.WebstoreSetting"/>
+        <!-- <property name="connection.username"/> -->
+        <!-- <property name="connection.password"/> -->
+
+        <!-- DB schema will be updated if needed -->
+        <!-- <property name="hbm2ddl.auto">update</property> -->
+    </session-factory>
+</hibernate-configuration>

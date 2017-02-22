@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>Login - Online Shopping Webstore</title>
+	<object th:include="common/header :: common-header-customer" th:remove="tag"></object>
+</head>
+
+<body>
+
+	<div th:replace="common/navbar :: common-navbar-customer" th:remove="tag"></div>
+
+	<section id="form"><!--form-->
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-4 col-sm-offset-1">
+					<div class="login-form"><!--login form-->
+						<h2>Login to your account</h2>
+
+						<div th:if="${error != null}" class="alert alert-danger">
+							<p th:text="${error}"></p>
+						</div>
+						<div th:if="${logout_error != null}" class="alert alert-success">
+							<p th:text="${logout_error}"></p>
+						</div>
+
+						<form id="loginFacebookForm" action="/connect/facebook" method="post" class="btn-group" style="vertical-align: inherit">
+							<input type="hidden" name="scope" value="user_posts" />
+							<div class="btn-group" style="vertical-align: inherit">
+								<a class='btn btn-primary disabled'><i class="fa fa-facebook" style="width:15px"></i></a>
+								<a class='btn btn-primary' href="javascript:document.getElementById('loginFacebookForm').submit()" style="width:12em"> Sign in with Facebook</a>
+							</div>
+						</form>
+
+						<form th:action="@{/login}" method="post">
+							<input name="username" type="email" placeholder="Email" class="form-control has-error" autofocus="true" required="true" />
+							<input name="password" type="password" placeholder="Password" class="form-control" required="true" />
+							<span>
+								<input name="remember-me" type="checkbox" class="checkbox" />
+								Keep me signed in
+							</span>
+							<button type="submit" class="btn btn-default">Login</button>
+							<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+						</form>
+
+					</div><!--/login form-->
+				</div>
+				<div class="col-sm-1">
+					<h2 class="or">OR</h2>
+				</div>
+				<div class="col-sm-4">
+					<div class="signup-form"><!--sign up form-->
+						<h2>New User Signup!</h2>
+
+						<div th:replace="common/alert :: flashAlert (type=${flashSignup}, message=${flashMessage})"></div>
+
+						<!--/*@thymesVar id="signupForm" type="com.jennifer.dto.SignupForm"*/-->
+						<form th:action="@{/signup}" th:object="${signupForm}" method="post">
+							<div th:class="${#fields.hasErrors('fullname')}? 'form-group has-error' : 'form-group'">
+								<input th:field="*{fullname}" type="text" placeholder="Full name" class="form-control" required="true" />
+								<span th:if="${#fields.hasErrors('fullname')}" th:errors="*{fullname}" class="help-block"></span>
+							</div>
+							<div th:class="${#fields.hasErrors('email')}? 'form-group has-error' : 'form-group'">
+								<input th:field="*{email}" type="email" placeholder="Email" class="form-control" required="true" />
+								<span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="help-block"></span>
+							</div>
+							<div th:class="${#fields.hasErrors('password')}? 'form-group has-error' : 'form-group'">
+								<input th:field="*{password}" type="password" placeholder="Password" class="form-control" required="true" />
+								<span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="help-block"></span>
+							</div>
+							<button type="submit" class="btn btn-default">Signup</button>
+						</form>
+
+					</div><!--/sign up form-->
+				</div>
+			</div>
+		</div>
+	</section><!--/form-->
+
+
+	<div th:replace="common/footer :: common-footer-customer" th:remove="tag"></div>
+
+	<div th:replace="common/footer :: common-footer-scripts-customer" th:remove="tag"></div>
+</body>
+</html>

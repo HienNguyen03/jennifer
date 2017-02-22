@@ -5,8 +5,9 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 /**
- * For product_price table
+ * Handles the price of products
  */
+
 @Entity
 @Table(name = "product_price")
 public class ProductPrice {
@@ -16,7 +17,7 @@ public class ProductPrice {
     @Column(name = "ID")
     private int id;
 
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "PRODUCT_ID")
     private ProductInfo productInfo;
 
@@ -31,7 +32,8 @@ public class ProductPrice {
     @Column(name = "END_DATE")
     private Date endDate;
 
-    public ProductPrice(){}
+    public ProductPrice() {
+    }
 
     public int getId() {
         return id;

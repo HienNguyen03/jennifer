@@ -12,12 +12,15 @@ import java.util.List;
 @Table(name = "user_info")
 public class UserInfo {
 
+    public static final String EMAIL_PATTERN = "[A-Za-z0-9._%-+]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}";
+
     public enum Role {
         CUSTOMER, MANAGER
     }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID")
     private int id;
 
     @Column(name = "FULLNAME", nullable = false, length = 100)
@@ -44,6 +47,9 @@ public class UserInfo {
 
     @OneToOne(mappedBy = "userInfo")
     private ShoppingBag shoppingBag;
+
+    @OneToMany(mappedBy = "primaryKey.userInfo", cascade = CascadeType.ALL)
+    private List<ViewedProduct> viewedProducts = new ArrayList<>();
 
     public UserInfo() {
     }
@@ -126,5 +132,13 @@ public class UserInfo {
 
     public void setShoppingBag(ShoppingBag shoppingBag) {
         this.shoppingBag = shoppingBag;
+    }
+
+    public List<ViewedProduct> getViewedProducts() {
+        return viewedProducts;
+    }
+
+    public void setViewedProducts(List<ViewedProduct> viewedProducts) {
+        this.viewedProducts = viewedProducts;
     }
 }

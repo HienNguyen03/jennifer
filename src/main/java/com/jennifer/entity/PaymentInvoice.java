@@ -14,6 +14,7 @@ public class PaymentInvoice {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID")
     private int id;
 
     @Temporal(TemporalType.DATE)

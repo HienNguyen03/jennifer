@@ -7,11 +7,12 @@ import javax.persistence.*;
  */
 
 @Entity
-@Table(name = "payment_invoice")
+@Table(name = "shipping_address")
 public class ShippingAddress {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID")
     private int id;
 
     @Column(name = "RECIPIENT", nullable = false, length = 100)

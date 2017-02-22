@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Page not found - Online Shopping Webstore</title>
+    <object th:include="common/header :: common-header-customer" th:remove="tag"></object>
+</head>
+
+<body>
+	<div class="container text-center">
+		<div class="logo-404">
+			<a th:href="@{/}"><img th:src="@{/custom/co/images/home/logo.png}" alt="" /></a>
+		</div>
+		<div class="content-404">
+			<h1><b>AHHHHH!</b> YOU FOUND ME !!!!</h1>
+			<p>Unfortunately, you have also found an elusive 404 error page, which means the page you are looking for is no longer here.</p>
+			<h3><a th:href="@{/}">Bring me back Home</a></h3>
+			<img th:src="@{/custom/cm/images/error/monster-404.jpg}" width="700px" height="400px" class="img-responsive" alt="" />
+		</div>
+	</div>
+
+    <div th:replace="common/footer :: common-footer-scripts-customer" th:remove="tag"></div>
+
+</body>
+</html>

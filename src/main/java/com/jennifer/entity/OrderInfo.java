@@ -1,7 +1,10 @@
 package com.jennifer.entity;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Handles customers' order related information
@@ -13,11 +16,15 @@ public class OrderInfo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID")
     private int id;
 
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "ORDER_DATE", nullable = false)
-    private Date order_date;
+    private Date orderDate;
+
+    @Column(name = "TOTAL_PRICE", nullable = false)
+    private BigDecimal totalPrice;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ID", nullable = false)
@@ -37,6 +44,9 @@ public class OrderInfo {
     @OneToOne(mappedBy = "orderInfo")
     private PaymentInvoice paymentInvoice;
 
+    @OneToMany(mappedBy = "primaryKey.orderInfo", cascade = CascadeType.ALL)
+    private List<OrderDetail> orderDetails = new ArrayList<>();
+
     public int getId() {
         return id;
     }
@@ -45,12 +55,20 @@ public class OrderInfo {
         this.id = id;
     }
 
-    public Date getOrder_date() {
-        return order_date;
+    public Date getOrderDate() {
+        return orderDate;
     }
 
-    public void setOrder_date(Date order_date) {
-        this.order_date = order_date;
+    public void setOrderDate(Date orderDate) {
+        this.orderDate = orderDate;
+    }
+
+    public BigDecimal getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(BigDecimal totalPrice) {
+        this.totalPrice = totalPrice;
     }
 
     public UserInfo getUserInfo() {
@@ -91,5 +109,13 @@ public class OrderInfo {
 
     public void setPaymentInvoice(PaymentInvoice paymentInvoice) {
         this.paymentInvoice = paymentInvoice;
+    }
+
+    public List<OrderDetail> getOrderDetails() {
+        return orderDetails;
+    }
+
+    public void setOrderDetails(List<OrderDetail> orderDetails) {
+        this.orderDetails = orderDetails;
     }
 }

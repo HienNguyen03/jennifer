@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">>
+<body>
+
+    <header th:fragment="common-navbar-customer" id="header"><!--header-->
+        <div class="header_top"><!--header_top-->
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="contactinfo">
+                            <ul class="nav nav-pills">
+                                <li><a href="#"><i class="fa fa-phone"></i> +358 41 234 5678</a></li>
+                                <li><a href="#"><i class="fa fa-envelope"></i> sample_email@jennifer.com</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="social-icons pull-right">
+                            <ul class="nav navbar-nav">
+                                <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                                <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                                <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+                                <li><a href="#"><i class="fa fa-dribbble"></i></a></li>
+                                <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!--/header_top-->
+
+        <div class="header-middle"><!--header-middle-->
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="logo pull-left">
+                            <a th:href="@{/}"><img th:src="@{/custom/co/images/home/logo.png}" alt="" /></a>
+                        </div>
+                        <!--<div class="btn-group pull-right">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default dropdown-toggle usa" data-toggle="dropdown">
+                                    USA
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">Canada</a></li>
+                                    <li><a href="#">UK</a></li>
+                                </ul>
+                            </div>
+
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default dropdown-toggle usa" data-toggle="dropdown">
+                                    DOLLAR
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">Canadian Dollar</a></li>
+                                    <li><a href="#">Pound</a></li>
+                                </ul>
+                            </div>
+                        </div>-->
+                    </div>
+                    <div class="col-sm-8">
+                        <div class="shop-menu pull-right">
+                            <ul class="nav navbar-nav">
+                                <li><a href="#"><i class="fa fa-star"></i> Favorite</a></li>
+                                <li><a th:href="@{/checkout}"><i class="fa fa-crosshairs"></i> Checkout</a></li>
+                                <li><a th:href="@{/cart}"><i class="fa fa-shopping-cart"></i> Cart</a></li>
+
+                                <li sec:authorize="${isAnonymous()}" ><a th:href="@{/login}"><i class="fa fa-lock"></i> Login</a></li>
+
+                                <li sec:authorize="${isAuthenticated()}" class="dropdown">
+
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        <span sec:authentication="principal.user.fullname"></span>
+                                        <span class="caret"></span>
+                                    </a>
+
+                                    <ul class="dropdown-menu">
+                                        <!--<li class="dropdown-header">Personal zone</li>-->
+                                        <li>
+                                            <a th:href="@{/profile}">
+                                                <i class="fa fa-user"></i> Profile
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <form id="logoutForm" th:action="@{/logout}" method="post">
+                                                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                                            </form>
+                                            <a href="javascript:document.getElementById('logoutForm').submit()">
+                                                <i class="fa fa-sign-out"></i>Sign out
+                                            </a>
+                                        </li>
+                                    </ul>
+
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!--/header-middle-->
+
+        <div class="header-bottom"><!--header-bottom-->
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-9">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                        </div>
+                        <div class="mainmenu pull-left">
+                            <ul class="nav navbar-nav collapse navbar-collapse">
+                                <li><a th:href="@{/}" class="active">Home</a></li>
+                                <li class="dropdown"><a href="#">Shop<i class="fa fa-angle-down"></i></a>
+                                    <ul role="menu" class="sub-menu">
+                                        <li><a th:href="@{/shop}">Products</a></li>
+                                        <li><a th:href="@{/product-details}">Product Details</a></li>
+                                        <li><a th:href="@{/checkout}">Checkout</a></li>
+                                        <li><a th:href="@{/cart}">Cart</a></li>
+                                        <li><a th:href="@{/login}">Login</a></li>
+                                    </ul>
+                                </li>
+                                <li class="dropdown"><a href="#">Blog<i class="fa fa-angle-down"></i></a>
+                                    <ul role="menu" class="sub-menu">
+                                        <li><a th:href="@{/blog}">Blog List</a></li>
+                                        <li><a th:href="@{/blog-single}">Blog Single</a></li>
+                                    </ul>
+                                </li>
+                                <li><a th:href="@{/404}">404</a></li>
+                                <li><a th:href="@{/contact-us}">Contact</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="search_box pull-right">
+                            <input type="text" placeholder="Search"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!--/header-bottom-->
+    </header><!--/header-->
+
+
+
+    <!-- logo -->
+    <div th:fragment="common-navbar-header-manager" class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" th:href="@{/manager}"><b>Jennifer</b> Webstore</a>
+    </div>
+    <!-- /.navbar-header -->
+
+
+
+    <!-- top profile menu -->
+    <ul th:fragment="common-navbar-manager" class="nav navbar-top-links navbar-right">
+        <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                <i class="fa fa-envelope fa-fw"></i> <i class="fa fa-caret-down"></i>
+            </a>
+            <ul class="dropdown-menu dropdown-messages">
+                <li>
+                    <a href="#">
+                        <div>
+                            <strong>John Smith</strong>
+                            <span class="pull-right text-muted">
+                                        <em>Yesterday</em>
+                                    </span>
+                        </div>
+                        <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>
+                    </a>
+                </li>
+                <li class="divider"></li>
+                <li>
+                    <a href="#">
+                        <div>
+                            <strong>John Smith</strong>
+                            <span class="pull-right text-muted">
+                                        <em>Yesterday</em>
+                                    </span>
+                        </div>
+                        <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>
+                    </a>
+                </li>
+                <li class="divider"></li>
+                <li>
+                    <a href="#">
+                        <div>
+                            <strong>John Smith</strong>
+                            <span class="pull-right text-muted">
+                                        <em>Yesterday</em>
+                                    </span>
+                        </div>
+                        <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>
+                    </a>
+                </li>
+                <li class="divider"></li>
+                <li>
+                    <a class="text-center" href="#">
+                        <strong>Read All Messages</strong>
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                </li>
+            </ul>
+            <!-- /.dropdown-messages -->
+        </li>
+        <!-- /.dropdown -->
+        <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                <i class="fa fa-tasks fa-fw"></i> <i class="fa fa-caret-down"></i>
+            </a>
+            <ul class="dropdown-menu dropdown-tasks">
+                <li>
+                    <a href="#">
+                        <div>
+                            <p>
+                                <strong>Task 1</strong>
+                                <span class="pull-right text-muted">40% Complete</span>
+                            </p>
+                            <div class="progress progress-striped active">
+                                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
+                                    <span class="sr-only">40% Complete (success)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <li class="divider"></li>
+                <li>
+                    <a href="#">
+                        <div>
+                            <p>
+                                <strong>Task 2</strong>
+                                <span class="pull-right text-muted">20% Complete</span>
+                            </p>
+                            <div class="progress progress-striped active">
+                                <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
+                                    <span class="sr-only">20% Complete</span>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <li class="divider"></li>
+                <li>
+                    <a href="#">
+                        <div>
+                            <p>
+                                <strong>Task 3</strong>
+                                <span class="pull-right text-muted">60% Complete</span>
+                            </p>
+                            <div class="progress progress-striped active">
+                                <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%">
+                                    <span class="sr-only">60% Complete (warning)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <li class="divider"></li>
+                <li>
+                    <a href="#">
+                        <div>
+                            <p>
+                                <strong>Task 4</strong>
+                                <span class="pull-right text-muted">80% Complete</span>
+                            </p>
+                            <div class="progress progress-striped active">
+                                <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%">
+                                    <span class="sr-only">80% Complete (danger)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <li class="divider"></li>
+                <li>
+                    <a class="text-center" href="#">
+                        <strong>See All Tasks</strong>
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                </li>
+            </ul>
+            <!-- /.dropdown-tasks -->
+        </li>
+        <!-- /.dropdown -->
+        <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                <i class="fa fa-bell fa-fw"></i> <i class="fa fa-caret-down"></i>
+            </a>
+            <ul class="dropdown-menu dropdown-alerts">
+                <li>
+                    <a href="#">
+                        <div>
+                            <i class="fa fa-comment fa-fw"></i> New Comment
+                            <span class="pull-right text-muted small">4 minutes ago</span>
+                        </div>
+                    </a>
+                </li>
+                <li class="divider"></li>
+                <li>
+                    <a href="#">
+                        <div>
+                            <i class="fa fa-twitter fa-fw"></i> 3 New Followers
+                            <span class="pull-right text-muted small">12 minutes ago</span>
+                        </div>
+                    </a>
+                </li>
+                <li class="divider"></li>
+                <li>
+                    <a href="#">
+                        <div>
+                            <i class="fa fa-envelope fa-fw"></i> Message Sent
+                            <span class="pull-right text-muted small">4 minutes ago</span>
+                        </div>
+                    </a>
+                </li>
+                <li class="divider"></li>
+                <li>
+                    <a href="#">
+                        <div>
+                            <i class="fa fa-tasks fa-fw"></i> New Task
+                            <span class="pull-right text-muted small">4 minutes ago</span>
+                        </div>
+                    </a>
+                </li>
+                <li class="divider"></li>
+                <li>
+                    <a href="#">
+                        <div>
+                            <i class="fa fa-upload fa-fw"></i> Server Rebooted
+                            <span class="pull-right text-muted small">4 minutes ago</span>
+                        </div>
+                    </a>
+                </li>
+                <li class="divider"></li>
+                <li>
+                    <a class="text-center" href="#">
+                        <strong>See All Alerts</strong>
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                </li>
+            </ul>
+            <!-- /.dropdown-alerts -->
+        </li>
+        <!-- /.dropdown -->
+        <li sec:authorize="${isAuthenticated()}" class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                <span sec:authentication="principal.user.fullname"></span> <i class="fa fa-caret-down"></i>
+            </a>
+            <ul class="dropdown-menu dropdown-user">
+                <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                </li>
+                <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                </li>
+                <li class="divider"></li>
+                <li>
+                    <form id="logoutFormManager" th:action="@{/logout}" method="post">
+                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                    </form>
+                    <a href="javascript:document.getElementById('logoutFormManager').submit()">
+                        <i class="fa fa-sign-out fa-fw"></i>Sign out
+                    </a>
+                </li>
+            </ul>
+            <!-- /.dropdown-user -->
+        </li>
+        <!-- /.dropdown -->
+    </ul> <!-- /.navbar-top-links -->
+
+
+</body>
+</html>

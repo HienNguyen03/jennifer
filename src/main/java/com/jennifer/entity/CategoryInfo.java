@@ -1,35 +1,50 @@
 package com.jennifer.entity;
 
+import com.fasterxml.jackson.annotation.*;
+
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * For category_info table
+ * Handles products' categories in the webstore
  */
 @Entity
 @Table(name = "category_info")
-public class CategoryInfo {
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = CategoryInfo.class)
+public class CategoryInfo implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     private int id;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "categoryInfo")
-    private List<ProductInfo> productInfos = new ArrayList<>();
-
     @Column(name = "NAME", nullable = false, length = 60)
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    //@JsonManagedReference("super-category")
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "CATEGORY_ID")
     private CategoryInfo superCategoryInfo;
 
+    @Column(name = "PLACE_ORDER", nullable = false)
+    private int placeOrder;
+
+    //@JsonBackReference("product-category")
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "categoryInfo")
+    private List<ProductInfo> productInfos = new ArrayList<>();
+
+    //@JsonBackReference("super-category")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "superCategoryInfo")
     private List<CategoryInfo> categoryInfos = new ArrayList<>();
 
     public CategoryInfo() {
+    }
+
+    public CategoryInfo(String name, int placeOrder) {
+        this.name = name;
+        this.placeOrder = placeOrder;
     }
 
     public int getId() {
@@ -56,6 +71,14 @@ public class CategoryInfo {
         this.productInfos = productInfos;
     }
 
+    public int getPlaceOrder() {
+        return placeOrder;
+    }
+
+    public void setPlaceOrder(int placeOrder) {
+        this.placeOrder = placeOrder;
+    }
+
     public CategoryInfo getSuperCategoryInfo() {
         return superCategoryInfo;
     }
@@ -71,4 +94,5 @@ public class CategoryInfo {
     public void setCategoryInfos(List<CategoryInfo> categoryInfos) {
         this.categoryInfos = categoryInfos;
     }
+
 }

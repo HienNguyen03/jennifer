@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>Jennifer - Online shopping webstore</title>
+	<object th:include="common/header :: common-header-customer" th:remove="tag"></object>
+</head>
+
+<body>
+
+	<div th:replace="common/navbar :: common-navbar-customer" th:remove="tag"></div>
+
+	<div th:replace="common/slider :: common-slider-customer" th:remove="tag"></div>
+
+	<section>
+		<div class="container">
+			<div class="row">
+				<div th:replace="common/sidebar :: common-sidebar-customer" th:remove="tag"></div>
+
+				<div th:replace="common/item :: common-item-customer" th:remove="tag"></div>
+			</div>
+		</div>
+	</section>
+
+	<div th:replace="common/footer :: common-footer-customer" th:remove="tag"></div>
+
+	<div th:replace="common/footer :: common-footer-scripts-customer" th:remove="tag"></div>
+
+</body>
+</html>

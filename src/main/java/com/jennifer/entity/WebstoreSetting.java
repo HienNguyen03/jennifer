@@ -12,13 +12,14 @@ public class WebstoreSetting {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID")
     private int id;
 
     @Column(name = "NAME", nullable = false, unique = true)
     private String name;
 
-    @Column(name = "VALUE", nullable = false)
-    private String value;
+    @Column(name = "CONTENT", nullable = false)
+    private String content;
 
     public WebstoreSetting() {
     }
@@ -39,11 +40,11 @@ public class WebstoreSetting {
         this.name = name;
     }
 
-    public String getValue() {
-        return value;
+    public String getContent() {
+        return content;
     }
 
-    public void setValue(String value) {
-        this.value = value;
+    public void setContent(String content) {
+        this.content = content;
     }
 }
