@@ -7,6 +7,7 @@ import org.omg.CORBA.ServerRequest;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Handles users' shipping address
@@ -40,8 +41,8 @@ public class ShippingAddress {
     private UserInfo userInfo;
 
     @JsonIgnore
-    @OneToOne(mappedBy = "shippingAddress")
-    private OrderInfo orderInfo;
+    @OneToMany(mappedBy = "shippingAddress", cascade = CascadeType.ALL)
+    private List<OrderInfo> orderInfos;
 
     public ShippingAddress() {
     }
@@ -94,12 +95,12 @@ public class ShippingAddress {
         this.userInfo = userInfo;
     }
 
-    public OrderInfo getOrderInfo() {
-        return orderInfo;
+    public List<OrderInfo> getOrderInfos() {
+        return orderInfos;
     }
 
-    public void setOrderInfo(OrderInfo orderInfo) {
-        this.orderInfo = orderInfo;
+    public void setOrderInfos(List<OrderInfo> orderInfos) {
+        this.orderInfos = orderInfos;
     }
 
     @Override

@@ -34,11 +34,11 @@ public class OrderInfo {
     @JoinColumn(name = "USER_ID", nullable = false)
     private UserInfo userInfo;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "SHIPPING_ADDRESS_ID")
     private ShippingAddress shippingAddress;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "DELIVERY_ID")
     private DeliveryMethod deliveryMethod;
 

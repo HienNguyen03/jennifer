@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Handles delivery methods used in the application
@@ -34,8 +35,8 @@ public class DeliveryMethod {
     private Date endDate;
 
     @JsonIgnore
-    @OneToOne(mappedBy = "deliveryMethod")
-    private OrderInfo orderInfo;
+    @OneToMany(mappedBy = "deliveryMethod", cascade = CascadeType.ALL)
+    private List<OrderInfo> orderInfos;
 
     public DeliveryMethod() {
     }
@@ -80,12 +81,12 @@ public class DeliveryMethod {
         this.endDate = endDate;
     }
 
-    public OrderInfo getOrderInfo() {
-        return orderInfo;
+    public List<OrderInfo> getOrderInfos() {
+        return orderInfos;
     }
 
-    public void setOrderInfo(OrderInfo orderInfo) {
-        this.orderInfo = orderInfo;
+    public void setOrderInfos(List<OrderInfo> orderInfos) {
+        this.orderInfos = orderInfos;
     }
 
     @Override
