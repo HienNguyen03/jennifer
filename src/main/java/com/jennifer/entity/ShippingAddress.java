@@ -15,7 +15,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "shipping_address")
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property="id")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property="id", scope = ShippingAddress.class)
 public class ShippingAddress {
 
     @Id

@@ -34,6 +34,11 @@ public class OrderInfoServiceImpl implements OrderInfoService {
     public OrderInfo findById(int id) {
         return orderInfoDao.findById(id);
     }
+
+    @Override
+    public OrderInfo update(OrderInfo orderInfo) {
+        return orderInfoDao.save(orderInfo);
+    }
 }
 
 
