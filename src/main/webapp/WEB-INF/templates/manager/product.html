@@ -95,7 +95,7 @@
                                     <input type="hidden" id="image"/>
                                     <div class="form-group">
                                         <label for="discount">Discount</label>
-                                        <input id="discount" name="discount" type="number" min="0" step="0.1" max="100"
+                                        <input id="discount" name="discount" type="number" min="0" step="1" max="100"
                                                class="form-control" placeholder="Discount"/>
                                     </div>
                                     <div class="form-group">
@@ -208,8 +208,10 @@
 
         // data for jsGrid
         let db = {
-            loadData: function () {
+            loadData: function (filter) {
                 let d = $.Deferred();
+
+                console.log(filter);
 
                 $.ajax({
                     type: "GET",
@@ -244,8 +246,6 @@
                 $.each(myDropzone.getAcceptedFiles(), function (order, data) {
                     myCollection.push(data.previewElement.querySelector("[data-dz-name]").innerHTML);
                 });
-
-                console.log("price: "+item.unitPrice);
 
                 $.ajax({
                     type: "PUT",
@@ -299,7 +299,10 @@
             url: "/api/category",
             dataType: "json",
             success: function (data) {
-                db.categories = data.items;
+                if(data)
+                    db.categories = data.items;
+                else
+                    db.categories = [];
             }
         }).done(function () {
             $("#category").select2({
@@ -317,8 +320,14 @@
             todayBtn: "linked"
         });
 
+        // used when pageLoading = false
+        jsGrid.loadStrategies.DirectLoadingStrategy.prototype.finishInsert = function(insertedItem) {
+            var grid = this._grid;
+            grid.option("data").unshift(insertedItem);
+            grid.refresh();
+        }
 
-        // TODO problem with decimal in price
+
         $("#product-grid").jsGrid({
             width: "100%",
             height: "auto",
@@ -331,7 +340,7 @@
             editing: true,
             sorting: true,
             paging: true,
-            //pageLoading: true,
+            pageLoading: false,
 
             noDataContent: "No product found",
             deleteConfirm: function (item) {
@@ -345,7 +354,7 @@
 
             pagerContainer: null,
             pageIndex: 1,
-            pageSize: 5,
+            pageSize: 10,
             pageButtonCount: 15,
             pagerFormat: "Pages: {first} {prev} {pages} {next} {last}    {pageIndex} of {pageCount}",
             pagePrevText: "Prev",
@@ -366,7 +375,7 @@
 
             fields: [
                 {title: "ID", name: "id", type: "number", width: 30, align: "center"},
-                {title: "Name", name: "name", type: "text", width: 120},
+                {title: "Name", name: "name", type: "text" },
                 {
                     title: "Price",
                     name: "unitPrice",
@@ -374,10 +383,7 @@
                     sorter: "number",
                     min: 0,
                     width: 40,
-                    align: "center",
-                    itemTemplate: function(value) {
-                        return value.toFixed(2);
-                    }
+                    align: "center"
                 },
                 {title: "Discount", name: "discount", type: "text", width: 40, align: "center"},
                 {
@@ -386,14 +392,15 @@
                         if (value != null) {
                             if (value.length != 0) {
 
-                                let result = $('<div style="display: flex"/>');
+                                let result = $('<div class="review-block" />');
                                 let imageData = value.split(",");
                                 $.each(imageData, function (order, data) {
                                     let img = new Image(30, 40);
                                     img.src = context + "pics/" + data;
-                                    img.style = "margin-right: 3px";
+                                    img.className = "review-image";
                                     result.append(img);
                                 });
+                                result.append($('<div style="clear: left" />'))
                                 return result;
                             }
                         }
@@ -401,7 +408,7 @@
                 },
                 {title: "Quantity", name: "quantity", type: "number", width: 40, align: "center"},
                 {
-                    title: "Description", name: "description", type: "textarea", width: 120, autosearch: true,
+                    title: "Description", name: "description", type: "textarea", width: 120,
                     itemTemplate: function (value, item) {
                         return $.trim(value).substring(0, 34).split(" ").slice(0, -1).join(" ") + "...";
                     }
@@ -412,7 +419,7 @@
                         return $.trim(value).substring(0, 34).split(" ").slice(0, -1).join(" ") + "...";
                     }
                 },
-                {title: "Status", name: "status", type: "text", width: 60, align: "center", autosearch: true},
+                {title: "Status", name: "status", type: "text", align: "center", width: 50, autosearch: true},
                 {title: "Category", name: "categoryInfo.name", type: "text", width: 60, align: "center"},
                 {
                     type: "control",
@@ -420,7 +427,7 @@
                     editButton: false,
                     width: 30,
                     headerTemplate: function () {
-                        return $("<button>").attr("type", "button").text("Add").append("</button>")
+                        return $("<button>").attr("type", "button").text("Add").addClass("btn btn-primary btn-sm").append("</button>")
                             .on("click", function () {
                                 resetForm();
                                 $("#save").text("Add new product");
@@ -559,8 +566,6 @@
                 imageList = [];
             /*]]>*/
 
-            console.log(deletedFiles);
-
             if(deletedFiles.length > 0){
                 deleteUploadedFiles(deletedFiles);
                 imageList = imageList.filter(val => !deletedFiles.includes(val));
@@ -570,11 +575,9 @@
                 imageList = imageList.concat(addedFiles);
             }
 
-            // TODO error when delete the 4th image (not allowed)
-
             $.extend(client, {
                 name: $("#name").val(),
-                unitPrice: parseInt($("#unitPrice").val(), 10),
+                unitPrice: parseFloat($("#unitPrice").val()),
                 discount: parseInt($("#discount").val(), 10),
                 image: imageList.toString(),
                 quantity: parseInt($("#quantity").val(), 10),
@@ -588,7 +591,7 @@
 
             deletedFiles = [];
             addedFiles = [];
-            $("#product-grid").trigger( 'reloadGrid' );
+            $("#product-grid").trigger("reloadGrid");
             $("#detailsDialog").dialog("close");
         };
     });

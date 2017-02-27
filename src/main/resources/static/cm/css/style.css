@@ -1,0 +1,13 @@
+.review-block {
+    display: block;
+}
+
+.review-image {
+    float: left;
+    margin-right: 3px;
+    border: solid #ccc 1px;
+}
+
+.review-image:last-of-type {
+    margin-right: 0;
+}
