@@ -25,7 +25,7 @@ public class ProductInfoController {
 
     @RequestMapping("/manager/product")
     public String mListOfProducts(Model model){
-        model.addAttribute("products", productInfoService.findAllProducts());
+       model.addAttribute("products", productInfoService.findAllProducts());
         return "manager/product";
     }
 

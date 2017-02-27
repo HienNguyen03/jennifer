@@ -1,6 +1,12 @@
 package com.jennifer.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import org.omg.CORBA.ServerRequest;
+
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * Handles users' shipping address
@@ -8,6 +14,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "shipping_address")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class ShippingAddress {
 
     @Id
@@ -27,10 +34,12 @@ public class ShippingAddress {
     @Column(name = "POSTAL_CODE", nullable = false, length = 10)
     private String postalCode;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    //@JsonIgnore
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "USER_ID")
     private UserInfo userInfo;
 
+    @JsonIgnore
     @OneToOne(mappedBy = "shippingAddress")
     private OrderInfo orderInfo;
 
@@ -91,5 +100,16 @@ public class ShippingAddress {
 
     public void setOrderInfo(OrderInfo orderInfo) {
         this.orderInfo = orderInfo;
+    }
+
+    @Override
+    public String toString() {
+        return "ShippingAddress{" +
+                "id=" + id +
+                ", recipient='" + recipient + '\'' +
+                ", address='" + address + '\'' +
+                ", city='" + city + '\'' +
+                ", postalCode='" + postalCode + '\'' +
+                '}';
     }
 }

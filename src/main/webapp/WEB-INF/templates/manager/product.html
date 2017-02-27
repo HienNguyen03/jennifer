@@ -467,11 +467,11 @@
 
 
 
-            $('.input-group.date').datepicker({
-                format: "dd/mm/yyyy",
-                startDate: "04/02/2017",
-                todayBtn: "linked"
-            });
+//            <!--$('.input-group.date').datepicker({-->
+//                <!--format: "dd/mm/yyyy",-->
+//                <!--startDate: "04/02/2017",-->
+//                <!--todayBtn: "linked"-->
+//            <!--});-->
 
             $("#product-grid").jsGrid({
                 width: "100%",
@@ -636,7 +636,7 @@
                     category: $("#category").val()
                 });
 
-                //console.log(client);
+                console.log(client);
                 //console.log(myDropzone.files);
 
                 $("#product-grid").jsGrid(isNew ? "insertItem" : "updateItem", client);

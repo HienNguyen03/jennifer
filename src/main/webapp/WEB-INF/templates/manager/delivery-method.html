@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <title>Delivery Method - Jennifer: Manager section</title>
+    <object th:include="common/header :: common-header-manager" th:remove="tag"></object>
+</head>
+
+<body>
+<div id="wrapper">
+
+    <nav class="navbar narbar-default navbar-static-top" role="navigation">
+        <div th:replace="common/navbar :: common-navbar-header-manager" th:remove="tag"></div>
+        <div th:replace="common/navbar :: common-navbar-manager" th:remove="tag"></div>
+        <div th:replace="common/sidebar :: common-sidebar-manager" th:remove="tag"></div>
+    </nav> <!-- /.nav -->
+
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">Delivery Method</h1>
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <!-- /.row -->
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <i class="fa fa-truck"></i> Delivery Method
+                    </div><!-- /.panel-heading -->
+
+                    <div class="panel-body">
+                        <div id="delivery-method-grid"></div> <!-- for delivery-method table -->
+                        <div id="delivery-detailsDialog">
+                            <form id="delivery-detailsForm">
+                                <div class="col-lg-10" style="float:none; margin:0 auto">
+                                    <div class="form-group">
+                                        <label for="name">Name</label>
+                                        <input id="name" name="name" type="text" class="form-control"
+                                               placeholder="Name"/>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="cost">Cost</label>
+                                        <input id="cost" name="cost" type="number" min="0" step="0.01"
+                                               class="form-control" placeholder="Price"/>
+                                    </div>
+
+                                    <label for="start-date">Start Date (dd/mm/yyyy)</label>
+                                    <div class="form-group">
+                                        <input id="start-date" name="start-date" type="text"
+                                               class="form-control datePicker"/>
+                                    </div>
+
+
+                                    <label for="end-date">End Date (dd/mm/yyyy)</label>
+                                    <div class="form-group">
+                                        <input id="end-date" name="end-date" type="text"
+                                               class="form-control datePicker"/>
+                                    </div>
+
+                                    <div class="form-group text-center">
+                                        <button id="save-delivery" type="submit" class="btn btn-primary">Save</button>
+                                    </div><!-- button #save-delivery -->
+                                </div>
+                            </form><!-- form #delivery-detailsForm -->
+                        </div><!-- /#delivery-detailsDialog -->
+
+                    </div><!-- /.panel-body -->
+                </div>  <!-- /.panel -->
+
+            </div><!-- /.col-lg-12 -->
+
+        </div><!-- /.row -->
+
+    </div><!-- /#page-wrapper -->
+
+</div> <!-- /#wrapper -->
+
+<div th:replace="common/footer :: common-footer-scripts-manager" th:remove="tag"></div>
+
+<script type="text/javascript" th:inline="javascript">
+    /*<![CDATA[*/
+    let context = /*[[@{~/}]]*/"";
+    /*]]>*/
+
+    $(function () {
+        let token = $("meta[name='_csrf']").attr("content");
+        let header = $("meta[name='_csrf_header']").attr("content");
+        $(document).ajaxSend(function (e, xhr, options) {
+            xhr.setRequestHeader(header, token);
+        });
+    });
+
+    $(document).ready(function () {
+        let db = {
+            loadData: function (filter) { // load date from db
+                let d = $.Deferred();
+
+                $.ajax({
+                    type: "GET",
+                    url: "/api/delivery-method",
+                    data: filter,
+                    dataType: "json"
+                }).done(function (response) {
+                    setTimeout(function () {
+                        d.resolve(response);
+                    }, 1000);
+                });
+
+                return d.promise();
+            },
+
+            updateItem: function (item) {
+                let d = $.Deferred();
+
+                $.ajax({
+                    type: "PUT",
+                    url: "/api/delivery-method",
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    data: JSON.stringify(item),
+                    dataType: "json"
+
+                }).done(function (updatedItemReturnedFromServer) {
+                    d.resolve(updatedItemReturnedFromServer);
+                });
+
+                return d.promise();
+            },// update data
+
+            insertItem: function (item) {
+                let d = $.Deferred();
+
+                $.ajax({
+                    type: "POST",
+                    url: "/api/delivery-method",
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    data: JSON.stringify(item),
+                    dataType: "json"
+
+                }).done(function (insertedItemReturnedFromServer) {
+                    d.resolve(insertedItemReturnedFromServer);
+                });
+
+                return d.promise();
+            },
+
+            deleteItem: function (item) {
+                console.log("delete call++++>");
+                console.log(item);
+
+                let d = $.Deferred();
+                return $.ajax({
+                    type: "DELETE",
+                    url: "/api/delivery-method",
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    data: JSON.stringify(item),
+                    dataType: "json"
+                }).done(function (deletedItemReturnedFromServer) {
+                    d.resolve(deletedItemReturnedFromServer);
+                });
+
+                return d.promise();
+            }
+        };
+
+        window.db = db;
+
+        $('.datePicker').datepicker({
+            //startDate: '-3d',
+            format: "dd/mm/yyyy",
+            todayBtn: "linked",
+            autoclose: true,
+            todayHighlight: true
+        });
+
+        $("#delivery-method-grid").jsGrid({
+            width: "100%",
+            height: "auto",
+
+            autoload: true,
+
+            heading: true,
+            filtering: false,
+            inserting: false,
+            editing: true,
+            sorting: true,
+            paging: true,
+            //pageLoading: true,
+
+            noDataContent: "No delivery method found",
+
+            deleteConfirm: function (item) {
+                return "The delivery method \"" + item.name + "\" will be removed. Are you sure?";
+            },
+
+            rowClick: function (args) {
+                resetForm();
+                showDetailsDialog("Edit", args.item);
+                $("#save-delivery").text("Update Delivery Method");
+            },
+            pagerContainer: null,
+            pageIndex: 1,
+            pageSize: 10,
+            pageButtonCount: 15,
+            pagerFormat: "Pages: {first} {prev} {pages} {next} {last}    {pageIndex} of {pageCount}",
+            pagePrevText: "Prev",
+            pageNextText: "Next",
+            pageFirstText: "First",
+            pageLastText: "Last",
+            pageNavigatorNextText: "...",
+            pageNavigatorPrevText: "...",
+
+            loadIndication: true,
+            loadIndicationDelay: 200,
+            loadMessage: "Please, wait...",
+            loadShading: true,
+
+            updateOnResize: true,
+
+            controller: db,
+
+            fields: [
+                {title: "ID", name: "id", type: "number", width: 30, align: "center"},
+                {title: "Name", name: "name", type: "text", width: 100},
+                {title: "Cost", name: "cost", type: "number", sorter: "number", min: 0, width: 40, align: "center"},
+                {
+                    title: "Start Date", name: "startDate", type: "date", width: 50, align: "center",
+                    itemTemplate: function (data) {
+                        return $.datepicker.formatDate('dd/mm/yy', new Date(data));
+                    }
+                },
+                {
+                    title: "End Date", name: "endDate", type: "date", width: 50, align: "center",
+                    itemTemplate: function (data) {
+                        if(data != null) { return $.datepicker.formatDate('dd/mm/yy', new Date(data)); }
+                        else { return false;}
+
+                    }
+                },
+                {
+                    type: "control",
+                    modeSwitchButton: false,
+                    editButton: false,
+                    width: 30,
+
+                    headerTemplate: function () {
+                        return $("<button>").attr("type", "button").addClass("btn btn-info btn-sm").text("Add").append("</button>")
+                            .on("click", function () {
+                                resetForm();
+                                $("#save-delivery").text("Add new delivery method");
+                                showDetailsDialog("Add", {});
+                            });
+                    }
+                }
+            ]
+        });
+
+
+        $("#delivery-detailsDialog").dialog({
+            autoOpen: false,
+            width: "30%",
+            maxWidth: "500px",
+            close: function () {
+                resetForm();
+            }
+        });
+
+        function resetForm() {
+            $("#delivery-detailsForm").validate().resetForm();
+            $("#delivery-detailsForm").find(".error").removeClass("error");
+        };
+
+        $("#delivery-detailsForm").validate({
+            rules: {
+                name: "required",
+                cost: {required: true, range: [0, 300]},
+                "start-date": {required: true},
+                "end-date": {required: false}
+            },
+            messages: {
+                name: "Please enter delivery method's name",
+                cost: "Please enter a valid cost",
+                "start-date": "Please choose a valid date",
+                "end-date": "Please choose a valid date"
+            },
+            submitHandler: function () {
+                formSubmitHandler();
+            }
+        });
+
+        let formSubmitHandler = $.noop;
+
+        let dateTemplateFromServer = function (data) {
+            if (typeof data === 'undefined' || !data) {
+                return $.datepicker.formatDate('dd/mm/yy');
+            } else {
+                return $.datepicker.formatDate('dd/mm/yy', new Date(data));
+            }
+
+        }; // format date from db to format dd-mm-yyyy
+
+        let dateTemplateToServer = function (data) {
+            if (typeof data === 'undefined' || !data) {
+                return $.datepicker.formatDate('yy-mm-dd')
+            } else {
+                return $.datepicker.formatDate('yy-mm-dd', new Date(data));
+            }
+
+        }; // format date from db to format dd-mm-yyyy
+
+        let showDetailsDialog = function (dialogType, client) {
+            $("#name").val(client.name);
+            $("#cost").val(client.cost);
+            $("#start-date").datepicker("update", dateTemplateFromServer(client.startDate));
+            $("#end-date").datepicker("update", dateTemplateFromServer(client.endDate));
+
+            formSubmitHandler = function () {
+                saveClient(client, dialogType === "Add");
+            };
+
+            $("#delivery-detailsDialog").dialog("option", "title", dialogType + " Delivery Method").dialog("open");
+        }; // display data in dialog
+
+
+        let saveClient = function (client, isNew) {
+            $.extend(client, {
+                name: $("#name").val(),
+                cost: parseFloat($("#cost").val()),
+                startDate: dateTemplateToServer($("#start-date").datepicker("getDate")),
+                endDate: dateTemplateToServer($("#end-date").datepicker("getDate"))
+            });
+
+            $("#delivery-method-grid").jsGrid(isNew ? "insertItem" : "updateItem", client);
+            $("#delivery-detailsDialog").dialog("close");
+        };
+    });
+
+</script>
+</body>
+
+</html>

@@ -1,5 +1,7 @@
 package com.jennifer.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -31,6 +33,7 @@ public class DeliveryMethod {
     @Column(name = "END_DATE", nullable = false)
     private Date endDate;
 
+    @JsonIgnore
     @OneToOne(mappedBy = "deliveryMethod")
     private OrderInfo orderInfo;
 
@@ -83,5 +86,16 @@ public class DeliveryMethod {
 
     public void setOrderInfo(OrderInfo orderInfo) {
         this.orderInfo = orderInfo;
+    }
+
+    @Override
+    public String toString() {
+        return "DeliveryMethod{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", cost=" + cost +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                '}';
     }
 }

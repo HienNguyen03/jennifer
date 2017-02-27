@@ -1,5 +1,7 @@
 package com.jennifer.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,18 +38,23 @@ public class UserInfo {
     @Column(name = "ROLE", nullable = false, length = 60)
     private Role role;
 
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userInfo")
     private List<ShippingAddress> shippingAddresses = new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userInfo")
     private List<OrderInfo> orderInfos = new ArrayList<>();
 
+    @JsonIgnore
     @OneToOne(mappedBy = "userInfo")
     private FavoriteBag favoriteBag;
 
+    @JsonIgnore
     @OneToOne(mappedBy = "userInfo")
     private ShoppingBag shoppingBag;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "primaryKey.userInfo", cascade = CascadeType.ALL)
     private List<ViewedProduct> viewedProducts = new ArrayList<>();
 
