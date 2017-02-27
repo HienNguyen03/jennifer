@@ -4,6 +4,7 @@
     <facet type="Spring" name="Spring">
       <configuration>
         <fileset id="fileset" name="Spring Application Context" removed="false">
+          <dependency>spring_boot_com.jennifer.JenniferApplication</dependency>
           <file>file://$MODULE_DIR$/src/main/java/com/jennifer/config/PersistenceJPAConfig.java</file>
         </fileset>
       </configuration>

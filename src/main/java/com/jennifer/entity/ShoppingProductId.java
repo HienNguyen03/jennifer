@@ -33,4 +33,22 @@ class ShoppingProductId implements Serializable {
     void setShoppingBag(ShoppingBag shoppingBag) {
         this.shoppingBag = shoppingBag;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ShoppingProductId)) return false;
+
+        ShoppingProductId that = (ShoppingProductId) o;
+
+        if (!getProductInfo().equals(that.getProductInfo())) return false;
+        return getShoppingBag().equals(that.getShoppingBag());
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getProductInfo().hashCode();
+        result = 31 * result + getShoppingBag().hashCode();
+        return result;
+    }
 }

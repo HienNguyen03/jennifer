@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 
 <head>
     <title>Jennifer - Manager section</title>
@@ -8,685 +8,592 @@
 
 <body>
 
-    <div id="wrapper">
+<div id="wrapper">
 
-        <nav class="navbar navbar-default navbar-static-top" role="navigation">
-            <div th:replace="common/navbar :: common-navbar-header-manager" th:remove="tag"></div>
-            <div th:replace="common/navbar :: common-navbar-manager" th:remove="tag"></div>
-            <div th:replace="common/sidebar :: common-sidebar-manager" th:remove="tag"></div>
-        </nav>
+    <nav class="navbar navbar-default navbar-static-top" role="navigation">
+        <div th:replace="common/navbar :: common-navbar-header-manager" th:remove="tag"></div>
+        <div th:replace="common/navbar :: common-navbar-manager" th:remove="tag"></div>
+        <div th:replace="common/sidebar :: common-sidebar-manager" th:remove="tag"></div>
+    </nav>
 
-        <div id="page-wrapper">
-            <div class="row">
-                <div class="col-lg-12">
-                    <h1 class="page-header">Product</h1>
-                </div>
-                <!-- /.col-lg-12 -->
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">Product</h1>
             </div>
-            <!-- /.row -->
-
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <i class="fa fa-bar-chart-o fa-fw"></i> Products
-                        </div>
-                        <!-- /.panel-heading -->
-                        <div class="panel-body">
-                            <style type="text/css" scoped="true">
-                                .ui-widget *, .ui-widget input, .ui-widget select, .ui-widget button {
-                                    font-family: 'Helvetica Neue Light', 'Open Sans', Helvetica;
-                                    font-size: 14px;
-                                    font-weight: 300 !important;
-                                }
-                                .details-form-field input,
-                                .details-form-field select {
-                                    width: 250px;
-                                    float: right;
-                                }
-                                .details-form-field {
-                                    margin: 30px 0;
-                                }
-                                .details-form-field:first-child {
-                                    margin-top: 10px;
-                                }
-                                .details-form-field:last-child {
-                                    margin-bottom: 10px;
-                                }
-                                .details-form-field button {
-                                    display: block;
-                                    width: 100px;
-                                    margin: 0 auto;
-                                }
-                                input.error, select.error {
-                                    border: 1px solid #ff9999;
-                                    background: #ffeeee;
-                                }
-                                label.error {
-                                    float: right;
-                                    margin-left: 100px;
-                                    font-size: .8em;
-                                    color: #ff6666;
-                                }
-                            </style>
-
-                            <div id="product-grid"></div>
-                            <div id="detailsDialog">
-                                <form id="detailsForm">
-                                    <div class="col-lg-4">
-                                        <div class="form-group">
-                                            <label for="name">Name</label>
-                                            <input id="name" name="name" type="text" class="form-control" placeholder="Name" />
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="unitPrice">Price</label>
-                                            <input id="unitPrice" name="unitPrice" type="number" min="0" step="0.01" class="form-control" placeholder="Price" />
-                                        </div>
-
-                                        <input type="hidden" id="image" />
-                                        <div class="form-group">
-                                            <label for="discount">Discount</label>
-                                            <input id="discount" name="discount" type="number" min="0" step="0.1" max="100" class="form-control" placeholder="Discount" />
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="quantity">Quantity</label>
-                                                <input id="quantity" name="quantity" type="number" min="0" step="1" class="form-control" placeholder="Quantity" />
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="status">Status</label>
-                                            <select id="status" name="status" class="form-control"></select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="category">Category</label>
-                                            <select id="category" name="category" class="form-control"></select>
-                                        </div>
-                                        <div class="form-group text-center">
-                                            <button id="save" type="submit" class="btn btn-primary">Save</button>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-8">
-                                        <div class="form-group">
-                                            <label for="description">Description</label>
-                                            <textarea id="description" name="description" rows="8" class="form-control" placeholder="Description" ></textarea>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="detail">Detail</label>
-                                            <textarea id="detail" name="detail" rows="6" class="form-control" placeholder="Detail" ></textarea>
-                                        </div>
-                                    </div>
-                                </form>
-                                <div>
-                                    <div class="col-lg-4"></div>
-                                    <div class="col-lg-8">
-                                        <div>
-                                            <form id="uploadArea" enctype="multipart/form-data" th:action="@{/uploadfile}" class="dropzone" >
-                                                <div class="dz-message needsclick">
-                                                    Drop files here or click to upload.
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- /.panel-body -->
-                    </div>
-                </div>
-                <!-- /.col-lg-12 -->
-            </div>
-            <!-- /.row -->
-
-            <div class="row">
-                <div class="col-lg-3">
-                    <div class="panel panel-info">
-                        <div class="panel-heading">
-                            <i class="fa fa-bell fa-fw"></i> Product information
-                        </div>
-                        <!-- /.panel-heading -->
-                        <div class="panel-body">
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <form role="form" th:action="@{'/teacher/course/' + ${courseId} + '/edit'}" th:object="${editCourseForm}" method="post">
-                                        <div class="form-group">
-                                            <label>Name</label>
-                                            <input class="form-control" placeholder="Product's name" />
-                                        </div>
-                                        <label>Quantity</label>
-                                        <div class="form-group input-group">
-                                            <input type="number" class="form-control" placeholder="Product's quantity" min="0" step="1" value="1" />
-                                            <span class="input-group-addon">piece</span>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Description</label>
-                                            <textarea class="form-control" rows="5" placeholder="Some information about the product"></textarea>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Details</label>
-                                            <textarea class="form-control" rows="3" placeholder="Some details about the product"></textarea>
-                                        </div>
-                                        <label>Tax</label>
-                                        <div class="form-group input-group">
-                                            <input type="number" class="form-control" placeholder="Product's tax" min="0" step="0.1" value="24" />
-                                            <span class="input-group-addon">%</span>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Category</label>
-                                            <select id="product-category" class="form-control" tabindex="-1" aria-hidden="true">
-                                                <optgroup label="Clothing">
-                                                    <option value="AK">T-shirt</option>
-                                                    <option value="HI">Dress</option>
-                                                </optgroup>
-                                                <optgroup label="Accessories">
-                                                    <option value="AK">Pants</option>
-                                                    <option value="HI">Glasses</option>
-                                                </optgroup>
-                                                <option>Home decor</option>
-                                                <option>Baby</option>
-                                                <option>Kids</option>
-                                                <option>Misc</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Status</label>
-                                            <select class="form-control" tabindex="-1" aria-hidden="true">
-                                                <option>available</option>
-                                                <option>out of stock</option>
-                                                <option>suspended</option>
-                                            </select>
-                                        </div>
-                                        <button type="button" class="btn btn-default">Insert product info</button>
-                                        <button type="button" class="btn btn-info">Update product info</button>
-                                    </form>
-                                </div>
-                                <!-- /.col-lg-12 (nested) -->
-                            </div>
-                            <!-- /.row (nested) -->
-                        </div>
-                        <!-- /.panel-body -->
-                    </div>
-                    <!-- /.panel -->
-                </div>
-                <!-- /.col-lg-3 -->
-
-                <div class="col-lg-3">
-                        <div class="panel panel-info">
-                            <div class="panel-heading">
-                                <i class="fa fa-bell fa-fw"></i> Product's price
-                            </div>
-                            <!-- /.panel-heading -->
-                            <div class="panel-body">
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <form role="form">
-                                            <label>Unit price</label>
-                                            <div class="form-group input-group">
-                                                <span class="input-group-addon">$</span>
-                                                <input class="form-control" placeholder="Unit price" />
-                                            </div>
-                                            <label>Start date</label>
-                                            <div class="form-group input-group date">
-                                                <input type="text" class="form-control" />
-                                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                            </div>
-                                            <label>End date</label>
-                                            <div class="form-group input-group date">
-                                                <input type="text" class="form-control" />
-                                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                            </div>
-                                            <button type="button" class="btn btn-default">Insert price</button>
-                                            <button type="button" class="btn btn-primary">Update price</button>
-                                        </form>
-                                    </div>
-                                    <!-- /.col-lg-12 (nested) -->
-                                </div>
-                                <!-- /.row (nested) -->
-                            </div>
-                            <!-- /.panel-body -->
-                        </div>
-                        <!-- /.panel -->
-                        <div class="panel panel-info">
-                            <div class="panel-heading">
-                                <i class="fa fa-bell fa-fw"></i> Product's discount
-                            </div>
-                            <!-- /.panel-heading -->
-                            <div class="panel-body">
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <form role="form">
-                                            <div class="form-group">
-                                                <label>Name</label>
-                                                <input class="form-control" placeholder="Discount name" />
-                                            </div>
-                                            <label>Discount</label>
-                                            <div class="form-group input-group">
-                                                <input   />
-                                                <span class="input-group-addon">%</span>
-                                            </div>
-                                            <label>Start date</label>
-                                            <div class="form-group input-group date">
-                                                <input type="text" class="form-control" />
-                                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                            </div>
-                                            <label>End date</label>
-                                            <div class="form-group input-group date">
-                                                <input type="text" class="form-control" />
-                                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                            </div>
-                                            <button type="button" class="btn btn-default">Insert discount</button>
-                                            <button type="button" class="btn btn-primary">Update discount</button>
-                                        </form>
-                                    </div>
-                                    <!-- /.col-lg-12 (nested) -->
-                                </div>
-                                <!-- /.row (nested) -->
-                            </div>
-                            <!-- /.panel-body -->
-                        </div>
-                        <!-- /.panel -->
-
-                </div>
-                <!-- /.col-lg-3 -->
-
-                <div class="col-lg-6">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            Price chart
-                        </div>
-                        <!-- /.panel-heading -->
-                        <div class="panel-body">
-                            <div class="flot-chart">
-                                <div class="flot-chart-content" id="flot-bar-chart-1"></div>
-                            </div>
-                        </div>
-                        <!-- /.panel-body -->
-                    </div>
-                    <!-- /.panel -->
-
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            Discount chart
-                        </div>
-                        <!-- /.panel-heading -->
-                        <div class="panel-body">
-                            <div class="flot-chart">
-                                <div class="flot-chart-content" id="flot-bar-chart-2"></div>
-                            </div>
-                        </div>
-                        <!-- /.panel-body -->
-                    </div>
-                    <!-- /.panel -->
-                </div>
-                <!-- /.col-lg-6 -->
-            </div>
-            <!-- /.row -->
+            <!-- /.col-lg-12 -->
         </div>
-        <!-- /#page-wrapper -->
+        <!-- /.row -->
 
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <i class="fa fa-bar-chart-o fa-fw"></i> Products
+                    </div>
+                    <!-- /.panel-heading -->
+                    <div class="panel-body">
+                        <style type="text/css" scoped="true">
+                            .ui-widget *, .ui-widget input, .ui-widget select, .ui-widget button {
+                                font-family: 'Helvetica Neue Light', 'Open Sans', Helvetica;
+                                font-size: 14px;
+                                font-weight: 300 !important;
+                            }
+
+                            .details-form-field input,
+                            .details-form-field select {
+                                width: 250px;
+                                float: right;
+                            }
+
+                            .details-form-field {
+                                margin: 30px 0;
+                            }
+
+                            .details-form-field:first-child {
+                                margin-top: 10px;
+                            }
+
+                            .details-form-field:last-child {
+                                margin-bottom: 10px;
+                            }
+
+                            .details-form-field button {
+                                display: block;
+                                width: 100px;
+                                margin: 0 auto;
+                            }
+
+                            input.error, select.error {
+                                border: 1px solid #ff9999;
+                                background: #ffeeee;
+                            }
+
+                            label.error {
+                                float: right;
+                                margin-left: 100px;
+                                font-size: .8em;
+                                color: #ff6666;
+                            }
+                        </style>
+
+                        <div id="product-grid"></div>
+                        <div id="detailsDialog">
+                            <form id="detailsForm">
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label for="name">Name</label>
+                                        <input id="name" name="name" type="text" class="form-control"
+                                               placeholder="Name"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="unitPrice">Price</label>
+                                        <input id="unitPrice" name="unitPrice" type="number" min="0" step="0.01"
+                                               class="form-control" placeholder="Price"/>
+                                    </div>
+
+                                    <input type="hidden" id="image"/>
+                                    <div class="form-group">
+                                        <label for="discount">Discount</label>
+                                        <input id="discount" name="discount" type="number" min="0" step="0.1" max="100"
+                                               class="form-control" placeholder="Discount"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="quantity">Quantity</label>
+                                        <input id="quantity" name="quantity" type="number" min="0" step="1"
+                                               class="form-control" placeholder="Quantity"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="status">Status</label>
+                                        <select id="status" name="status" class="form-control"></select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="category">Category</label>
+                                        <select id="category" name="category" class="form-control"></select>
+                                    </div>
+                                    <div class="form-group text-center">
+                                        <button id="save" type="submit" class="btn btn-primary">Save</button>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-8">
+                                    <div class="form-group">
+                                        <label for="description">Description</label>
+                                        <textarea id="description" name="description" rows="8" class="form-control"
+                                                  placeholder="Description"></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="detail">Detail</label>
+                                        <textarea id="detail" name="detail" rows="6" class="form-control"
+                                                  placeholder="Detail"></textarea>
+                                    </div>
+                                </div>
+                            </form>
+                            <div>
+                                <div class="col-lg-4"></div>
+                                <div class="col-lg-8">
+                                    <div>
+                                        <form id="uploadArea" enctype="multipart/form-data" th:action="@{/uploadfile}"
+                                              class="dropzone">
+                                            <div class="dz-message needsclick">
+                                                Drop files here or click to upload.
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <!-- /.row -->
     </div>
-    <!-- /#wrapper -->
+    <!-- /#page-wrapper -->
+</div>
+<!-- /#wrapper -->
 
-    <div th:replace="common/footer :: common-footer-scripts-manager" th:remove="tag"></div>
+<div th:replace="common/footer :: common-footer-scripts-manager" th:remove="tag"></div>
+<script type="text/javascript" th:inline="javascript">
+    /*<![CDATA[*/
+    let context = /*[[@{~/}]]*/"";
+    /*]]>*/
 
-    <!-- Page-Level Demo Scripts - Tables - Use for reference -->
-    <script type="text/javascript" th:inline="javascript">
-        /*<![CDATA[*/
-        let context = /*[[@{~/}]]*/"";
-        /*]]>*/
+    $(document).ready(function () {
 
+        var deletedFiles = [], addedFiles = [];
+        var uploadLimit = 3;
 
-        $(function () {
-            let token = $("meta[name='_csrf']").attr("content");
-            let header = $("meta[name='_csrf_header']").attr("content");
-            $(document).ajaxSend(function(e, xhr, options) {
-                xhr.setRequestHeader(header, token);
-            });
+        // image uploader
+        Dropzone.options.uploadArea = false;
+        Dropzone.autoDiscover = false;
+        let myDropzone = new Dropzone("#uploadArea", {
+            acceptedFiles: "image/*",
+            url: "/file",
+            clickable: true,
+            maxFilesize: 2, // MB
+            maxFiles: uploadLimit,
+            parallelUploads: uploadLimit,
+            dictResponseError: 'Error uploading file!',
+
+            addRemoveLinks: true,
+            dictRemoveFile: "Delete",
+            dictCancelUpload: "Cancel",
+            dictCancelUploadConfirmation: "Are you sure to cancel upload?",
+            init: function () {
+                this.on("success", function (file, serverResponse) {
+                    let fileUpload = file.previewElement.querySelector("[data-dz-name]");
+                    fileUpload.innerHTML = serverResponse.newFileName;
+                    addedFiles.push(serverResponse.newFileName);
+                });
+
+                //this.on("error", function(file, message) { alert(message); });
+            },
+            removedfile: function (file) {
+                let name = file.previewElement.querySelector('[data-dz-name]').innerHTML;
+
+                /*<![CDATA[*/
+                if(myDropzone.options.maxFiles <= uploadLimit)
+                    deletedFiles.push(name);
+                /*]]>*/
+
+                myDropzone.options.maxFiles = myDropzone.options.maxFiles + 1; // set remain upload limit
+
+                let _ref;
+                return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
+            }
         });
 
-        $(document).ready(function() {
-            Dropzone.options.uploadArea = false;
-            Dropzone.autoDiscover = false;
+        // data for jsGrid
+        let db = {
+            loadData: function () {
+                let d = $.Deferred();
 
-            let myDropzone = new Dropzone("#uploadArea", {
-                acceptedFiles: "image/*",
-                url: "/file",
-                clickable: true,
-                maxFilesize: 2, // MB
-                maxFiles: 3,
-                parallelUploads: 3,
-                dictResponseError: 'Error uploading file!',
+                $.ajax({
+                    type: "GET",
+                    url: "/api/product",
+                    dataType: "json"
+                }).done(function (response) {
+                    setTimeout(function () {
+                        d.resolve(response);
+                    }, 1000);
+                });
 
-                addRemoveLinks: true,
-                dictRemoveFile: "Delete",
-                dictCancelUpload: "Cancel",
-                dictCancelUploadConfirmation: "Are you sure to cancel upload?",
-                init: function() {
-                    //this.on("sending", function(file, xhr, formData){
-                        //let newFileName = new Date().getTime() + '-' + Math.floor((Math.random() * 89999) + 10000);
-                        //console.log(newFileName);
-                        //$('.dz-filename span').text(newFileName);
-                        //formData.append('newFileName', newFileName);
-                    //});
+                return d.promise();
+            },
+            insertItem: function (item) {
+                let d = $.Deferred();
 
-                    this.on("success", function(file, serverResponse){
-                        let fileUpload = file.previewElement.querySelector("[data-dz-name]");
-                        fileUpload.innerHTML = serverResponse.newFileName;
-                    });
+                return $.ajax({
+                    type: "POST",
+                    url: "/api/product",
+                    dataType: "json",
+                    data: JSON.stringify(item)
+                }).done(function (insertedItemReturnedFromServer) {
+                    d.resolve(insertedItemReturnedFromServer);
+                });
 
-                    //this.on("error", function(file, message) { alert(message); });
-                },
-                removedfile: function(file) {
-                    let name = file.previewElement.querySelector('[data-dz-name]').innerHTML;
-                    $.ajax({
-                        type: 'DELETE',
-                        url: '/file/'+name
-                    });
+                return d.promise();
+            },
+            updateItem: function (item) {
+                let d = $.Deferred();
+                let myCollection = [];
 
-                    let _ref;
-                    return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
-                }
-            });
+                $.each(myDropzone.getAcceptedFiles(), function (order, data) {
+                    myCollection.push(data.previewElement.querySelector("[data-dz-name]").innerHTML);
+                });
 
-//            let mockFile = { name: "avatar-cute-baby-dmall.jpg", size: 12345 };
-//
-//            let myDropzone = new Dropzone("#image");
-//            myDropzone.options.addedfile.call(myDropzone, mockFile);
-//            myDropzone.options. thumbnail.call(myDropzone, mockFile, "http://localhost:8080/files/avatar-cu-baby-dog-small.jpg");
+                console.log("price: "+item.unitPrice);
 
-            let db = {
-                loadData: function(filter) {
-                    let d = $.Deferred();
+                $.ajax({
+                    type: "PUT",
+                    url: "/api/product",
+                    dataType: "json",
+//                        headers: {
+//                            'Accept': 'application/json',
+//                            'Content-Type': 'application/json'
+//                        },
+                    data: JSON.stringify(item)
 
-                    $.ajax({
-                        type: "GET",
-                        url: "/api/product",
-                        data: filter,
-                        dataType: "json"
-                    }).done(function(response) {
-                        setTimeout(function() {
-                            d.resolve(response);
-                        }, 1000);
-                    });
+                }).done(function (updatedItemReturnedFromServer) {
+                    d.resolve(updatedItemReturnedFromServer);
+                });
 
-                    return d.promise();
-                },
-                updateItem: function(item) {
-                    console.log("++++>");
-                    console.log(item);
-                    let d = $.Deferred();
+                return d.promise();
+            },
+            deleteItem: function (item) {
+                let d = $.Deferred();
 
-                    $.ajax({
-                        type: "PUT",
-                        url: "/api/product",
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json'
-                        },
-                        data: JSON.stringify(item),
-                        dataType: "json"
+                if(item.image.length > 0)
+                    deleteUploadedFiles(item.image.split(","));
 
-                    }).done(function(updatedItemReturnedFromServer) {
-                        d.resolve(updatedItemReturnedFromServer);
-                    });
+                return $.ajax({
+                    type: "DELETE",
+                    url: "/api/product",
+                    dataType: "json",
+                    data: JSON.stringify(item)
+                }).done(function (deletedItemReturnedFromServer) {
+                    d.resolve(deletedItemReturnedFromServer);
+                });
 
-                    return d.promise();
-                }
-            };
+                return d.promise();
+            }
+        };
 
-            window.db = db;
+        window.db = db;
+        db.status = ["available", "out of stock", "suspended"];
+        db.categories = [];
 
-            db.status = [ "available", "out of stock", "suspended" ];
+        $("#status").select2({
+            allowClear: true,
+            width: "100%",
+            //minimumInputLength: 2,
+            placeholder: "Select a status",
+            data: db.status
+        });
 
-            $("#status").select2({
+        $.ajax({
+            type: "GET",
+            url: "/api/category",
+            dataType: "json",
+            success: function (data) {
+                db.categories = data.items;
+            }
+        }).done(function () {
+            $("#category").select2({
                 allowClear: true,
                 width: "100%",
                 //minimumInputLength: 2,
-                placeholder: "Select a status",
-                data: db.status
+                placeholder: "Select a category",
+                data: db.categories
             });
+        });
 
-            db.categories = [];
-
-            $.ajax({
-                type: "GET",
-                url: "/r/getOne2",
-                dataType: "json",
-                success: function(data){
-                    //console.log(data);
-                    db.categories = data.items;
-                }
-            }).done(function(){
-                $("#category").select2({
-                    allowClear: true,
-                    width: "100%",
-                    //minimumInputLength: 2,
-                    placeholder: "Select a category",
-                    data: db.categories
-                });
-            });
+        $('.input-group.date').datepicker({
+            format: "dd/mm/yyyy",
+            startDate: "04/02/2017",
+            todayBtn: "linked"
+        });
 
 
+        // TODO problem with decimal in price
+        $("#product-grid").jsGrid({
+            width: "100%",
+            height: "auto",
 
-            $('.input-group.date').datepicker({
-                format: "dd/mm/yyyy",
-                startDate: "04/02/2017",
-                todayBtn: "linked"
-            });
+            autoload: true,
 
-            $("#product-grid").jsGrid({
-                width: "100%",
-                height: "auto",
+            heading: true,
+            filtering: false,
+            inserting: false,
+            editing: true,
+            sorting: true,
+            paging: true,
+            //pageLoading: true,
 
-                autoload: true,
+            noDataContent: "No product found",
+            deleteConfirm: function (item) {
+                return "The product \"" + item.name + "\" will be removed. Are you sure?";
+            },
+            rowClick: function (args) {
+                resetForm();
+                showDetailsDialog("Edit", args.item);
+                $("#save").text("Update product");
+            },
 
-                heading: true,
-                filtering: false,
-                inserting: false,
-                editing: true,
-                sorting: true,
-                paging: true,
-                //pageLoading: true,
+            pagerContainer: null,
+            pageIndex: 1,
+            pageSize: 5,
+            pageButtonCount: 15,
+            pagerFormat: "Pages: {first} {prev} {pages} {next} {last}    {pageIndex} of {pageCount}",
+            pagePrevText: "Prev",
+            pageNextText: "Next",
+            pageFirstText: "First",
+            pageLastText: "Last",
+            pageNavigatorNextText: "...",
+            pageNavigatorPrevText: "...",
 
-                noDataContent: "No product found",
-                deleteConfirm: function(item) {
-                    return "The product \"" + item.name + "\" will be removed. Are you sure?";
+            loadIndication: true,
+            loadIndicationDelay: 200,
+            loadMessage: "Please, wait...",
+            loadShading: true,
+
+            updateOnResize: true,
+
+            controller: db,
+
+            fields: [
+                {title: "ID", name: "id", type: "number", width: 30, align: "center"},
+                {title: "Name", name: "name", type: "text", width: 120},
+                {
+                    title: "Price",
+                    name: "unitPrice",
+                    type: "number",
+                    sorter: "number",
+                    min: 0,
+                    width: 40,
+                    align: "center",
+                    itemTemplate: function(value) {
+                        return value.toFixed(2);
+                    }
                 },
-                rowClick: function(args) {
-                    resetForm();
-                    showDetailsDialog("Edit", args.item);
-                    $("#save").text("Update product");
-                },
-                pagerContainer: null,
-                pageIndex: 1,
-                pageSize: 20,
-                pageButtonCount: 15,
-                pagerFormat: "Pages: {first} {prev} {pages} {next} {last}    {pageIndex} of {pageCount}",
-                pagePrevText: "Prev",
-                pageNextText: "Next",
-                pageFirstText: "First",
-                pageLastText: "Last",
-                pageNavigatorNextText: "...",
-                pageNavigatorPrevText: "...",
+                {title: "Discount", name: "discount", type: "text", width: 40, align: "center"},
+                {
+                    title: "Image", name: "image", type: "text", width: 50, align: "center",
+                    itemTemplate: function (value, item) {
+                        if (value != null) {
+                            if (value.length != 0) {
 
-                loadIndication: true,
-                loadIndicationDelay: 200,
-                loadMessage: "Please, wait...",
-                loadShading: true,
-
-                updateOnResize: true,
-
-                controller: db,
-
-                fields: [
-                    { title: "ID", name: "id", type: "number", width: 30, align: "center" },
-                    { title: "Name", name: "name", type: "text", width: 120 },
-                    { title: "Price", name: "unitPrice", type: "number", sorter: "number", min: 0 ,width: 40, align: "center" },
-                    { title: "Discount", name: "discount", type: "text", width: 40, align: "center" },
-                    { title: "Image", name: "image", type: "text", width: 50, align: "center",
-                        itemTemplate: function(value, item) {
-                            return $("<img>").attr("src", context+"custom/cm/images/error/monster-404.jpg").css("width", "50px").append("</img>");
-                        }
-                    },
-                    { title: "Quantity", name: "quantity", type: "number", width: 40, align: "center" },
-                    { title: "Description", name: "description", type: "textarea", width: 120, autosearch: true,
-                        itemTemplate: function(value, item) {
-                            return $.trim(value).substring(0, 34).split(" ").slice(0, -1).join(" ") + "...";
-                        }
-                    },
-                    { title: "Detail", name: "detail", type: "textarea", width: 120,
-                        itemTemplate: function(value, item) {
-                            return $.trim(value).substring(0, 34).split(" ").slice(0, -1).join(" ") + "...";
-                        }
-                    },
-                    { title: "Status", name: "status", type: "text", width: 60, align: "center", autosearch: true },
-                    { title: "Category", name: "categoryInfo.name", type: "text", width: 60, align: "center" },
-                    {
-                        type: "control",
-                        modeSwitchButton: false,
-                        editButton: false,
-                        width: 30,
-                        headerTemplate: function() {
-                            return $("<button>").attr("type", "button").text("Add").append("</button>")
-                                .on("click", function () {
-                                    resetForm();
-                                    $("#save").text("Add new product");
-                                    showDetailsDialog("Add", {});
+                                let result = $('<div style="display: flex"/>');
+                                let imageData = value.split(",");
+                                $.each(imageData, function (order, data) {
+                                    let img = new Image(30, 40);
+                                    img.src = context + "pics/" + data;
+                                    img.style = "margin-right: 3px";
+                                    result.append(img);
                                 });
+                                return result;
+                            }
                         }
                     }
-                ]
-            });
-
-            $("#detailsDialog").dialog({
-                autoOpen: false,
-                width: "50%",
-                maxWidth: "768px",
-                close: function() {
-                    resetForm();
+                },
+                {title: "Quantity", name: "quantity", type: "number", width: 40, align: "center"},
+                {
+                    title: "Description", name: "description", type: "textarea", width: 120, autosearch: true,
+                    itemTemplate: function (value, item) {
+                        return $.trim(value).substring(0, 34).split(" ").slice(0, -1).join(" ") + "...";
+                    }
+                },
+                {
+                    title: "Detail", name: "detail", type: "textarea", width: 120,
+                    itemTemplate: function (value, item) {
+                        return $.trim(value).substring(0, 34).split(" ").slice(0, -1).join(" ") + "...";
+                    }
+                },
+                {title: "Status", name: "status", type: "text", width: 60, align: "center", autosearch: true},
+                {title: "Category", name: "categoryInfo.name", type: "text", width: 60, align: "center"},
+                {
+                    type: "control",
+                    modeSwitchButton: false,
+                    editButton: false,
+                    width: 30,
+                    headerTemplate: function () {
+                        return $("<button>").attr("type", "button").text("Add").append("</button>")
+                            .on("click", function () {
+                                resetForm();
+                                $("#save").text("Add new product");
+                                addedFiles = [];
+                                showDetailsDialog("Add", {});
+                            });
+                    }
                 }
-            });
+            ]
+        });
 
-            function resetForm(){
-                $("#detailsForm").validate().resetForm();
-                $("#detailsForm").find(".error").removeClass("error");
+        $("#detailsDialog").dialog({
+            autoOpen: false,
+            width: "50%",
+            maxWidth: "768px",
+            close: function (event, ui) {
+                resetForm();
+                deleteUploadedFiles(addedFiles);
+                addedFiles = [];
+            }
+        });
+
+        function resetForm() {
+            $("#detailsForm").validate().resetForm();
+            $("#detailsForm").find(".error").removeClass("error");
+        }
+
+        function deleteUploadedFiles(files){
+            for(let filename of files){
+                $.ajax({
+                    type: 'DELETE',
+                    url: '/file/' + filename
+                });
+            }
+        }
+
+        $("#detailsForm").validate({
+            rules: {
+                name: "required",
+                unitPrice: {required: true, range: [0, 300]},
+                discount: "required",
+                image: "required",
+                quantity: "required",
+                description: {required: true, minlength: 10},
+                detail: {required: true, minlength: 10},
+                status: "required",
+                category: "required"
+            },
+            messages: {
+                name: "Please enter name",
+                unitPrice: "Please enter valid price",
+                image: "Please enter valid image",
+                discount: "Please enter discount",
+                quantity: "Please enter quantity",
+                description: "Please enter description (more than 10 chars)",
+                detail: "Please enter detail (more than 10 chars)",
+                status: "Please select status",
+                category: "Please select category"
+            },
+            submitHandler: function () {
+                formSubmitHandler();
+            }
+        });
+
+        let formSubmitHandler = $.noop;
+
+        let showDetailsDialog = function (dialogType, client) {
+            $("#name").val(client.name);
+            $("#unitPrice").val(client.unitPrice);
+            $("#discount").val(client.discount);
+
+            // add image to Dropzone
+            /*<![CDATA[*/
+            if (client.image != null && client.image.length > 0) {
+                let imageData = client.image.split(",");
+                for( let file of myDropzone.files ){ // loop through old list, then clear all
+                    let _ref;
+                    if ((_ref = file.previewElement) != null) {
+                        _ref.parentNode.removeChild(file.previewElement);
+                    }
+                }
+
+                deletedFiles = []; // reset deleted list
+                myDropzone.files = []; // reset current files in DropZone
+                myDropzone.options.maxFiles = uploadLimit; // reset upload limit to origin
+
+                $.each(imageData, function (order, data) {
+                    let mockFile = { name: data }; // create list of mock files
+
+                    // add uploaded images from server
+                    myDropzone.options.addedfile.call(myDropzone, mockFile);
+                    myDropzone.createThumbnailFromUrl(mockFile, context + "pics/" + data);
+                    myDropzone.emit("complete", mockFile);
+
+                    myDropzone.files.push(mockFile); // add mock file into an managed array
+                    myDropzone.options.maxFiles = myDropzone.options.maxFiles - 1; // set remain upload limit
+
+                });
+            } else {
+                for( let file of myDropzone.files ){ // loop through old list, then clear all
+                    let _ref;
+                    if ((_ref = file.previewElement) != null) {
+                        _ref.parentNode.removeChild(file.previewElement);
+                    }
+                }
+                deletedFiles = []; // reset deleted list
+                myDropzone.files = []; // reset current files in DropZone
+                myDropzone.options.maxFiles = uploadLimit; // reset upload limit to origin
+            }
+            /*]]>*/
+
+            $("#quantity").val(client.quantity);
+            $("#description").val(client.description);
+            $("#detail").val(client.detail);
+            $("#status").val(client.status).trigger("change");
+            if (client.categoryInfo === undefined)
+                $("#category").val('').trigger('change');
+            else
+                $("#category").val(client.categoryInfo.id).trigger("change");
+
+            formSubmitHandler = function () {
+                saveClient(client, dialogType === "Add");
+            };
+
+            $("#detailsDialog").dialog("option", "title", dialogType + " Product").dialog("open");
+        };
+
+
+        let saveClient = function (client, isNew) {
+            var imageList;
+
+            /*<![CDATA[*/
+            if(client.image != null && client.image.length > 0)
+                imageList = client.image.split(",");
+            else
+                imageList = [];
+            /*]]>*/
+
+            console.log(deletedFiles);
+
+            if(deletedFiles.length > 0){
+                deleteUploadedFiles(deletedFiles);
+                imageList = imageList.filter(val => !deletedFiles.includes(val));
+            }
+            if(addedFiles.length > 0){
+                addedFiles = addedFiles.filter(val => !deletedFiles.includes(val));
+                imageList = imageList.concat(addedFiles);
             }
 
-            $("#detailsForm").validate({
-                rules: {
-                    name: "required",
-                    unitPrice: { required: true, range: [0, 300] },
-                    discount: "required",
-                    image: "required",
-                    quantity: "required",
-                    description: { required: true, minlength: 10 },
-                    detail: { required: true, minlength: 10 },
-                    status: "required",
-                    category: "required"
-                },
-                messages: {
-                    name: "Please enter name",
-                    unitPrice: "Please enter valid price",
-                    image: "Please enter valid image",
-                    discount: "Please enter discount",
-                    quantity: "Please enter quantity",
-                    description: "Please enter description (more than 10 chars)",
-                    detail: "Please enter detail (more than 10 chars)",
-                    status: "Please select status",
-                    category: "Please select category"
-                },
-                submitHandler: function() {
-                    formSubmitHandler();
-                }
+            // TODO error when delete the 4th image (not allowed)
+
+            $.extend(client, {
+                name: $("#name").val(),
+                unitPrice: parseInt($("#unitPrice").val(), 10),
+                discount: parseInt($("#discount").val(), 10),
+                image: imageList.toString(),
+                quantity: parseInt($("#quantity").val(), 10),
+                description: $("#description").val(),
+                detail: $("#detail").val(),
+                status: $("#status").val(),
+                categoryInfo: $("#category").val()
             });
 
-            let formSubmitHandler = $.noop;
+            $("#product-grid").jsGrid(isNew ? "insertItem" : "updateItem", client);
 
-            let showDetailsDialog = function(dialogType, client) {
-                $("#name").val(client.name);
-                $("#unitPrice").val(client.unitPrice);
-                $("#discount").val(client.discount);
-                $("#image").val(client.image);
-                $("#quantity").val(client.quantity);
-                $("#description").val(client.description);
-                $("#detail").val(client.detail);
-                $("#status").val(client.status).trigger("change");
-                if(client.categoryInfo === undefined)
-                    $("#category").val('').trigger('change');
-                else
-                    $("#category").val(client.categoryInfo.id).trigger("change");
+            deletedFiles = [];
+            addedFiles = [];
+            $("#product-grid").trigger( 'reloadGrid' );
+            $("#detailsDialog").dialog("close");
+        };
+    });
 
-                formSubmitHandler = function() {
-                    saveClient(client, dialogType === "Add");
-                };
-
-                $("#detailsDialog").dialog("option", "title", dialogType + " Product").dialog("open");
-            };
-
-
-            let saveClient = function(client, isNew) {
-                $.extend(client, {
-                    name: $("#name").val(),
-                    unitPrice: parseInt($("#unitPrice").val(), 10),
-                    discount: parseInt($("#discount").val(), 10),
-                    //image: $("#image").val(),
-                    quantity: parseInt($("#quantity").val(), 10),
-                    description: $("#description").val(),
-                    detail: $("#detail").val(),
-                    status: $("#status").val(),
-                    category: $("#category").val()
-                });
-
-                //console.log(client);
-                //console.log(myDropzone.files);
-
-                $("#product-grid").jsGrid(isNew ? "insertItem" : "updateItem", client);
-
-                $("#detailsDialog").dialog("close");
-            };
-        });
-
-        //Flot Bar Chart
-        $(function() {
-
-            let barOptions = {
-                series: {
-                    bars: {
-                        show: true,
-                        barWidth: 43200000
-                    }
-                },
-                xaxis: {
-                    mode: "time",
-                    timeformat: "%m/%d",
-                    minTickSize: [1, "day"]
-                },
-                grid: {
-                    hoverable: true
-                },
-                legend: {
-                    show: false
-                },
-                tooltip: true,
-                tooltipOpts: {
-                    content: "x: %x, y: %y"
-                }
-            };
-            let barData = {
-                label: "bar",
-                data: [
-                    [1354521600000, 1000],
-                    [1355040000000, 2000],
-                    [1355223600000, 3000],
-                    [1355306400000, 4000],
-                    [1355487300000, 5000],
-                    [1355571900000, 6000]
-                ]
-            };
-            $.plot($("#flot-bar-chart-1"), [barData], barOptions);
-            $.plot($("#flot-bar-chart-2"), [barData], barOptions);
-
-        });
-    </script>
+</script>
 
 </body>
 

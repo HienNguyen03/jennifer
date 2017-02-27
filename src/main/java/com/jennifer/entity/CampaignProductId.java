@@ -33,4 +33,22 @@ class CampaignProductId implements Serializable {
     void setMarketingCampaign(MarketingCampaign marketingCampaign) {
         this.marketingCampaign = marketingCampaign;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof CampaignProductId)) return false;
+
+        CampaignProductId that = (CampaignProductId) o;
+
+        if (!getProductInfo().equals(that.getProductInfo())) return false;
+        return getMarketingCampaign().equals(that.getMarketingCampaign());
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getProductInfo().hashCode();
+        result = 31 * result + getMarketingCampaign().hashCode();
+        return result;
+    }
 }

@@ -95,6 +95,7 @@ public class AppConfig extends WebMvcConfigurerAdapter {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/custom/**").addResourceLocations("classpath:static/").setCachePeriod(86400);
         registry.addResourceHandler("/lib/**").addResourceLocations("classpath:/META-INF/resources/webjars/").setCachePeriod(86400);
+        registry.addResourceHandler("/pics/**").addResourceLocations("file:upload-dir/").setCachePeriod(86400);
     }
 
 

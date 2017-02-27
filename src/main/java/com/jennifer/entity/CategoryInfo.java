@@ -12,8 +12,8 @@ import java.util.List;
  */
 @Entity
 @Table(name = "category_info")
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = CategoryInfo.class)
-public class CategoryInfo implements Serializable {
+//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+public class CategoryInfo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,7 +23,7 @@ public class CategoryInfo implements Serializable {
     @Column(name = "NAME", nullable = false, length = 60)
     private String name;
 
-    //@JsonManagedReference("super-category")
+    @JsonBackReference("super-category")
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "CATEGORY_ID")
     private CategoryInfo superCategoryInfo;
@@ -32,18 +32,20 @@ public class CategoryInfo implements Serializable {
     private int placeOrder;
 
     //@JsonBackReference("product-category")
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "categoryInfo")
     private List<ProductInfo> productInfos = new ArrayList<>();
 
-    //@JsonBackReference("super-category")
+    @JsonManagedReference("super-category")
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "superCategoryInfo")
     private List<CategoryInfo> categoryInfos = new ArrayList<>();
 
     public CategoryInfo() {
     }
 
-    public CategoryInfo(String name, int placeOrder) {
+    public CategoryInfo(String name, CategoryInfo superCategoryInfo, int placeOrder) {
         this.name = name;
+        this.superCategoryInfo = superCategoryInfo;
         this.placeOrder = placeOrder;
     }
 

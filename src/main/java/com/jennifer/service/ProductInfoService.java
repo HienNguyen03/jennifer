@@ -11,5 +11,9 @@ import java.util.List;
 public interface ProductInfoService {
 
     List<ProductInfo> findAllProducts();
+    ProductInfo findProduct(int id);
+    ProductInfo updateProduct(ProductInfo productInfo);
+    void deleteProduct(ProductInfo productInfo);
+    ProductInfo addProduct(ProductInfo productInfo);
 
 }

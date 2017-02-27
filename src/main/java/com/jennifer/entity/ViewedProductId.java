@@ -34,4 +34,21 @@ public class ViewedProductId implements Serializable {
         this.userInfo = userInfo;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ViewedProductId)) return false;
+
+        ViewedProductId that = (ViewedProductId) o;
+
+        if (!getProductInfo().equals(that.getProductInfo())) return false;
+        return getUserInfo().equals(that.getUserInfo());
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getProductInfo().hashCode();
+        result = 31 * result + getUserInfo().hashCode();
+        return result;
+    }
 }

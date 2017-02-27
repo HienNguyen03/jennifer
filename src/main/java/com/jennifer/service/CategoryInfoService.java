@@ -11,5 +11,6 @@ import java.util.List;
 public interface CategoryInfoService {
 
     List<CategoryInfo> findAllCategories();
+    CategoryInfo findCategory(int id);
 
 }
