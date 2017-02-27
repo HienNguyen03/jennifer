@@ -33,4 +33,22 @@ class OrderDetailId implements Serializable {
     void setProductInfo(ProductInfo productInfo) {
         this.productInfo = productInfo;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof OrderDetailId)) return false;
+
+        OrderDetailId that = (OrderDetailId) o;
+
+        if (!getOrderInfo().equals(that.getOrderInfo())) return false;
+        return getProductInfo().equals(that.getProductInfo());
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getOrderInfo().hashCode();
+        result = 31 * result + getProductInfo().hashCode();
+        return result;
+    }
 }

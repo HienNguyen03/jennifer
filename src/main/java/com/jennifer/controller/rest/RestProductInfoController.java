@@ -1,14 +1,10 @@
 package com.jennifer.controller.rest;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.jennifer.entity.ProductInfo;
 import com.jennifer.service.ProductInfoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,40 +31,28 @@ public class RestProductInfoController {
         return productInfoService.findAllProducts();
     }
 
-    @PutMapping(consumes = "application/json", produces = "application/json")
-    public ResponseEntity update(@RequestBody ProductInfo productInfo){
+    @PutMapping
+    public ProductInfo update(@RequestBody ProductInfo productInfo){
         log.info(" > [rest] Product - update");
+        ProductInfo productInfoData = productInfoService.findProduct(productInfo.getId());
+        if(productInfoData != null)
+            return productInfoService.updateProduct(productInfo);
+        return null;
+    }
 
-        log.info(productInfo.getName());
+    @DeleteMapping
+    public ProductInfo delete(@RequestBody ProductInfo productInfo){
+        log.info(" > [rest] Product - delete");
+        ProductInfo productInfoData = productInfoService.findProduct(productInfo.getId());
+        if(productInfoData != null)
+            productInfoService.deleteProduct(productInfo);
+        return productInfoData;
+    }
 
-//        log.info(" > action: "+json.path("action").asText());
-//
-//        JsonNode dataNode =  json.path("data");
-//        String returnObject = null;
-//        for(JsonNode node : dataNode){
-//            returnObject = node.toString();
-//            String name = node.path("name").asText();
-//            String image = null;
-//            for(JsonNode imageNode : node.path("image")){
-//                image += imageNode.asText() + ",";
-//            }
-//            String quantity = node.path("quantity").asText();
-//            String description = node.path("description").asText();
-//            String detail = node.path("detail").asText();
-//            String tax = node.path("tax").asText();
-//            String status = node.path("status").asText();
-//            log.info("name: "+name);
-//            log.info("image: "+image);
-//            log.info("quantity: "+quantity);
-//            log.info("description: "+description);
-//            log.info("detail: "+detail);
-//            log.info("tax: "+tax);
-//            log.info("status: "+status);
-//        }
-//
-//        ProductInfo productInfo = new ProductInfo();
-
-        return new ResponseEntity(HttpStatus.OK);
+    @PostMapping
+    public ProductInfo insert(@RequestBody ProductInfo productInfo){
+        log.info(" > [rest] Product - insert");
+        return productInfoService.addProduct(productInfo);
     }
 
 }

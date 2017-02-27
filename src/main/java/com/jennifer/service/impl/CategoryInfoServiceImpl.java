@@ -30,4 +30,8 @@ public class CategoryInfoServiceImpl implements CategoryInfoService {
         return categoryInfoDao.findAll();
     }
 
+    @Override
+    public CategoryInfo findCategory(int id) {
+        return categoryInfoDao.findOne(id);
+    }
 }
