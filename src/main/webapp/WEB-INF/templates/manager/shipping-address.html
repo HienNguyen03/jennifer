@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 
 <head>
-
-    <title>Shipping Address - Jennifer: Manager section</title>
+    <title>Shipping Address - Jennifer's manager section</title>
     <object th:include="common/header :: common-header-manager" th:remove="tag"></object>
 </head>
 
 <body>
+
 <div id="wrapper">
 
-    <nav class="navbar narbar-default navbar-static-top" role="navigation">
+    <nav class="navbar navbar-default navbar-static-top" role="navigation">
         <div th:replace="common/navbar :: common-navbar-header-manager" th:remove="tag"></div>
         <div th:replace="common/navbar :: common-navbar-manager" th:remove="tag"></div>
         <div th:replace="common/sidebar :: common-sidebar-manager" th:remove="tag"></div>
@@ -64,20 +64,13 @@
     $(document).ready(function () {
         let db = {
             loadData: function (filter) { // load data from db
-                let d = $.Deferred();
-
-                $.ajax({
+                return $.ajax({
                     type: "GET",
                     url: "/api/shipping-address",
                     data: filter,
                     dataType: "json"
                 }).done(function (response) {
-                    setTimeout(function () {
-                        d.resolve(response);
-                    }, 1000);
                 });
-
-                return d.promise();
             }
 
         };

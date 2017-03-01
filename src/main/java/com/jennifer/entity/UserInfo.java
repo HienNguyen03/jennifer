@@ -1,6 +1,8 @@
 package com.jennifer.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -31,9 +33,11 @@ public class UserInfo {
     @Column(name = "EMAIL", nullable = false, length = 100)
     private String email;
 
+    @JsonIgnore
     @Column(name = "PASSWORD", nullable = false, length = 100)
     private String password;
 
+    @JsonIgnore
     @Enumerated(EnumType.STRING)
     @Column(name = "ROLE", nullable = false, length = 60)
     private Role role;

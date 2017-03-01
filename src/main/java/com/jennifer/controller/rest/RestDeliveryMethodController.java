@@ -5,6 +5,9 @@ import com.jennifer.service.DeliveryMethodService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,34 +28,38 @@ public class RestDeliveryMethodController {
 
     //Get all data from database
     @GetMapping
-    public List<DeliveryMethod> findAll() {
+    public Object findAll() {
         return deliveryMethodService.findAllDeliveryMethods();
     }
 
     //Update data
     @PutMapping
-    public DeliveryMethod update(@RequestBody DeliveryMethod deliveryMethod) {
+    public Object update(@RequestBody DeliveryMethod deliveryMethod) {
         DeliveryMethod deliveryMethodFound = deliveryMethodService.findById(deliveryMethod.getId());
 
         if (deliveryMethodFound != null) {
             DeliveryMethod deliveryMethodUpdated = deliveryMethodService.update(deliveryMethod);
             return deliveryMethod;
-        } else {
-           return null;
         }
 
+        return new ResponseEntity("Unable to update!", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     //deleting data
     @DeleteMapping
-    public DeliveryMethod delete(@RequestBody DeliveryMethod deliveryMethod){
+    public Object delete(@RequestBody DeliveryMethod deliveryMethod){
         DeliveryMethod deliveryMethodFound = deliveryMethodService.findById(deliveryMethod.getId());
 
-        if (deliveryMethodFound != null) {
-            deliveryMethodService.delete(deliveryMethodFound);
-            return deliveryMethod;
-        }else{
-            return null;
+        try {
+            if (deliveryMethodFound != null)
+                deliveryMethodService.delete(deliveryMethodFound);
+
+            return deliveryMethodFound;
+
+        }catch (DataIntegrityViolationException e){
+            return new ResponseEntity("Product '" + deliveryMethodFound.getName() + "' is in used! Unable to delete!", HttpStatus.CONFLICT);
+        }catch (Exception e){
+            return new ResponseEntity(" Exception", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

@@ -1,9 +1,12 @@
 package com.jennifer.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -35,10 +38,25 @@ public class DeliveryMethod {
     private Date endDate;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "deliveryMethod", cascade = CascadeType.ALL)
-    private List<OrderInfo> orderInfos;
+    @OneToMany(mappedBy = "deliveryMethod", cascade = CascadeType.PERSIST)
+    private List<OrderInfo> orderInfos = new ArrayList<>();
 
     public DeliveryMethod() {
+    }
+
+    public DeliveryMethod(String name, BigDecimal cost, Date startDate, Date endDate) {
+        this.name = name;
+        this.cost = cost;
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
+
+    public DeliveryMethod(int id, String name, BigDecimal cost, Date startDate, Date endDate) {
+        this.id = id;
+        this.name = name;
+        this.cost = cost;
+        this.startDate = startDate;
+        this.endDate = endDate;
     }
 
     public int getId() {
@@ -89,14 +107,4 @@ public class DeliveryMethod {
         this.orderInfos = orderInfos;
     }
 
-    @Override
-    public String toString() {
-        return "DeliveryMethod{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", cost=" + cost +
-                ", startDate=" + startDate +
-                ", endDate=" + endDate +
-                '}';
-    }
 }

@@ -15,7 +15,6 @@ import java.util.List;
  * OrderInfoService implementation
  */
 @Service("orderInfoService")
-@Transactional
 public class OrderInfoServiceImpl implements OrderInfoService {
     private static final Logger log = LoggerFactory.getLogger(OrderInfoServiceImpl.class);
     private OrderInfoDao orderInfoDao;

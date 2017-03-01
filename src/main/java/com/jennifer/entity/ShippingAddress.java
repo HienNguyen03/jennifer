@@ -7,6 +7,7 @@ import org.omg.CORBA.ServerRequest;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,7 +16,6 @@ import java.util.List;
 
 @Entity
 @Table(name = "shipping_address")
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property="id", scope = ShippingAddress.class)
 public class ShippingAddress {
 
     @Id
@@ -41,8 +41,8 @@ public class ShippingAddress {
     private UserInfo userInfo;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "shippingAddress", cascade = CascadeType.ALL)
-    private List<OrderInfo> orderInfos;
+    @OneToMany(mappedBy = "shippingAddress", cascade = CascadeType.PERSIST)
+    private List<OrderInfo> orderInfos = new ArrayList<>();
 
     public ShippingAddress() {
     }

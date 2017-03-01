@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 
 <head>
-
-    <title>Delivery Method - Jennifer: Manager section</title>
+    <title>Delivery Method - Jennifer's manager section</title>
     <object th:include="common/header :: common-header-manager" th:remove="tag"></object>
 </head>
 
 <body>
+
 <div id="wrapper">
 
-    <nav class="navbar narbar-default navbar-static-top" role="navigation">
+    <nav class="navbar navbar-default navbar-static-top" role="navigation">
         <div th:replace="common/navbar :: common-navbar-header-manager" th:remove="tag"></div>
         <div th:replace="common/navbar :: common-navbar-manager" th:remove="tag"></div>
         <div th:replace="common/sidebar :: common-sidebar-manager" th:remove="tag"></div>
@@ -98,81 +98,54 @@
     $(document).ready(function () {
         let db = {
             loadData: function (filter) { // load date from db
-                let d = $.Deferred();
-
-                $.ajax({
+                return $.ajax({
                     type: "GET",
                     url: "/api/delivery-method",
                     data: filter,
                     dataType: "json"
                 }).done(function (response) {
-                    setTimeout(function () {
-                        d.resolve(response);
-                    }, 1000);
                 });
-
-                return d.promise();
             },
 
             updateItem: function (item) {
-                let d = $.Deferred();
-
-                $.ajax({
+                return $.ajax({
                     type: "PUT",
                     url: "/api/delivery-method",
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    },
                     data: JSON.stringify(item),
                     dataType: "json"
-
                 }).done(function (updatedItemReturnedFromServer) {
-                    d.resolve(updatedItemReturnedFromServer);
+                    alertify.success("Successfully updated!");
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    alertify.error(jqXHR.responseText);
                 });
-
-                return d.promise();
             },// update data
 
             insertItem: function (item) {
-                let d = $.Deferred();
-
-                $.ajax({
+                return $.ajax({
                     type: "POST",
                     url: "/api/delivery-method",
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    },
                     data: JSON.stringify(item),
                     dataType: "json"
-
                 }).done(function (insertedItemReturnedFromServer) {
-                    d.resolve(insertedItemReturnedFromServer);
+                    alertify.success("Successfully inserted!");
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    alertify.error(jqXHR.responseText);
                 });
-
-                return d.promise();
             },
 
             deleteItem: function (item) {
-                console.log("delete call++++>");
-                console.log(item);
-
-                let d = $.Deferred();
+//                console.log("delete call++++>");
+//                console.log(item);
                 return $.ajax({
                     type: "DELETE",
                     url: "/api/delivery-method",
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    },
                     data: JSON.stringify(item),
                     dataType: "json"
                 }).done(function (deletedItemReturnedFromServer) {
-                    d.resolve(deletedItemReturnedFromServer);
+                    alertify.success("Successfully deleted!");
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    alertify.error(jqXHR.responseText);
                 });
-
-                return d.promise();
             }
         };
 

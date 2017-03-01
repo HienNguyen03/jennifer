@@ -1,5 +1,9 @@
 package com.jennifer.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 
@@ -17,7 +21,7 @@ public class OrderDetail {
 
     // composite id key
     @EmbeddedId
-    private OrderDetailId primaryKey = new OrderDetailId();
+    private OrderDetailId primaryKey;
 
     @Column(name = "UNIT_PRICE", nullable = false)
     private BigDecimal unitPrice;
@@ -37,20 +41,20 @@ public class OrderDetail {
     }
 
     @Transient
-    public OrderInfo getOrderInfo(){
+    public OrderInfo getOrderInfo() {
         return getPrimaryKey().getOrderInfo();
     }
 
-    public void setOrderInfo(OrderInfo orderInfo){
+    public void setOrderInfo(OrderInfo orderInfo) {
         getPrimaryKey().setOrderInfo(orderInfo);
     }
 
     @Transient
-    public ProductInfo getProductInfo(){
+    public ProductInfo getProductInfo() {
         return getPrimaryKey().getProductInfo();
     }
 
-    public void setProductInfo(ProductInfo productInfo){
+    public void setProductInfo(ProductInfo productInfo) {
         getPrimaryKey().setProductInfo(productInfo);
     }
 
@@ -76,5 +80,15 @@ public class OrderDetail {
 
     public void setAppliedDiscount(int appliedDiscount) {
         this.appliedDiscount = appliedDiscount;
+    }
+
+    @Override
+    public String toString() {
+        return "OrderDetail{" +
+                "primaryKey=" + primaryKey +
+                ", unitPrice=" + unitPrice +
+                ", quantity=" + quantity +
+                ", appliedDiscount=" + appliedDiscount +
+                '}';
     }
 }

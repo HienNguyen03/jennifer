@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 
 <head>
-
-    <title>Order - Jennifer: Manager section</title>
+    <title>Order - Jennifer's manager section</title>
     <object th:include="common/header :: common-header-manager" th:remove="tag"></object>
 </head>
 
 <body>
+
 <div id="wrapper">
 
-    <nav class="navbar narbar-default navbar-static-top" role="navigation">
+    <nav class="navbar navbar-default navbar-static-top" role="navigation">
         <div th:replace="common/navbar :: common-navbar-header-manager" th:remove="tag"></div>
         <div th:replace="common/navbar :: common-navbar-manager" th:remove="tag"></div>
         <div th:replace="common/sidebar :: common-sidebar-manager" th:remove="tag"></div>
@@ -75,62 +75,33 @@
     $(document).ready(function () {
         let orderDb = {
             loadData: function (filter) { // load date from db
-                let d = $.Deferred();
 
-                $.ajax({
+                return $.ajax({
                     type: "GET",
                     url: "/api/order",
                     data: filter,
                     dataType: "json"
                 }).done(function (response) {
-                    setTimeout(function () {
-                        d.resolve(response);
-                    }, 1000);
                 });
-
-                return d.promise();
             },
 
             updateItem: function (item) {
-                let d = $.Deferred();
 
-                $.ajax({
+                return $.ajax({
                     type: "PUT",
                     url: "/api/order",
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    },
                     data: JSON.stringify(item),
                     dataType: "json"
-
                 }).done(function (updatedItemReturnedFromServer) {
-                    d.resolve(updatedItemReturnedFromServer);
+                    alertify.success("Successfully updated!");
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    alertify.error(jqXHR.responseText);
                 });
 
-                return d.promise();
             }// update data
 
         };
 
-        let orderDetailDb = {
-            loadData: function (filter) { // load date from db
-                let d = $.Deferred();
-
-                $.ajax({
-                    type: "GET",
-                    url: "/api/order-detail",
-                    data: filter,
-                    dataType: "json"
-                }).done(function (response) {
-                    setTimeout(function () {
-                        d.resolve(response);
-                    }, 1000);
-                });
-
-                return d.promise();
-            }
-        };
 
         $("#order-grid").jsGrid({
             width: "100%",
@@ -147,6 +118,13 @@
             //pageLoading: true,
 
             noDataContent: "No order found",
+
+            rowClick: function (args) {
+                let selectedId = args.item.id;
+                //console.log(selectedId);
+                searchData(selectedId);
+
+            },
 
             pagerContainer: null,
             pageIndex: 1,
@@ -201,52 +179,79 @@
             ]
         });
 
-        $("#order-detail-grid").jsGrid({
-            width: "100%",
-            height: "auto",
+        let searchData = function (searchId) {
+            return $.ajax({
+                type: "GET",
+                url: "/api/order-detail/"+ searchId ,
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                dataType: 'json',
 
-            autoload: true,
+            }).done(function (items) {
+                //console.log(items);
 
-            heading: true,
-            filtering: false,
-            inserting: false,
-            editing: false,
-            sorting: true,
-            paging: true,
-            //pageLoading: true,
+                $("#order-detail-grid").jsGrid({
+                    width: "100%",
+                    height: "auto",
 
-            noDataContent: "No order detail found",
+                    autoload: true,
 
-            pagerContainer: null,
-            pageIndex: 1,
-            pageSize: 10,
-            pageButtonCount: 15,
-            pagerFormat: "Pages: {first} {prev} {pages} {next} {last}    {pageIndex} of {pageCount}",
-            pagePrevText: "Prev",
-            pageNextText: "Next",
-            pageFirstText: "First",
-            pageLastText: "Last",
-            pageNavigatorNextText: "...",
-            pageNavigatorPrevText: "...",
+                    heading: true,
+                    filtering: false,
+                    inserting: false,
+                    editing: false,
+                    sorting: true,
+                    paging: true,
+                    //pageLoading: true,
 
-            loadIndication: true,
-            loadIndicationDelay: 200,
-            loadMessage: "Please, wait...",
-            loadShading: true,
+                    noDataContent: "No order detail found",
 
-            updateOnResize: true,
+                    pagerContainer: null,
+                    pageIndex: 1,
+                    pageSize: 10,
+                    pageButtonCount: 15,
+                    pagerFormat: "Pages: {first} {prev} {pages} {next} {last}    {pageIndex} of {pageCount}",
+                    pagePrevText: "Prev",
+                    pageNextText: "Next",
+                    pageFirstText: "First",
+                    pageLastText: "Last",
+                    pageNavigatorNextText: "...",
+                    pageNavigatorPrevText: "...",
 
-            controller: orderDetailDb,
+                    loadIndication: true,
+                    loadIndicationDelay: 200,
+                    loadMessage: "Please, wait...",
+                    loadShading: true,
 
-            fields: [
-                {title: "Order ID", name: "primaryKey.orderInfo.id", type: "number", width: 10, align: "center", editing: false},
-                {title: "Product", name: "primaryKey.productInfo.name", type: "text", width: 10, align: "center", editing: false},
-                {title: "Unit Price", name: "unitPrice", type: "number", sorter: "number", min: 0, width: 20, align: "center", editing: false},
-                {title: "Quantity", name: "quantity", type: "number", sorter: "number", min: 0, width: 20, align: "center", editing: false},
-                {title: "Discount", name: "discount", type: "number", sorter: "number", min: 0, width: 20, align: "center", editing: false}
-            ]
-        });
+                    updateOnResize: true,
+                    controller: {
+                        loadData: function() {
+                            return items;
+                        }
+                    },
+                    fields: [
+                        {title: "Product", name: "productInfo.name", type: "text", width: 50},
+                        {title: "Product's Total Price", type: "number", sorter: "number", min: 0, width: 30, align: "center",
+                            itemTemplate:function (value, item) {
+                                return calculatePrice(item).toFixed(2);
+                            }
+                        },
+                        {title: "Unit Price", name: "unitPrice", type: "number", sorter: "number", min: 0, width: 30, align: "center"},
+                        {title: "Quantity", name: "quantity", type: "number", sorter: "number", min: 0, width: 20, align: "center"},
+                        {title: "Discount", name: "appliedDiscount", type: "number", sorter: "number", min: 0, width: 20, align: "center"},
 
+                    ]
+                });
+
+            });
+
+        }
+
+        let calculatePrice = function (client) {
+            return client.unitPrice*client.quantity*(1-(client.appliedDiscount/100));
+        }
 
     });
 
