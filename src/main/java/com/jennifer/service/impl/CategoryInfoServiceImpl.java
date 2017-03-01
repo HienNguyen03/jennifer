@@ -34,4 +34,19 @@ public class CategoryInfoServiceImpl implements CategoryInfoService {
     public CategoryInfo findCategory(int id) {
         return categoryInfoDao.findOne(id);
     }
+
+    @Override
+    public CategoryInfo updateCategory(CategoryInfo categoryInfo) {
+        return categoryInfoDao.save(categoryInfo);
+    }
+
+    @Override
+    public void deleteCategory(CategoryInfo categoryInfo) {
+        categoryInfoDao.delete(categoryInfo);
+    }
+
+    @Override
+    public CategoryInfo addCategory(CategoryInfo categoryInfo) {
+        return categoryInfoDao.save(categoryInfo);
+    }
 }

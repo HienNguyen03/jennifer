@@ -1,13 +1,10 @@
 package com.jennifer.controller;
 
-import com.jennifer.entity.ShippingAddress;
-import com.jennifer.service.DeliveryMethodService;
 import com.jennifer.service.ShippingAddressService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
@@ -24,7 +21,7 @@ public class ShippingAddressController {
     }
 
     @RequestMapping("/manager/shipping-address")
-    public String mListOfShippingAddress(Model model){
+    public String getAllShippingAddress(){
         return "manager/shipping-address";
     }
 }

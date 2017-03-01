@@ -253,6 +253,9 @@
 		<!-- Custom Theme JavaScript -->
 		<script th:src="@{/custom/ma/dist/js/sb-admin-2.js}"></script>
 
+		<!-- Alertify -->
+		<script th:src="@{/custom/cm/plugin/alertifyjs/alertify.js}"></script>
+
 		<!-- DropZone plugin -->
 		<script th:src="@{/custom/cm/plugin/dropzone/dropzone.js}"></script>
 		<script type="text/javascript" th:inline="javascript">
@@ -265,6 +268,11 @@
                     xhr.setRequestHeader('Content-Type', 'application/json');
                 });
             });
+
+            //override defaults
+            alertify.defaults.transition = "zoom";
+            alertify.defaults.theme.ok = "ui positive button";
+            alertify.defaults.theme.cancel = "ui black button";
 		</script>
 	</div>
 
