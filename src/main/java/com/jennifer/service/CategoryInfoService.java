@@ -12,5 +12,8 @@ public interface CategoryInfoService {
 
     List<CategoryInfo> findAllCategories();
     CategoryInfo findCategory(int id);
+    CategoryInfo updateCategory(CategoryInfo categoryInfo);
+    void deleteCategory(CategoryInfo categoryInfo);
+    CategoryInfo addCategory(CategoryInfo categoryInfo);
 
 }

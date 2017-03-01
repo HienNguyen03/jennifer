@@ -1,6 +1,8 @@
 package com.jennifer.entity;
 
 import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.jennifer.controller.rest.deserializer.CategoryInfoDeserializer;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -12,7 +14,8 @@ import java.util.List;
  */
 @Entity
 @Table(name = "category_info")
-//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+@JsonDeserialize(using = CategoryInfoDeserializer.class)
 public class CategoryInfo {
 
     @Id
@@ -23,7 +26,7 @@ public class CategoryInfo {
     @Column(name = "NAME", nullable = false, length = 60)
     private String name;
 
-    @JsonBackReference("super-category")
+    @JsonManagedReference("super-category")
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "CATEGORY_ID")
     private CategoryInfo superCategoryInfo;
@@ -36,11 +39,19 @@ public class CategoryInfo {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "categoryInfo")
     private List<ProductInfo> productInfos = new ArrayList<>();
 
-    @JsonManagedReference("super-category")
+    @JsonBackReference("super-category")
+    //@JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "superCategoryInfo")
     private List<CategoryInfo> categoryInfos = new ArrayList<>();
 
     public CategoryInfo() {
+    }
+
+    public CategoryInfo(int id, String name, CategoryInfo superCategoryInfo, int placeOrder) {
+        this.id = id;
+        this.name = name;
+        this.superCategoryInfo = superCategoryInfo;
+        this.placeOrder = placeOrder;
     }
 
     public CategoryInfo(String name, CategoryInfo superCategoryInfo, int placeOrder) {

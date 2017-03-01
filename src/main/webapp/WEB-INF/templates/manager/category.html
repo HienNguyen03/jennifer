@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <title>Category - Jennifer's manager section</title>
+    <object th:include="common/header :: common-header-manager" th:remove="tag"></object>
+</head>
+
+<body>
+
+<div id="wrapper">
+
+    <nav class="navbar navbar-default navbar-static-top" role="navigation">
+        <div th:replace="common/navbar :: common-navbar-header-manager" th:remove="tag"></div>
+        <div th:replace="common/navbar :: common-navbar-manager" th:remove="tag"></div>
+        <div th:replace="common/sidebar :: common-sidebar-manager" th:remove="tag"></div>
+    </nav>
+
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">Category</h1>
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <!-- /.row -->
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default animated fadeIn">
+                    <div class="panel-heading">
+                        <i class="fa fa-tags"></i> Categories
+                    </div>
+                    <!-- /.panel-heading -->
+                    <div class="panel-body">
+
+                        <div id="category-grid"></div> <!-- for category table -->
+                        <div id="detailsDialog">
+                            <form id="detailsForm">
+                                <div class="col-lg-8" style="float:none; margin:0 auto">
+                                    <div class="form-group">
+                                        <label for="name">Name</label>
+                                        <input id="name" name="name" type="text" class="form-control"
+                                               placeholder="Name"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="category">Super category</label>
+                                        <select id="category" name="category" class="form-control"></select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="placeOrder">Place order</label>
+                                        <input id="placeOrder" name="placeOrder" type="number" min="0" step="1"
+                                               class="form-control" placeholder="Place order"/>
+                                    </div>
+                                    <div class="form-group text-center">
+                                        <button id="save" type="submit" class="btn btn-primary">Save</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /#page-wrapper -->
+</div>
+<!-- /#wrapper -->
+
+<div th:replace="common/footer :: common-footer-scripts-manager" th:remove="tag"></div>
+<script type="text/javascript" th:inline="javascript">
+    /*<![CDATA[*/
+    let context = /*[[@{~/}]]*/"";
+    /*]]>*/
+
+    $(document).ready(function () {
+        let db = {
+            loadData: function (filter) {
+                let d = $.Deferred();
+
+                $.ajax({
+                    type: "GET",
+                    url: "/api/category",
+                    dataType: "json"
+                }).done(function (response) {
+                    //setTimeout(function () {
+                        d.resolve(response);
+                    //}, 1000);
+                    categorySelect2();
+                });
+
+                return d.promise();
+            },
+            insertItem: function (item) {
+                return $.ajax({
+                    type: "POST",
+                    url: "/api/category",
+                    dataType: "json",
+                    data: JSON.stringify(item)
+                }).done(function (data, textStatus, jqXHR) {
+                    alertify.success("Successfully inserted!");
+                    categorySelect2();
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    alertify.error(jqXHR.responseText);
+                });
+            },
+            updateItem: function (item) {
+                return $.ajax({
+                    type: "PUT",
+                    url: "/api/category",
+                    dataType: "json",
+                    data: JSON.stringify(item)
+                }).done(function (data, textStatus, jqXHR) {
+                    alertify.success("Successfully updated!");
+                    categorySelect2();
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    alertify.error(jqXHR.responseText);
+                });
+            },
+            deleteItem: function (item) {
+                return $.ajax({
+                    type: "DELETE",
+                    url: "/api/category",
+                    dataType: "json",
+                    data: JSON.stringify(item)
+                }).done(function (data, textStatus, jqXHR) {
+                    alertify.success("Successfully deleted!");
+                    categorySelect2();
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    alertify.error(jqXHR.responseText);
+                });
+            }
+        };
+
+        window.db = db;
+
+        function categorySelect2() {
+            return $.ajax({
+                type: "GET",
+                url: "/api/category-same-level",
+                dataType: "json"
+            }).done(function (data) {
+                if($("#category"))
+                    $("#category").empty();
+
+                $("#category").select2({
+                    allowClear: true,
+                    width: "100%",
+                    placeholder: "Select a category",
+                    data: data ? data.items : [],
+                    templateSelection: function (item) {
+                        return item.text + ' _ ID:' + item.id;
+                    },
+                    templateResult: function (item) {
+                        return item.text + ' _ ID:' + item.id;
+                    }
+                });
+            });
+        };
+
+        // used when pageLoading = false, used to insert from top of table
+        jsGrid.loadStrategies.DirectLoadingStrategy.prototype.finishInsert = function(insertedItem) {
+            var grid = this._grid;
+            grid.option("data").unshift(insertedItem);
+            grid.refresh();
+        }
+
+
+        $("#category-grid").jsGrid({
+            width: "100%",
+            height: "auto",
+
+            autoload: true,
+
+            heading: true,
+            filtering: false,
+            inserting: false,
+            editing: true,
+            sorting: true,
+            paging: true,
+            pageLoading: false,
+
+            noDataContent: "No category found",
+            confirmDeleting: false,
+            deleteConfirm: function (item) {
+                return "The category \"" + item.name + "\" will be removed. Are you sure?";
+            },
+            rowClick: function (args) {
+                resetForm();
+                showDetailsDialog("Edit", args.item);
+                $("#save").text("Update category");
+            },
+
+            pagerContainer: null,
+            pageIndex: 1,
+            pageSize: 10,
+            pageButtonCount: 15,
+            pagerFormat: "Pages: {first} {prev} {pages} {next} {last}    {pageIndex} of {pageCount}",
+            pagePrevText: "Prev",
+            pageNextText: "Next",
+            pageFirstText: "First",
+            pageLastText: "Last",
+            pageNavigatorNextText: "...",
+            pageNavigatorPrevText: "...",
+
+            loadIndication: true,
+            loadIndicationDelay: 200,
+            loadMessage: "Please, wait...",
+            loadShading: true,
+
+            updateOnResize: true,
+
+            controller: db,
+
+            fields: [
+                {title: "ID", name: "id", type: "number", width: 30, align: "center"},
+                {title: "Name", name: "name", type: "text" },
+                {title: "Super category", name: "superCategoryInfo.name", type: "text", width: 40, align: "center",
+                    itemTemplate: function(value, row){
+                        if(value != null)
+                            return "<strong>" + value + "</strong> _ ID:" + row.superCategoryInfo.id + "";
+                        else
+                            return "";
+                    }
+                },
+                {title: "Place order", name: "placeOrder", type: "number", min: 0, width: 40, align: "center"},
+                {
+                    type: "control",
+                    modeSwitchButton: false,
+                    editButton: false,
+                    width: 30,
+                    headerTemplate: function () {
+                        return $("<button>").attr("type", "button").text("Add").addClass("btn btn-primary btn-sm").append("</button>")
+                            .on("click", function () {
+                                resetForm();
+                                $("#save").text("Add new category");
+                                addedFiles = [];
+                                showDetailsDialog("Add", {});
+                            });
+                    }
+                }
+            ]
+        });
+
+        $("#detailsDialog").dialog({
+            autoOpen: false,
+            width: "20%",
+            maxWidth: "500px",
+            close: function (event, ui) {
+                resetForm();
+            }
+        });
+
+        function resetForm() {
+            $("#detailsForm").validate().resetForm();
+            $("#detailsForm").find(".error").removeClass("error");
+        }
+
+        $("#detailsForm").validate({
+            rules: {
+                name: "required",
+                placeOrder: {required: true, range: [0, 100000]}
+            },
+            messages: {
+                name: "Please enter name",
+                placeOrder: "Please enter valid place order"
+            },
+            submitHandler: function () {
+                formSubmitHandler();
+            }
+        });
+
+        let formSubmitHandler = $.noop;
+
+        let showDetailsDialog = function (dialogType, client) {
+
+            if(!jQuery.isEmptyObject(client)){
+                $("#name").val(client.name);
+                $("#placeOrder").val(client.placeOrder);
+                if (client.superCategoryInfo === null)
+                    $("#category").val('').trigger('change');
+                else
+                    $("#category").val(client.superCategoryInfo.id).trigger("change");
+            } else {
+                $("#name").val('');
+                $("#category").val('').trigger('change');
+                $("#placeOrder").val('');
+            }
+
+            formSubmitHandler = function () {
+                saveClient(client, dialogType === "Add");
+            };
+
+            $("#detailsDialog").dialog("option", "title", dialogType + " Category").dialog("open");
+        };
+
+
+        let saveClient = function (client, isNew) {
+
+            $.extend(client, {
+                name: $("#name").val(),
+                superCategoryInfo: parseInt($("#category").val()),
+                placeOrder: parseInt($("#placeOrder").val(), 10)
+            });
+
+            $("#category-grid").jsGrid(isNew ? "insertItem" : "updateItem", client);
+            //$("#category-grid").trigger("reloadGrid");
+            $("#detailsDialog").dialog("close");
+        };
+    });
+
+</script>
+
+</body>
+
+</html>

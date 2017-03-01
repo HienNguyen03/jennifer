@@ -9,7 +9,10 @@ import java.util.List;
 /**
  * CategoryInfo data access object interface
  */
+
 public interface CategoryInfoDao extends JpaRepository<CategoryInfo, Integer> {
+
+    CategoryInfo findById(int id);
 
     @Query("from CategoryInfo c order by c.superCategoryInfo.id, c.placeOrder")
     List<CategoryInfo> findAll();
