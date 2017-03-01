@@ -13,5 +13,6 @@ public interface ProductInfoDao extends JpaRepository<ProductInfo, Integer> {
 
     ProductInfo findById(int id);
     List<ProductInfo> findAll();
+    List<ProductInfo> findAllByOrderByIdDesc();
 
 }

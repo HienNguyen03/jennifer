@@ -37,17 +37,11 @@ public class ProductInfoDeserializer extends JsonDeserializer<ProductInfo> {
         CategoryInfo categoryInfo = categoryInfoService.findCategory(node.get("categoryInfo").asInt());
         ProductInfo productInfo;
 
-        log.info(" >> "+node.get("unitPrice").asText());
-        log.info(" >> "+node.get("unitPrice").asLong());
-        log.info(" >> "+BigDecimal.valueOf(node.get("unitPrice").asLong()));
-
         if(node.get("id") != null) {
-            productInfo = new ProductInfo(node.get("id").asInt(), node.get("name").asText(), BigDecimal.valueOf(node.get("unitPrice").asLong()), node.get("discount").asInt(), node.get("image").asText(), node.get("quantity").asInt(), node.get("description").asText(), node.get("detail").asText(), node.get("status").asText(), categoryInfo);
+            productInfo = new ProductInfo(node.get("id").asInt(), node.get("name").asText(), new BigDecimal(node.get("unitPrice").asText()), node.get("discount").asInt(), node.get("image").asText(), node.get("quantity").asInt(), node.get("description").asText(), node.get("detail").asText(), node.get("status").asText(), categoryInfo);
         } else {
-            productInfo = new ProductInfo(node.get("name").asText(), BigDecimal.valueOf(node.get("unitPrice").asLong()), node.get("discount").asInt(), node.get("image").asText(), node.get("quantity").asInt(), node.get("description").asText(), node.get("detail").asText(), node.get("status").asText(), categoryInfo);
+            productInfo = new ProductInfo(node.get("name").asText(), new BigDecimal(node.get("unitPrice").asText()), node.get("discount").asInt(), node.get("image").asText(), node.get("quantity").asInt(), node.get("description").asText(), node.get("detail").asText(), node.get("status").asText(), categoryInfo);
         }
-
-        log.info(" >> "+productInfo.getUnitPrice());
 
         return productInfo;
     }

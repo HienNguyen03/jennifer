@@ -28,7 +28,7 @@ public class ProductInfoServiceImpl implements ProductInfoService {
 
     @Override
     public List<ProductInfo> findAllProducts() {
-        return productInfoDao.findAll();
+        return productInfoDao.findAllByOrderByIdDesc();
     }
 
     @Override
