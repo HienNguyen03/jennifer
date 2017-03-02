@@ -18,7 +18,6 @@ import java.util.List;
  * DeliveryMethodService implementation
  */
 @Service("deliveryMethodService")
-@Transactional
 public class DeliveryMethodServiceImpl implements DeliveryMethodService {
 
     private static final Logger log = LoggerFactory.getLogger(DeliveryMethodServiceImpl.class);

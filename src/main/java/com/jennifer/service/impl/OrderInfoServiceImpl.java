@@ -15,7 +15,6 @@ import java.util.List;
  * OrderInfoService implementation
  */
 @Service("orderInfoService")
-@Transactional
 public class OrderInfoServiceImpl implements OrderInfoService {
     private static final Logger log = LoggerFactory.getLogger(OrderInfoServiceImpl.class);
     private OrderInfoDao orderInfoDao;
@@ -33,6 +32,11 @@ public class OrderInfoServiceImpl implements OrderInfoService {
     @Override
     public OrderInfo findById(int id) {
         return orderInfoDao.findById(id);
+    }
+
+    @Override
+    public OrderInfo update(OrderInfo orderInfo) {
+        return orderInfoDao.save(orderInfo);
     }
 }
 

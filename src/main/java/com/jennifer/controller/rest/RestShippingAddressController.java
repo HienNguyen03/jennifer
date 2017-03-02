@@ -28,11 +28,9 @@ public class RestShippingAddressController {
     }
 
     @GetMapping
-    public List<ShippingAddress> findAll() {
+    public Object findAll() {
         List<ShippingAddress> shippingAddresses = shippingAddressService.findAllShippingAddresses();
-        for(ShippingAddress s:shippingAddresses){
-            s.toString();
-        }
+
         return shippingAddressService.findAllShippingAddresses();
     }
 

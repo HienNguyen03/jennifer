@@ -1,7 +1,11 @@
 package com.jennifer.entity;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Embeddable;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import java.io.Serializable;
 
@@ -12,11 +16,18 @@ import java.io.Serializable;
 @Embeddable
 class OrderDetailId implements Serializable {
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private OrderInfo orderInfo;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private ProductInfo productInfo;
+
+    public OrderDetailId(){}
+
+    public OrderDetailId(OrderInfo orderInfo, ProductInfo productInfo){
+        this.orderInfo = orderInfo;
+        this.productInfo = productInfo;
+    }
 
     OrderInfo getOrderInfo() {
         return orderInfo;
