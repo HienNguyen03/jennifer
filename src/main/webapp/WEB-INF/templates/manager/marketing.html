@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <title>Marketing Campaign - Jennifer's manager section</title>
+    <object th:include="common/header :: common-header-manager" th:remove="tag"></object>
+</head>
+
+<body>
+
+<div id="wrapper">
+
+    <nav class="navbar navbar-default navbar-static-top" role="navigation">
+        <div th:replace="common/navbar :: common-navbar-header-manager" th:remove="tag"></div>
+        <div th:replace="common/navbar :: common-navbar-manager" th:remove="tag"></div>
+        <div th:replace="common/sidebar :: common-sidebar-manager" th:remove="tag"></div>
+    </nav>
+
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">Marketing Campaign</h1>
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <!-- /.row -->
+
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="panel plus panel-default animated fadeIn">
+                    <div class="panel-heading">
+                        <i class="fa fa-bullhorn"></i> Marketing Campaigns
+                    </div>
+                    <!-- /.panel-heading -->
+                    <div class="panel-body">
+                        <div id="marketing-grid"></div>
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+                <div class="panel panel-default animated fadeIn">
+                    <div class="panel-heading">
+                        <i class="fa fa-bullhorn"></i> Marketing Products
+                    </div>
+                    <!-- /.panel-heading -->
+                    <div class="panel-body">
+                        <div id="product-grid"></div>
+                        <!--<div id="detailsDialog">-->
+                        <!--<form id="detailsForm">-->
+                        <!--<div class="col-lg-8" style="float:none; margin:0 auto">-->
+                        <!--<div class="form-group">-->
+                        <!--<label for="event">Name</label>-->
+                        <!--<input id="event" name="event" type="text" class="form-control"-->
+                        <!--placeholder="Event"/>-->
+                        <!--</div>-->
+
+                        <!--<input type="hidden" id="banner"/>-->
+
+                        <!--<div class="form-group">-->
+                        <!--<label for="start-date">Start Date (dd/mm/yyyy)</label>-->
+                        <!--<input id="start-date" name="start-date" type="text"-->
+                        <!--class="form-control datePicker"/>-->
+                        <!--</div>-->
+
+                        <!--<div class="form-group">-->
+                        <!--<label for="end-date">End Date (dd/mm/yyyy)</label>-->
+                        <!--<input id="end-date" name="end-date" type="text"-->
+                        <!--class="form-control datePicker"/>-->
+                        <!--</div>-->
+
+                        <!--<div class="form-group">-->
+                        <!--<label for="status">Status</label>-->
+                        <!--<select id="status" name="status" class="form-control"></select>-->
+                        <!--</div>-->
+
+                        <!--<div class="form-group text-center">-->
+                        <!--<button id="save" type="submit" class="btn btn-primary">Save</button>-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--</form>-->
+                        <!--<div>-->
+                        <!--<label for="uploadArea">Banner</label>-->
+                        <!--<form id="uploadArea" enctype="multipart/form-data" th:action="@{/uploadfile}" class="dropzone">-->
+                        <!--<div class="dz-message needsclick">-->
+                        <!--Drop files here or click to upload.-->
+                        <!--</div>-->
+                        <!--</form>-->
+                        <!--</div>-->
+                        <!--</div>-->
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+            </div>
+            <!-- /.col-lg-8 -->
+            <div class="col-lg-4">
+                <div class="panel panel-default animated fadeIn">
+                    <div class="panel-heading">
+                        <i class="fa fa-bullhorn"></i> Campaign Details
+                    </div>
+                    <!-- /.panel-heading -->
+                    <div class="panel-body">
+                        <form id="campaignDetailsForm">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label for="event">Name</label>
+                                        <input id="event" name="event" type="text" class="form-control"
+                                               placeholder="Event"/>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label for="status">Status</label>
+                                        <select id="status" name="status" class="form-control"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label for="start-date">Start Date (dd/mm/yyyy)</label>
+                                        <input id="start-date" name="start-date" type="text"
+                                               class="form-control datePicker"/>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label for="end-date">End Date (dd/mm/yyyy)</label>
+                                        <input id="end-date" name="end-date" type="text"
+                                               class="form-control datePicker"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-group text-center">
+                                        <button id="save" type="submit" class="btn btn-primary">Add campaign</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <div>
+                            <label for="uploadArea">Banner</label>
+                            <form id="uploadArea" enctype="multipart/form-data" th:action="@{/uploadfile}" class="dropzone">
+                                <div class="dz-message needsclick">
+                                    Drop files here or click to upload.
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+            </div>
+            <!-- /.col-lg-4 -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /#page-wrapper -->
+</div>
+<!-- /#wrapper -->
+
+<div th:replace="common/footer :: common-footer-scripts-manager" th:remove="tag"></div>
+<script type="text/javascript" th:inline="javascript">
+    /*<![CDATA[*/
+    let context = /*[[@{~/}]]*/"";
+    /*]]>*/
+
+    $(document).ready(function () {
+
+        var deletedFiles = [], addedFiles = [];
+        var uploadLimit = 1;
+
+        // image uploader
+        Dropzone.options.uploadArea = false;
+        Dropzone.autoDiscover = false;
+        let myDropzone = new Dropzone("#uploadArea", {
+            acceptedFiles: "image/*",
+            url: "/file",
+            clickable: true,
+            maxFilesize: 5, // MB
+            maxFiles: uploadLimit,
+            parallelUploads: uploadLimit,
+            dictResponseError: 'Error uploading file!',
+
+            addRemoveLinks: true,
+            dictRemoveFile: "Delete",
+            dictCancelUpload: "Cancel",
+            dictCancelUploadConfirmation: "Are you sure to cancel upload?",
+            init: function () {
+                this.on("success", function (file, serverResponse) {
+                    let fileUpload = file.previewElement.querySelector("[data-dz-name]");
+                    fileUpload.innerHTML = serverResponse.newFileName;
+                    addedFiles.push(serverResponse.newFileName);
+                });
+            },
+            removedfile: function (file) {
+                let name = file.previewElement.querySelector('[data-dz-name]').innerHTML;
+
+                /*<![CDATA[*/
+                if(myDropzone.files.length < uploadLimit)
+                    deletedFiles.push(name);
+
+                myDropzone.options.maxFiles += 1; // set remain upload limit
+                /*]]>*/
+
+                let _ref;
+                return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
+            }
+        });
+
+        // data for jsGrid
+        let db = {
+            loadData: function (filter) {
+                return $.ajax({
+                    type: "GET",
+                    url: "/api/marketing",
+                    dataType: "json"
+                })
+            },
+            insertItem: function (item) {
+                return $.ajax({
+                    type: "POST",
+                    url: "/api/marketing",
+                    dataType: "json",
+                    data: JSON.stringify(item)
+                }).done(function (data, textStatus, jqXHR) {
+                    alertify.success("Successfully inserted!");
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    alertify.error(jqXHR.responseText);
+                });
+            },
+            updateItem: function (item) {
+                let myCollection = [];
+                $.each(myDropzone.getAcceptedFiles(), function (order, data) {
+                    myCollection.push(data.previewElement.querySelector("[data-dz-name]").innerHTML);
+                });
+
+                return $.ajax({
+                    type: "PUT",
+                    url: "/api/marketing",
+                    dataType: "json",
+                    data: JSON.stringify(item)
+                }).done(function (data, textStatus, jqXHR) {
+                    alertify.success("Successfully updated!");
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    alertify.error(jqXHR.responseText);
+                });
+            },
+            deleteItem: function (item) {
+                if(item.banner.length > 0)
+                    deleteUploadedFiles(item.banner.split(","));
+
+                return $.ajax({
+                    type: "DELETE",
+                    url: "/api/marketing",
+                    dataType: "json",
+                    data: JSON.stringify(item)
+                }).done(function (data, textStatus, jqXHR) {
+                    alertify.success("Successfully deleted!");
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    alertify.error(jqXHR.responseText);
+                });
+            }
+        };
+
+        window.db = db;
+        db.status = ["preparing", "running", "suspended", "concluded"];
+
+        $("#status").select2({
+            allowClear: true,
+            width: "100%",
+            placeholder: "Select a status",
+            data: db.status
+        });
+        $("#status").val('').trigger("change");
+
+        $('.datePicker').datepicker({
+            //startDate: '-3d',
+            format: "dd/mm/yyyy",
+            todayBtn: "linked",
+            autoclose: true,
+            todayHighlight: true
+        });
+
+        // used when pageLoading = false, used to insert from top of table
+        jsGrid.loadStrategies.DirectLoadingStrategy.prototype.finishInsert = function(insertedItem) {
+            var grid = this._grid;
+            grid.option("data").unshift(insertedItem);
+            grid.refresh();
+        }
+
+        $("#marketing-grid").jsGrid({
+            width: "100%",
+            height: "auto",
+
+            autoload: true,
+
+            heading: true,
+            filtering: false,
+            inserting: false,
+            editing: true,
+            sorting: true,
+            paging: true,
+            pageLoading: false,
+
+            noDataContent: "No marketing campaign found",
+            confirmDeleting: false,
+            deleteConfirm: function (item) {
+                return "The marketing campaign \"" + item.event + "\" will be removed. Are you sure?";
+            },
+            rowClick: function (args) {
+                resetCampaignDetailsForm();
+                showCampaignDetails("Update", args.item);
+            },
+
+            pagerContainer: null,
+            pageIndex: 1,
+            pageSize: 5,
+            pageButtonCount: 15,
+            pagerFormat: "Pages: {first} {prev} {pages} {next} {last}    {pageIndex} of {pageCount}",
+            pagePrevText: "Prev",
+            pageNextText: "Next",
+            pageFirstText: "First",
+            pageLastText: "Last",
+            pageNavigatorNextText: "...",
+            pageNavigatorPrevText: "...",
+
+            loadIndication: true,
+            loadIndicationDelay: 200,
+            loadMessage: "Please, wait...",
+            loadShading: true,
+
+            updateOnResize: true,
+
+            controller: db,
+
+            fields: [
+                {title: "ID", name: "id", type: "number", width: 30, align: "center"},
+                {title: "Event", name: "event", type: "text" },
+                {
+                    title: "Banner", name: "banner", type: "text", width: 50, align: "center",
+                    itemTemplate: function (value, item) {
+                        if (value != null) {
+                            if (value.length != 0) {
+
+                                let result = $('<div class="review-block" />');
+                                let imageData = value.split(",");
+                                $.each(imageData, function (order, data) {
+                                    let img = new Image(100, 40);
+                                    img.src = context + "pics/" + data;
+                                    img.className = "review-banner";
+                                    result.append(img);
+                                });
+                                result.append($('<div style="clear: left" />'))
+                                return result;
+                            }
+                        }
+                    }
+                },
+                {
+                    title: "Start Date", name: "startDate", type: "date", width: 50, align: "center",
+                    itemTemplate: function (data) {
+                        return $.datepicker.formatDate('dd/mm/yy', new Date(data));
+                    }
+                },
+                {
+                    title: "End Date", name: "endDate", type: "date", width: 50, align: "center",
+                    itemTemplate: function (data) {
+                        return (data != null) ? $.datepicker.formatDate('dd/mm/yy', new Date(data)) : false;
+                    }
+                },
+                {title: "Status", name: "status", type: "text", align: "center", width: 50, autosearch: true},
+                {
+                    type: "control",
+                    modeSwitchButton: false,
+                    editButton: false,
+                    width: 30,
+                    headerTemplate: function () {
+                        return $("<button>").attr("type", "button").text("Add").addClass("btn btn-primary btn-sm").append("</button>")
+                            .on("click", function () {
+                                resetCampaignDetailsForm();
+                                showCampaignDetails("Add", {});
+                            });
+                    }
+                }
+            ]
+        });
+
+        function createProductGrid(){
+            $("#product-grid").jsGrid({
+                width: "100%",
+                height: "auto",
+
+                autoload: true,
+
+                heading: true,
+                filtering: false,
+                inserting: false,
+                editing: true,
+                sorting: true,
+                paging: true,
+                pageLoading: false,
+
+                noDataContent: "No product found",
+                confirmDeleting: false,
+                deleteConfirm: function (item) {
+                    return "The product \"" + item.event + "\" will be removed. Are you sure?";
+                },
+                rowClick: function (args) {
+//                    resetCampaignDetailsForm();
+//                    showCampaignDetails("Update", args.item);
+                },
+
+                pagerContainer: null,
+                pageIndex: 1,
+                pageSize: 5,
+                pageButtonCount: 15,
+                pagerFormat: "Pages: {first} {prev} {pages} {next} {last}    {pageIndex} of {pageCount}",
+                pagePrevText: "Prev",
+                pageNextText: "Next",
+                pageFirstText: "First",
+                pageLastText: "Last",
+                pageNavigatorNextText: "...",
+                pageNavigatorPrevText: "...",
+
+                loadIndication: true,
+                loadIndicationDelay: 200,
+                loadMessage: "Please, wait...",
+                loadShading: true,
+
+                updateOnResize: true,
+
+                controller: db,
+
+                fields: [
+                    {title: "ID", name: "id", type: "number", width: 30, align: "center"},
+                    {title: "Event", name: "event", type: "text" },
+                    {
+                        title: "Banner", name: "banner", type: "text", width: 50, align: "center",
+                        itemTemplate: function (value, item) {
+                            if (value != null) {
+                                if (value.length != 0) {
+
+                                    let result = $('<div class="review-block" />');
+                                    let imageData = value.split(",");
+                                    $.each(imageData, function (order, data) {
+                                        let img = new Image(100, 40);
+                                        img.src = context + "pics/" + data;
+                                        img.className = "review-banner";
+                                        result.append(img);
+                                    });
+                                    result.append($('<div style="clear: left" />'))
+                                    return result;
+                                }
+                            }
+                        }
+                    },
+                    {
+                        title: "Start Date", name: "startDate", type: "date", width: 50, align: "center",
+                        itemTemplate: function (data) {
+                            return $.datepicker.formatDate('dd/mm/yy', new Date(data));
+                        }
+                    },
+                    {
+                        title: "End Date", name: "endDate", type: "date", width: 50, align: "center",
+                        itemTemplate: function (data) {
+                            return (data != null) ? $.datepicker.formatDate('dd/mm/yy', new Date(data)) : false;
+                        }
+                    },
+                    {title: "Status", name: "status", type: "text", align: "center", width: 50, autosearch: true},
+                    {
+                        type: "control",
+                        modeSwitchButton: false,
+                        editButton: false,
+                        width: 30,
+                        headerTemplate: function () {
+                            return $("<button>").attr("type", "button").text("Add").addClass("btn btn-primary btn-sm").append("</button>")
+                                .on("click", function () {
+                                    resetCampaignDetailsForm();
+                                    showCampaignDetails("Add", {});
+                                });
+                        }
+                    }
+                ]
+            });
+        }
+
+        function resetCampaignDetailsForm() {
+            console.log("reset");
+            deleteUploadedFiles(addedFiles);
+            for( let file of myDropzone.files ){ // loop through old list, then clear all
+                let _ref;
+                if ((_ref = file.previewElement) != null) {
+                    _ref.parentNode.removeChild(file.previewElement);
+                }
+            }
+            addedFiles = [];
+            deletedFiles = []; // reset deleted list
+            myDropzone.files = []; // reset current files in DropZone
+            myDropzone.options.maxFiles = uploadLimit; // reset upload limit to origin
+
+            document.getElementById("campaignDetailsForm").reset();
+            $("#status").val('').trigger("change");
+            $("#campaignDetailsForm").validate().resetForm();
+            $("#campaignDetailsForm").removeClass("error");
+        }
+
+        function deleteUploadedFiles(files){
+            for(let filename of files){
+                $.ajax({
+                    type: 'DELETE',
+                    url: '/file/' + filename
+                });
+            }
+        }
+
+        $("#campaignDetailsForm").validate({
+            rules: {
+                event: "required",
+                banner: "required",
+                "start-date": {required: true},
+                "end-date": {required: false},
+                status: "required"
+            },
+            messages: {
+                event: "Please enter event",
+                banner: "Please enter valid image",
+                "start-date": "Please choose a valid date",
+                "end-date": "Please choose a valid date",
+                status: "Please select status"
+            },
+            submitHandler: function () {
+                formSubmitHandler();
+            }
+        });
+
+        let formSubmitHandler = $.noop;
+
+        let dateTemplateFromServer = function (data) {
+            if (typeof data === 'undefined' || !data) {
+                return $.datepicker.formatDate('dd/mm/yy');
+            } else {
+                return $.datepicker.formatDate('dd/mm/yy', new Date(data));
+            }
+
+        }; // format date from db to format dd-mm-yyyy
+
+        let dateTemplateToServer = function (data) {
+            if (typeof data === 'undefined' || !data) {
+                return $.datepicker.formatDate('yy-mm-dd')
+            } else {
+                return $.datepicker.formatDate('yy-mm-dd', new Date(data));
+            }
+
+        }; // format date from db to format dd-mm-yyyy
+
+        let showCampaignDetails = function (dialogType, client) {
+            $("#event").val(client.event);
+            $("#start-date").datepicker("update", dateTemplateFromServer(client.startDate));
+            $("#end-date").datepicker("update", dateTemplateFromServer(client.endDate));
+            $("#status").val(client.status).trigger("change");
+
+            // add image to Dropzone
+            /*<![CDATA[*/
+            if (client.banner != null && client.banner.length > 0) {
+                let imageData = client.banner.split(",");
+                for( let file of myDropzone.files ){ // loop through old list, then clear all
+                    let _ref;
+                    if ((_ref = file.previewElement) != null) {
+                        _ref.parentNode.removeChild(file.previewElement);
+                    }
+                }
+
+                deletedFiles = []; // reset deleted list
+                myDropzone.files = []; // reset current files in DropZone
+                myDropzone.options.maxFiles = uploadLimit; // reset upload limit to origin
+
+                $.each(imageData, function (order, data) {
+                    let mockFile = { name: data }; // create list of mock files
+
+                    // add uploaded images from server
+                    myDropzone.options.addedfile.call(myDropzone, mockFile);
+                    myDropzone.createThumbnailFromUrl(mockFile, context + "pics/" + data);
+                    myDropzone.emit("complete", mockFile);
+
+                    myDropzone.files.push(mockFile); // add mock file into an managed array
+                    myDropzone.options.maxFiles = myDropzone.options.maxFiles - 1; // set remain upload limit
+
+                });
+            } else {
+                for( let file of myDropzone.files ){ // loop through old list, then clear all
+                    let _ref;
+                    if ((_ref = file.previewElement) != null) {
+                        _ref.parentNode.removeChild(file.previewElement);
+                    }
+                }
+                deletedFiles = []; // reset deleted list
+                myDropzone.files = []; // reset current files in DropZone
+                myDropzone.options.maxFiles = uploadLimit; // reset upload limit to origin
+            }
+            /*]]>*/
+
+            formSubmitHandler = function () {
+                saveClient(client, dialogType === "Add");
+            };
+
+            //$("#detailsDialog").dialog("option", "title", dialogType + " Campaign").dialog("open");
+            $("#campaignDetailsForm #save").text(dialogType + " campaign");
+        };
+
+
+        let saveClient = function (client, isNew) {
+            var imageList;
+
+            console.log("add: "+addedFiles.toString());
+            console.log("delete: "+deletedFiles.toString());
+
+            /*<![CDATA[*/
+            if(client.banner != null && client.banner.length > 0)
+                imageList = client.banner.split(",");
+            else
+                imageList = [];
+            /*]]>*/
+
+            if(deletedFiles.length > 0){
+                deleteUploadedFiles(deletedFiles);
+                imageList = imageList.filter((val) => !deletedFiles.includes(val));
+                deletedFiles = [];
+            }
+            if(addedFiles.length > 0){
+                addedFiles = addedFiles.filter((val) => !deletedFiles.includes(val));
+                imageList = imageList.concat(addedFiles);
+                addedFiles = [];
+            }
+
+            console.log("save: "+imageList.toString());
+
+            $.extend(client, {
+                event: $("#event").val(),
+                banner: imageList.toString(),
+                startDate: dateTemplateToServer($("#start-date").datepicker("getDate")),
+                endDate: dateTemplateToServer($("#end-date").datepicker("getDate")),
+                status: $("#status").val()
+            });
+
+            $("#marketing-grid").jsGrid(isNew ? "insertItem" : "updateItem", client);
+            $("#marketing-grid").trigger("reloadGrid");
+
+            showCampaignDetails("Add", {});
+            //deleteUploadedFiles(addedFiles);
+        };
+    });
+
+</script>
+
+</body>
+
+</html>

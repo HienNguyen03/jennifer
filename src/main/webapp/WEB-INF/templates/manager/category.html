@@ -79,20 +79,11 @@
     $(document).ready(function () {
         let db = {
             loadData: function (filter) {
-                let d = $.Deferred();
-
-                $.ajax({
+                return $.ajax({
                     type: "GET",
                     url: "/api/category",
                     dataType: "json"
-                }).done(function (response) {
-                    //setTimeout(function () {
-                        d.resolve(response);
-                    //}, 1000);
-                    categorySelect2();
-                });
-
-                return d.promise();
+                })
             },
             insertItem: function (item) {
                 return $.ajax({

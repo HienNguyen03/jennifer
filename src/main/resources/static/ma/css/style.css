@@ -13,6 +13,26 @@
 }
 
 
+i {
+    padding-right: 5px;
+}
+
+td.jsgrid-cell:first-child {
+    line-height: 40px;
+}
+
+.panel.plus .panel-body {
+    padding: 0px;
+}
+
+.panel.plus .jsgrid-pager {
+    padding-left: 20px;
+}
+
+.panel.plus .jsgrid-grid-header, .panel.plus .jsgrid-grid-body {
+    border: none;
+}
+
 
 /* form error */
 

@@ -56,7 +56,7 @@ public class RestProductInfoController {
         if(productInfoData != null)
             return productInfoService.updateProduct(productInfo);
 
-        return new ResponseEntity("Unable to delete!", HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity("Unable to update!", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @DeleteMapping

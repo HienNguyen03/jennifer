@@ -108,7 +108,7 @@ public class RestCategoryInfoController {
             else
                 return categoryInfoService.updateCategory(categoryInfo);
 
-        return new ResponseEntity("Unable to delete!", HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity("Unable to update!", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @DeleteMapping("/api/category")
