@@ -4,6 +4,11 @@
 <head>
     <title>Marketing Campaign - Jennifer's manager section</title>
     <object th:include="common/header :: common-header-manager" th:remove="tag"></object>
+    <style>
+        .jsgrid-row .selected-highlight {
+            background-color: #1ab7ea !important;
+        }
+    </style>
 </head>
 
 <body>
@@ -37,9 +42,9 @@
                     </div>
                     <!-- /.panel-body -->
                 </div>
-                <div class="panel panel-default animated fadeIn">
+                <div class="panel plus panel-default animated fadeIn">
                     <div class="panel-heading">
-                        <i class="fa fa-bullhorn"></i> Marketing Products
+                        <i class="fa fa-cubes"></i> Marketing Products
                     </div>
                     <!-- /.panel-heading -->
                     <div class="panel-body">
@@ -94,7 +99,7 @@
             <div class="col-lg-4">
                 <div class="panel panel-default animated fadeIn">
                     <div class="panel-heading">
-                        <i class="fa fa-bullhorn"></i> Campaign Details
+                        <i class="fa fa-sliders"></i> Campaign Details
                     </div>
                     <!-- /.panel-heading -->
                     <div class="panel-body">
@@ -149,6 +154,41 @@
                     </div>
                     <!-- /.panel-body -->
                 </div>
+
+                <div class="panel panel-default animated fadeIn">
+                    <div class="panel-heading">
+                        <i class="fa fa-search"></i> Product searching
+                    </div>
+                    <!-- /.panel-heading -->
+                    <div class="panel-body">
+                        <form id="productSearchingForm">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label for="productName">Product name</label>
+                                        <select id="productName" name="productName" class="form-control"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label for="productDiscount">Discount</label>
+                                        <input id="productDiscount" type="number" name="productDiscount" class="form-control" step="1" min="0" max="100" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-group text-center">
+                                        <button id="add" type="submit" class="btn btn-primary disabled">Add product</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
             </div>
             <!-- /.col-lg-4 -->
         </div>
@@ -166,8 +206,10 @@
 
     $(document).ready(function () {
 
+        var productData = [];
         var deletedFiles = [], addedFiles = [];
         var uploadLimit = 1;
+        var selectedCampaign = null;
 
         // image uploader
         Dropzone.options.uploadArea = false;
@@ -262,7 +304,38 @@
             }
         };
 
+        let db_detail = {
+            loadData: function(){
+                return productData;
+            },
+            updateItem: function (item) {
+                return $.ajax({
+                    type: "PUT",
+                    url: "/api/campaign-product",
+                    data: JSON.stringify(item),
+                    dataType: "json"
+                }).done(function (updatedItemReturnedFromServer) {
+                    alertify.success("Successfully updated!");
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    alertify.error(jqXHR.responseText);
+                });
+            },
+            deleteItem: function (item) {
+                return $.ajax({
+                    type: "DELETE",
+                    url: "/api/campaign-product",
+                    dataType: "json",
+                    data: JSON.stringify(item)
+                }).done(function (data, textStatus, jqXHR) {
+                    alertify.success("Successfully deleted!");
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    alertify.error(jqXHR.responseText);
+                });
+            }
+        }
+
         window.db = db;
+        window.db_detail = db_detail;
         db.status = ["preparing", "running", "suspended", "concluded"];
 
         $("#status").select2({
@@ -310,6 +383,9 @@
             rowClick: function (args) {
                 resetCampaignDetailsForm();
                 showCampaignDetails("Update", args.item);
+                refreshProductData(args.item.id);
+                $("#add").removeClass("disabled");
+                selectedCampaign = args.item;
             },
 
             pagerContainer: null,
@@ -385,107 +461,75 @@
             ]
         });
 
-        function createProductGrid(){
-            $("#product-grid").jsGrid({
-                width: "100%",
-                height: "auto",
+        $("#product-grid").jsGrid({
+            width: "100%",
+            height: "auto",
 
-                autoload: true,
+            autoload: true,
 
-                heading: true,
-                filtering: false,
-                inserting: false,
-                editing: true,
-                sorting: true,
-                paging: true,
-                pageLoading: false,
+            heading: true,
+            filtering: false,
+            inserting: false,
+            editing: true,
+            sorting: true,
+            paging: true,
+            //pageLoading: true,
 
-                noDataContent: "No product found",
-                confirmDeleting: false,
-                deleteConfirm: function (item) {
-                    return "The product \"" + item.event + "\" will be removed. Are you sure?";
-                },
-                rowClick: function (args) {
-//                    resetCampaignDetailsForm();
-//                    showCampaignDetails("Update", args.item);
-                },
+            noDataContent: "No product found",
 
-                pagerContainer: null,
-                pageIndex: 1,
-                pageSize: 5,
-                pageButtonCount: 15,
-                pagerFormat: "Pages: {first} {prev} {pages} {next} {last}    {pageIndex} of {pageCount}",
-                pagePrevText: "Prev",
-                pageNextText: "Next",
-                pageFirstText: "First",
-                pageLastText: "Last",
-                pageNavigatorNextText: "...",
-                pageNavigatorPrevText: "...",
+            pagerContainer: null,
+            pageIndex: 1,
+            pageSize: 5,
+            pageButtonCount: 15,
+            pagerFormat: "Pages: {first} {prev} {pages} {next} {last}    {pageIndex} of {pageCount}",
+            pagePrevText: "Prev",
+            pageNextText: "Next",
+            pageFirstText: "First",
+            pageLastText: "Last",
+            pageNavigatorNextText: "...",
+            pageNavigatorPrevText: "...",
 
-                loadIndication: true,
-                loadIndicationDelay: 200,
-                loadMessage: "Please, wait...",
-                loadShading: true,
+            loadIndication: true,
+            loadIndicationDelay: 200,
+            loadMessage: "Please, wait...",
+            loadShading: true,
 
-                updateOnResize: true,
-
-                controller: db,
-
-                fields: [
-                    {title: "ID", name: "id", type: "number", width: 30, align: "center"},
-                    {title: "Event", name: "event", type: "text" },
-                    {
-                        title: "Banner", name: "banner", type: "text", width: 50, align: "center",
-                        itemTemplate: function (value, item) {
-                            if (value != null) {
-                                if (value.length != 0) {
-
-                                    let result = $('<div class="review-block" />');
-                                    let imageData = value.split(",");
-                                    $.each(imageData, function (order, data) {
-                                        let img = new Image(100, 40);
-                                        img.src = context + "pics/" + data;
-                                        img.className = "review-banner";
-                                        result.append(img);
-                                    });
-                                    result.append($('<div style="clear: left" />'))
-                                    return result;
-                                }
-                            }
-                        }
-                    },
-                    {
-                        title: "Start Date", name: "startDate", type: "date", width: 50, align: "center",
-                        itemTemplate: function (data) {
-                            return $.datepicker.formatDate('dd/mm/yy', new Date(data));
-                        }
-                    },
-                    {
-                        title: "End Date", name: "endDate", type: "date", width: 50, align: "center",
-                        itemTemplate: function (data) {
-                            return (data != null) ? $.datepicker.formatDate('dd/mm/yy', new Date(data)) : false;
-                        }
-                    },
-                    {title: "Status", name: "status", type: "text", align: "center", width: 50, autosearch: true},
-                    {
-                        type: "control",
-                        modeSwitchButton: false,
-                        editButton: false,
-                        width: 30,
-                        headerTemplate: function () {
-                            return $("<button>").attr("type", "button").text("Add").addClass("btn btn-primary btn-sm").append("</button>")
-                                .on("click", function () {
-                                    resetCampaignDetailsForm();
-                                    showCampaignDetails("Add", {});
-                                });
-                        }
+            confirmDeleting: false,
+            updateOnResize: true,
+            controller: db_detail,
+            fields: [
+                {title: "ID", name: "productInfo.id", type: "text", width: 5, align: "center", editing: false },
+                {title: "Product", name: "productInfo.name", type: "text", width: 50, editing: false },
+                {title: "Unit Price", name: "productInfo.unitPrice", type: "number", sorter: "number", min: 0, width: 30, align: "center", editing: false,
+                    itemTemplate:function (value, item) {
+                        return value.toFixed(2);
                     }
-                ]
+                },
+                {title: "Quantity", name: "productInfo.quantity", type: "number", sorter: "number", min: 0, width: 20, align: "center", editing: false },
+                {title: "Discount", name: "discount", type: "number", sorter: "number", min: 0, width: 20, align: "center"},
+                {
+                    type: "control",
+                    modeSwitchButton: false,
+                    editButton: true,
+                    deleteButton: true,
+                    width: 10,
+
+                }
+            ]
+        });
+
+        function refreshProductData(searchId){
+            $.ajax({
+                type: "GET",
+                url: "/api/campaign-product/"+ searchId,
+                dataType: 'json',
+            }).done(function(data){
+                productData = (data != undefined) ? data : [];
+                $("#product-grid").jsGrid("search"); //refresh grid data
             });
         }
 
         function resetCampaignDetailsForm() {
-            console.log("reset");
             deleteUploadedFiles(addedFiles);
             for( let file of myDropzone.files ){ // loop through old list, then clear all
                 let _ref;
@@ -494,7 +538,7 @@
                 }
             }
             addedFiles = [];
-            deletedFiles = []; // reset deleted list
+            deletedFiles = []; // reset added, deleted list
             myDropzone.files = []; // reset current files in DropZone
             myDropzone.options.maxFiles = uploadLimit; // reset upload limit to origin
 
@@ -502,6 +546,17 @@
             $("#status").val('').trigger("change");
             $("#campaignDetailsForm").validate().resetForm();
             $("#campaignDetailsForm").removeClass("error");
+
+            productData = [];
+            $("#product-grid").jsGrid("search");
+
+            $("#productName").val('').trigger('change');
+            $("#productDiscount").val('');
+            $("#productSearchingForm").validate().resetForm();
+            $("#productSearchingForm").removeClass("error");
+
+            $("#add").addClass("disabled");
+            campaignId = null;
         }
 
         function deleteUploadedFiles(files){
@@ -611,9 +666,6 @@
         let saveClient = function (client, isNew) {
             var imageList;
 
-            console.log("add: "+addedFiles.toString());
-            console.log("delete: "+deletedFiles.toString());
-
             /*<![CDATA[*/
             if(client.banner != null && client.banner.length > 0)
                 imageList = client.banner.split(",");
@@ -632,8 +684,6 @@
                 addedFiles = [];
             }
 
-            console.log("save: "+imageList.toString());
-
             $.extend(client, {
                 event: $("#event").val(),
                 banner: imageList.toString(),
@@ -646,8 +696,74 @@
             $("#marketing-grid").trigger("reloadGrid");
 
             showCampaignDetails("Add", {});
-            //deleteUploadedFiles(addedFiles);
+
+            // reset product grid
+            productData = [];
+            $("#product-grid").jsGrid("search");
+
+            // reset adding product panel
+            $("#productName").val('').trigger('change');
+
         };
+
+        (function(){
+            $.ajax({
+                type: "GET",
+                url: "/api/product",
+                dataType: 'json',
+            }).done(function(data){
+                $("#productName").select2({
+                    allowClear: true,
+                    width: "100%",
+                    placeholder: "Select a product by its name",
+                    data: $.map(data, function (item) {
+                        return { id: item.id, text: item.name, categoryId: item.categoryInfo.id, categoryName: item.categoryInfo.name }
+                    }),
+                    templateSelection: function (item) {
+                        return (item.categoryId) ? (item.text) : 'Select a product by its name';
+                    },
+                    templateResult: function (item) {
+                        return item.text + " [" + item.id  + "]" + " ..in.. " + item.categoryName + " [" + item.categoryId + "]";
+                    }
+                });
+                $("#productName").val('').trigger('change');
+                $("#productDiscount").val('');
+            });
+        })();
+
+        $("#productSearchingForm").validate({
+            rules: {
+                productName: "required",
+                productDiscount: {required: true, range: [0, 100]}
+            },
+            messages: {
+                productName: "Please choose a product",
+                productDiscount: "Please enter valid discount"
+            },
+            submitHandler: function (form) {
+                $.get( "/api/product/"+$("#productName").val(), function( selectedProduct ) {
+                    $.ajax({
+                        type: "POST",
+                        url: "/api/campaign-product",
+                        dataType: "json",
+                        data: JSON.stringify({
+                            "productInfo": selectedProduct,
+                            "marketingCampaign": selectedCampaign,
+                            "discount": parseInt($("#productDiscount").val(), 10),
+                        })
+                    }).done(function (data, textStatus, jqXHR) {
+                        alertify.success("Successfully inserted!");
+                        productData.unshift(data);
+                        $("#product-grid").jsGrid("search");
+                    }).fail(function (jqXHR, textStatus, errorThrown) {
+                        alertify.error(jqXHR.responseText);
+                    });
+                });
+
+
+
+            }
+        });
     });
 
 </script>

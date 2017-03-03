@@ -1,6 +1,5 @@
 package com.jennifer.controller.rest;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.jennifer.entity.MarketingCampaign;
 import com.jennifer.service.MarketingCampaignService;
 import org.slf4j.Logger;
@@ -30,7 +29,7 @@ public class RestMarketingCampaignController {
     }
 
     @GetMapping
-    public Object findAll() throws JsonProcessingException {
+    public Object findAll() {
         log.info(" > [rest] Marketing Campaign - findAll");
         List<MarketingCampaign> marketingCampaigns = marketingCampaignService.findAllCampaigns();
         if (marketingCampaigns.isEmpty()) {

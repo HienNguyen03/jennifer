@@ -89,6 +89,7 @@ CREATE TABLE IF NOT EXISTS `jennifer_db`.`shipping_address` (
   `ADDRESS` VARCHAR(120) NULL,
   `CITY` VARCHAR(100) NULL,
   `POSTAL_CODE` VARCHAR(10) NULL,
+  `STATUS` VARCHAR(45) NULL,
   `USER_ID` INT NOT NULL,
   PRIMARY KEY (`ID`),
   INDEX `fk_shipping_address_user_info_idx` (`USER_ID` ASC),

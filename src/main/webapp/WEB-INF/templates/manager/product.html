@@ -27,7 +27,7 @@
 
         <div class="row">
             <div class="col-lg-12">
-                <div class="panel panel-default animated fadeIn">
+                <div class="panel plus panel-default animated fadeIn">
                     <div class="panel-heading">
                         <i class="fa fa-cubes"></i> Products
                     </div>
@@ -279,7 +279,9 @@
                 return "The product \"" + item.name + "\" will be removed. Are you sure?";
             },
             rowClick: function (args) {
-
+                resetForm();
+                showDetailsDialog("Edit", args.item);
+                $("#save").text("Update product");
             },
 
             pagerContainer: null,
@@ -333,18 +335,18 @@
                     }
                 },
                 {title: "Quantity", name: "quantity", type: "number", width: 40, align: "center"},
-                {
-                    title: "Description", name: "description", type: "textarea", width: 120,
-                    itemTemplate: function (value, item) {
-                        return $.trim(value).substring(0, 34).split(" ").slice(0, -1).join(" ") + "...";
-                    }
-                },
-                {
-                    title: "Detail", name: "detail", type: "textarea", width: 120,
-                    itemTemplate: function (value, item) {
-                        return $.trim(value).substring(0, 34).split(" ").slice(0, -1).join(" ") + "...";
-                    }
-                },
+//                {
+//                    title: "Description", name: "description", type: "textarea", width: 120,
+//                    itemTemplate: function (value, item) {
+//                        return $.trim(value).substring(0, 34).split(" ").slice(0, -1).join(" ") + "...";
+//                    }
+//                },
+//                {
+//                    title: "Detail", name: "detail", type: "textarea", width: 120,
+//                    itemTemplate: function (value, item) {
+//                        return $.trim(value).substring(0, 34).split(" ").slice(0, -1).join(" ") + "...";
+//                    }
+//                },
                 {title: "Status", name: "status", type: "text", align: "center", width: 50, autosearch: true},
                 {title: "Category", name: "categoryInfo.name", type: "text", width: 60, align: "center"},
                 {

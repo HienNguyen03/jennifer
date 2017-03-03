@@ -19,7 +19,7 @@ import java.util.List;
 public class RestOrderDetailController {
     private static final Logger log = LoggerFactory.getLogger(RestOrderDetailController.class);
     private OrderDetailService orderDetailService;
-    OrderInfoService orderInfoService;
+    private OrderInfoService orderInfoService;
 
     @Autowired
     public RestOrderDetailController(OrderDetailService orderDetailService, OrderInfoService orderInfoService){

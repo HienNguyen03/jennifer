@@ -21,7 +21,7 @@ public class OrderDetail {
 
     // composite id key
     @EmbeddedId
-    private OrderDetailId primaryKey;
+    private OrderDetailId primaryKey = new OrderDetailId();
 
     @Column(name = "UNIT_PRICE", nullable = false)
     private BigDecimal unitPrice;

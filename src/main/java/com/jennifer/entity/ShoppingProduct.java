@@ -17,7 +17,7 @@ public class ShoppingProduct {
 
     // composite id key
     @EmbeddedId
-    private ShoppingProductId primaryKey;
+    private ShoppingProductId primaryKey = new ShoppingProductId();
 
     @Column(name = "UNIT_PRICE", nullable = false)
     private BigDecimal unitPrice;
