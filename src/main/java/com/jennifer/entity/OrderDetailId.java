@@ -16,18 +16,11 @@ import java.io.Serializable;
 @Embeddable
 class OrderDetailId implements Serializable {
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.ALL)
     private OrderInfo orderInfo;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.ALL)
     private ProductInfo productInfo;
-
-    public OrderDetailId(){}
-
-    public OrderDetailId(OrderInfo orderInfo, ProductInfo productInfo){
-        this.orderInfo = orderInfo;
-        this.productInfo = productInfo;
-    }
 
     OrderInfo getOrderInfo() {
         return orderInfo;

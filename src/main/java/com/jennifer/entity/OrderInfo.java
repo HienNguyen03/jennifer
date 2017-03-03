@@ -52,28 +52,6 @@ public class OrderInfo {
     @OneToMany(mappedBy = "primaryKey.orderInfo", cascade = CascadeType.ALL)
     private List<OrderDetail> orderDetails = new ArrayList<>();
 
-    public OrderInfo() {
-    }
-
-    public OrderInfo(Date orderDate, BigDecimal totalPrice, UserInfo userInfo, ShippingAddress shippingAddress, DeliveryMethod deliveryMethod, String status) {
-        this.orderDate = orderDate;
-        this.totalPrice = totalPrice;
-        this.userInfo = userInfo;
-        this.shippingAddress = shippingAddress;
-        this.deliveryMethod = deliveryMethod;
-        this.status = status;
-    }
-
-    public OrderInfo(int id, Date orderDate, BigDecimal totalPrice, UserInfo userInfo, ShippingAddress shippingAddress, DeliveryMethod deliveryMethod, String status) {
-        this.id = id;
-        this.orderDate = orderDate;
-        this.totalPrice = totalPrice;
-        this.userInfo = userInfo;
-        this.shippingAddress = shippingAddress;
-        this.deliveryMethod = deliveryMethod;
-        this.status = status;
-    }
-
     public int getId() {
         return id;
     }

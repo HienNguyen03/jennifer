@@ -56,4 +56,9 @@ public class UserInfoServiceImpl implements UserInfoService, UserDetailsService 
         userInfoDao.save(userInfo);
         return true;
     }
+
+    @Override
+    public UserInfo updateUser(UserInfo userInfo) {
+        return userInfoDao.save(userInfo);
+    }
 }

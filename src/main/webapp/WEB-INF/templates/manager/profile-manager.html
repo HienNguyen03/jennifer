@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <title>Profile - Jennifer's manager section</title>
+    <object th:include="common/header :: common-header-manager" th:remove="tag"></object>
+</head>
+
+<body>
+
+<div id="wrapper">
+
+    <nav class="navbar navbar-default navbar-static-top" role="navigation">
+        <div th:replace="common/navbar :: common-navbar-header-manager" th:remove="tag"></div>
+        <div th:replace="common/navbar :: common-navbar-manager" th:remove="tag"></div>
+        <div th:replace="common/sidebar :: common-sidebar-manager" th:remove="tag"></div>
+    </nav> <!-- /.nav -->
+
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">User's profile</h1>
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <!-- /.row -->
+
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="panel panel-default animated fadeIn">
+                    <div class="panel-heading">
+                        <i class="fa fa-user"></i> Profile
+                    </div><!-- /.panel-heading -->
+
+                    <div class="panel-body">
+                        <div id="manager-profile-grid">
+                            <div class="row">
+                                <div class="col-md-3 col-lg-3 " align="center">
+                                    <i class="fa fa-user fa-5x"></i>
+                                </div>
+
+                                <div class=" col-md-9 col-lg-9 ">
+                                    <table class="table">
+                                        <tbody>
+                                        <tr>
+                                            <td>Full name: </td>
+                                            <td id = "manager-name" class="text-primary"></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>Email: </td>
+                                            <td id = "manager-email" class="text-primary"></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+
+                                    <a id = "editProfileBtn" class="btn btn-primary btn-sm"> <i class="fa fa-pencil"></i> Edit</a>
+                                </div>
+                            </div>
+                        </div> <!-- for manager-profile table -->
+
+                        <div id="edit-profile-dialog" title="Edit profile">
+                            <form id="edit-profile-form">
+                                <div class="col-lg-10" style="float:none; margin:0 auto">
+                                    <div class="form-group">
+                                        <label for="managerName">Full name: </label>
+                                        <input id="managerName" name="managerName" type="text" class="form-control"
+                                               placeholder="Full Name"/>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="managerEmail">Email: </label>
+                                        <input id="managerEmail" name="managerEmail" type="text" class="form-control" placeholder="Email"/>
+                                    </div>
+
+                                    <div class="form-group text-center">
+                                        <button id="save-profile" type="submit" class="btn btn-primary"> <i class="fa fa-pencil"></i> Edit profile</button>
+                                    </div><!-- button #save-delivery -->
+                                </div>
+                            </form><!-- form #delivery-detailsForm -->
+                        </div><!-- /#delivery-detailsDialog -->
+                    </div><!-- /.panel-body -->
+                </div>  <!-- /.panel -->
+            </div><!-- /.col-lg-8 -->
+
+            <div class="col-lg-4">
+                <div class="panel plus panel-default animated fadeIn">
+                    <div class="panel-heading">
+                        <i class="fa fa-pencil-square-o"></i> Change Password
+                    </div><!-- /.panel-heading -->
+
+                    <div class="panel-body">
+                        <div id="change-password-grid"></div> <!-- change password table -->
+                    </div><!-- /.panel-body -->
+                </div>  <!-- /.panel -->
+            </div>
+
+        </div><!-- /.row -->
+
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="panel plus panel-default animated fadeIn">
+                    <div class="panel-heading">
+                        <i class="fa fa-home"></i> Shipping Address
+                    </div><!-- /.panel-heading -->
+
+                    <div class="panel-body">
+                        <div id="address-user-grid"></div> <!-- change password table -->
+                    </div><!-- /.panel-body -->
+                </div>  <!-- /.panel -->
+            </div>
+        </div>
+
+    </div><!-- /#page-wrapper -->
+
+</div> <!-- /#wrapper -->
+
+<div th:replace="common/footer :: common-footer-scripts-manager" th:remove="tag"></div>
+
+<script type="text/javascript" th:inline="javascript">
+    /*<![CDATA[*/
+    let context = /*[[@{~/}]]*/"";
+    /*]]>*/
+
+//    $(function () {
+//        let token = $("meta[name='_csrf']").attr("content");
+//        let header = $("meta[name='_csrf_header']").attr("content");
+//        $(document).ajaxSend(function (e, xhr, options) {
+//            xhr.setRequestHeader(header, token);
+//        });
+//    });
+
+    $(document).ready(function () {
+        let userloadData = function () { // load date from db
+            return $.ajax({
+                type: "GET",
+                url: "/api/profile",
+                dataType: "json"
+            }).done(function (response) {
+                console.log(response);
+                $("#manager-name").val(response.fullname);
+                $("#manager-email").val(response.email);
+                $("#manager-name").append(response.fullname);
+                $("#manager-email").append(response.email);
+
+                showDialog(response);
+
+            });
+        }
+
+        userloadData();
+
+        $("#edit-profile-dialog").dialog({
+            autoOpen: false,
+            width: "30%",
+            maxWidth: "200px",
+            close: function () {
+                resetForm();
+            }
+        });
+
+        $('#editProfileBtn').click(function() {
+            $('#edit-profile-dialog').dialog("open");
+        })
+
+        function resetForm() {
+            $("#edit-profile-form").validate().resetForm();
+            $("#edit-profile-form").find(".error").removeClass("error");
+        };
+
+        $.validator.addMethod(
+            "regex",
+            function(value, element, regexp)  {
+                if (regexp.constructor != RegExp)
+                    regexp = new RegExp(regexp);
+                else if (regexp.global)
+                    regexp.lastIndex = 0;
+                return this.optional(element) || regexp.test(value);
+            });
+
+
+        $("#edit-profile-form").validate({
+            rules: {
+                managerName: "required",
+                managerEmail: {
+                    required: true,
+                    email: true,
+                    regex: /\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b/i
+                }
+            },
+            messages: {
+                name: "Please enter full name",
+                managerEmail: "Please enter a valid email",
+            }
+        });
+
+
+        let showDialog = function (item) {
+//            $("#managerName").val($("#manager-name").val());
+//            $("#managerEmail").val($("#manager-email").val());
+            $("#managerName").val(item.fullname);
+            $("#managerEmail").val(item.email);
+
+            return item;
+
+        }; // display data in dialog
+
+        $('#save-profile').click({
+
+             submitData : function() {
+
+                $.extend(client, {
+                    fullname: $("#managerName").val(),
+                    email: $("#managerEmail").val()
+                });
+
+                return $.ajax({
+                    type: "PUT",
+                    url: "/api/profile" ,
+                    data: JSON.stringify(),
+                    dataType: 'json'
+
+                }).done(function (updatedItemReturnedFromServer) {
+                    alertify.success("Successfully updated!");
+                    //$("#edit-profile-dialog").dialog("close");
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    alertify.error(jqXHR.responseText);
+
+                });
+
+             }
+
+        });
+
+        let shippingAddressDB ={
+
+            loadData: function (filter) { // load date from db
+
+                return $.ajax({
+                    type: "GET",
+                    url: "/api/shipping-address/user",
+                    data: filter,
+                    dataType: "json"
+                }).done(function (response) {
+                    //console.log(response);
+                });
+            }
+        }
+
+        $('#address-user-grid').jsGrid({
+            width: "100%",
+            height: "auto",
+
+            autoload: true,
+
+            heading: true,
+            filtering: false,
+            inserting: false,
+            editing: false,
+            sorting: true,
+            paging: true,
+            //pageLoading: true,
+
+            noDataContent: "",
+
+            rowClick: function (args) {
+                let selectedId = args.item.id;
+                //console.log(selectedId);
+            },
+            rowRenderer: function(item) {
+                let shippingAddress = item;
+                let $control = $("<button>").attr("type", "button").text("Edit").addClass("btn btn-default btn-sm").append("</button>")
+                    .on("click", function () {
+
+                    });
+                let $info = $("<div>").addClass("client-info")
+                    .append($("<p>").text("Recipient: " + shippingAddress.recipient.capitalize())).css("padding", "10px").append("</p>")
+                    .append($("<p>").text("Shipping to: " + shippingAddress.address)).append("</p>")
+                    .append($("<p>").text("City: " + shippingAddress.city)).append("</p>")
+                    .append($("<p>").text("Postal code: " + shippingAddress.postalCode).append("</p>").append($control).append("</div>"));
+
+
+
+                return $("<tr>").append($("<td>").append($info).append("</td>")).append("</tr>");
+            },
+
+            pagerContainer: null,
+            pageIndex: 1,
+            pageSize: 5,
+            pageButtonCount: 15,
+            pagerFormat: "Pages: {first} {prev} {pages} {next} {last}    {pageIndex} of {pageCount}",
+            pagePrevText: "Prev",
+            pageNextText: "Next",
+            pageFirstText: "First",
+            pageLastText: "Last",
+            pageNavigatorNextText: "...",
+            pageNavigatorPrevText: "...",
+
+            loadIndication: true,
+            loadIndicationDelay: 200,
+            loadMessage: "Please, wait...",
+            loadShading: true,
+
+            updateOnResize: true,
+
+            controller: shippingAddressDB,
+
+            fields: [
+                {title: "Shipping Addresses"},
+            ]
+        });
+
+        String.prototype.capitalize = function() {
+            return this.charAt(0).toUpperCase() + this.slice(1);
+        };
+
+    });
+
+
+</script>
+</body>
+
+</html>

@@ -82,13 +82,4 @@ public class OrderDetail {
         this.appliedDiscount = appliedDiscount;
     }
 
-    @Override
-    public String toString() {
-        return "OrderDetail{" +
-                "primaryKey=" + primaryKey +
-                ", unitPrice=" + unitPrice +
-                ", quantity=" + quantity +
-                ", appliedDiscount=" + appliedDiscount +
-                '}';
-    }
 }

@@ -4,6 +4,7 @@ import com.jennifer.controller.rest.RestShippingAddressController;
 
 import com.jennifer.dao.ShippingAddressDao;
 import com.jennifer.entity.ShippingAddress;
+import com.jennifer.entity.UserInfo;
 import com.jennifer.service.ShippingAddressService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,4 +31,10 @@ public class ShippingAddressServiceImpl implements ShippingAddressService{
     public List<ShippingAddress> findAllShippingAddresses() {
         return shippingAddressDao.findAll();
     }
+
+    @Override
+    public List<ShippingAddress> findByUser(UserInfo userInfo) {
+        return shippingAddressDao.findByUserInfo(userInfo.getId());
+    }
 }
+

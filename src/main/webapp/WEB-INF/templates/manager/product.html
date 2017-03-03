@@ -284,7 +284,9 @@
                 return "The product \"" + item.name + "\" will be removed. Are you sure?";
             },
             rowClick: function (args) {
-
+                resetForm();
+                showDetailsDialog("Edit", args.item);
+                $("#save").text("Update product");
             },
 
             pagerContainer: null,

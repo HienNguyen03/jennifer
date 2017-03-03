@@ -2,7 +2,9 @@ package com.jennifer.controller.rest;
 
 import com.jennifer.controller.ShippingAddressController;
 import com.jennifer.entity.ShippingAddress;
+import com.jennifer.entity.UserInfo;
 import com.jennifer.service.ShippingAddressService;
+import com.jennifer.util.AppUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +34,13 @@ public class RestShippingAddressController {
         List<ShippingAddress> shippingAddresses = shippingAddressService.findAllShippingAddresses();
 
         return shippingAddressService.findAllShippingAddresses();
+    }
+
+    @GetMapping("/user")
+    public Object findUserShippingAddress(){
+        UserInfo userInfo = AppUtil.getCustomerFromSession();
+
+        return shippingAddressService.findByUser(userInfo);
     }
 
 }

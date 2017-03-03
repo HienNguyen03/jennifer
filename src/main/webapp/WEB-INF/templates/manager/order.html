@@ -27,7 +27,7 @@
 
         <div class="row">
             <div class="col-lg-12">
-                <div class="panel panel-default">
+                <div class="panel plus panel-default animated fadeIn">
                     <div class="panel-heading">
                         <i class="fa fa-list-alt"></i> Order
                     </div><!-- /.panel-heading -->
@@ -38,7 +38,7 @@
                     </div><!-- /.panel-body -->
                 </div>  <!-- /.panel -->
 
-                <div class="panel panel-default">
+                <div class="panel plus panel-default animated fadeIn">
                     <div class="panel-heading">
                         <i class="fa fa-cubes"></i> Order Detail
                     </div><!-- /.panel-heading -->
@@ -82,6 +82,7 @@
                     data: filter,
                     dataType: "json"
                 }).done(function (response) {
+                    console.log(response);
                 });
             },
 
@@ -97,9 +98,7 @@
                 }).fail(function (jqXHR, textStatus, errorThrown) {
                     alertify.error(jqXHR.responseText);
                 });
-
             }// update data
-
         };
 
 
@@ -123,7 +122,6 @@
                 let selectedId = args.item.id;
                 //console.log(selectedId);
                 searchData(selectedId);
-
             },
 
             pagerContainer: null,
@@ -174,7 +172,6 @@
                     editButton: true,
                     deleteButton: false,
                     width: 10,
-
                 }
             ]
         });
@@ -244,9 +241,7 @@
 
                     ]
                 });
-
             });
-
         }
 
         let calculatePrice = function (client) {

@@ -152,4 +152,13 @@ public class UserInfo {
     public void setViewedProducts(List<ViewedProduct> viewedProducts) {
         this.viewedProducts = viewedProducts;
     }
+
+    @Override
+    public String toString() {
+        return "UserInfo{" +
+                "id=" + id +
+                ", fullname='" + fullname + '\'' +
+                ", email='" + email + '\'' +
+                '}';
+    }
 }
