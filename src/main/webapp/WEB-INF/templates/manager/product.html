@@ -27,7 +27,7 @@
 
         <div class="row">
             <div class="col-lg-12">
-                <div class="panel panel-default animated fadeIn">
+                <div class="panel plus panel-default animated fadeIn">
                     <div class="panel-heading">
                         <i class="fa fa-cubes"></i> Products
                     </div>
@@ -148,14 +148,15 @@
                 //this.on("error", function(file, message) { alert(message); });
             },
             removedfile: function (file) {
+                // get the name of removed file
                 let name = file.previewElement.querySelector('[data-dz-name]').innerHTML;
 
                 /*<![CDATA[*/
-                if(myDropzone.options.maxFiles <= uploadLimit)
+                if(myDropzone.files.length < uploadLimit)
                     deletedFiles.push(name);
-                /*]]>*/
 
-                myDropzone.options.maxFiles = myDropzone.options.maxFiles + 1; // set remain upload limit
+                myDropzone.options.maxFiles += 1; // set remain upload limit
+                /*]]>*/
 
                 let _ref;
                 return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
@@ -165,17 +166,11 @@
         // data for jsGrid
         let db = {
             loadData: function (filter) {
-                let d = $.Deferred();
-
-                $.ajax({
+                return $.ajax({
                     type: "GET",
                     url: "/api/product",
                     dataType: "json"
-                }).done(function (response) {
-                    d.resolve(response);
-                });
-
-                return d.promise();
+                })
             },
             insertItem: function (item) {
                 return $.ajax({
@@ -340,18 +335,18 @@
                     }
                 },
                 {title: "Quantity", name: "quantity", type: "number", width: 40, align: "center"},
-                {
-                    title: "Description", name: "description", type: "textarea", width: 120,
-                    itemTemplate: function (value, item) {
-                        return $.trim(value).substring(0, 34).split(" ").slice(0, -1).join(" ") + "...";
-                    }
-                },
-                {
-                    title: "Detail", name: "detail", type: "textarea", width: 120,
-                    itemTemplate: function (value, item) {
-                        return $.trim(value).substring(0, 34).split(" ").slice(0, -1).join(" ") + "...";
-                    }
-                },
+//                {
+//                    title: "Description", name: "description", type: "textarea", width: 120,
+//                    itemTemplate: function (value, item) {
+//                        return $.trim(value).substring(0, 34).split(" ").slice(0, -1).join(" ") + "...";
+//                    }
+//                },
+//                {
+//                    title: "Detail", name: "detail", type: "textarea", width: 120,
+//                    itemTemplate: function (value, item) {
+//                        return $.trim(value).substring(0, 34).split(" ").slice(0, -1).join(" ") + "...";
+//                    }
+//                },
                 {title: "Status", name: "status", type: "text", align: "center", width: 50, autosearch: true},
                 {title: "Category", name: "categoryInfo.name", type: "text", width: 60, align: "center"},
                 {

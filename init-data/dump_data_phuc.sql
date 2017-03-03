@@ -1,16 +1,4 @@
 /*
--- Query: SELECT * FROM jennifer_db.user_info
-LIMIT 0, 400
-
--- Date: 2017-02-27 16:48
-*/
-INSERT INTO `user_info` (`ID`,`FULLNAME`,`EMAIL`,`PASSWORD`,`ROLE`) VALUES (1,'Hoang Phuc','jamesho287@gmail.com','$2a$10$Krmn8QkAf0wgiwXX3wRuk.KSXf5zfCTjE//X7cIU.knov.mqeN53G','MANAGER');
-INSERT INTO `user_info` (`ID`,`FULLNAME`,`EMAIL`,`PASSWORD`,`ROLE`) VALUES (2,'Hien Nguyen','lily31392@gmail.com','$2a$10$51ZkXoiV57YznGSxMUhbjuzFFVckWJukcvZcntY5TyPE8RZpMz9n.','MANAGER');
-INSERT INTO `user_info` (`ID`,`FULLNAME`,`EMAIL`,`PASSWORD`,`ROLE`) VALUES (3,'manager','manager@jennifer.com','$2a$10$UR.J2bHbQhgeRlmoxkFVvOW4oQShROOG0iCJ5cdfwFsAVHKB5WbPu','MANAGER');
-
-
-
-/*
 -- Query: SELECT * FROM jennifer_db.category_info
 LIMIT 0, 400
 
@@ -104,4 +92,4 @@ INSERT INTO `product_info` (`ID`,`NAME`,`UNIT_PRICE`,`DISCOUNT`,`IMAGE`,`QUANTIT
 INSERT INTO `product_info` (`ID`,`NAME`,`UNIT_PRICE`,`DISCOUNT`,`IMAGE`,`QUANTITY`,`DESCRIPTION`,`DETAIL`,`STATUS`,`CATEGORY_ID`) VALUES (37,'Fitted Dress',39.99,0,'20170228002236-79063.jpg,20170228002240-52534.jpg,20170228002240-49702.jpg',12,'Short, fitted halterneck dress in thick jersey. Narrow-cut at top with fastening at back of neck and low-cut back with narrow straps and airy side panels. Lined.','60% rayon, 35% nylon, 5% spandex. Machine wash cold\nImported','available',6);
 INSERT INTO `product_info` (`ID`,`NAME`,`UNIT_PRICE`,`DISCOUNT`,`IMAGE`,`QUANTITY`,`DESCRIPTION`,`DETAIL`,`STATUS`,`CATEGORY_ID`) VALUES (38,'Lace Dress',39.99,0,'20170228002353-16530.jpg,20170228002356-55246.jpg,20170228002359-72966.jpg',42,'Fitted dress in lace. V-neck at front and back, long sleeves, and seam at waist. Lined.','92% nylon, 8% spandex. Machine wash cold\nImported','available',6);
 INSERT INTO `product_info` (`ID`,`NAME`,`UNIT_PRICE`,`DISCOUNT`,`IMAGE`,`QUANTITY`,`DESCRIPTION`,`DETAIL`,`STATUS`,`CATEGORY_ID`) VALUES (39,'Ribbed Jersey Dress',24.99,0,'20170228002521-59707.jpg,20170228002524-26445.jpg,20170228002524-50276.jpg',16,'Short dress in ribbed jersey. Opening at back of neck with covered button. 3/4-length sleeves and flared skirt.','95% polyester, 5% spandex. Machine wash warm\nImported','available',6);
-INSERT INTO `product_info` (`ID`,`NAME`,`UNIT_PRICE`,`DISCOUNT`,`IMAGE`,`QUANTITY`,`DESCRIPTION`,`DETAIL`,`STATUS`,`CATEGORY_ID`) VALUES (40,'Lace Dress',39.99,0,'20170228002714-58716.jpg,20170228002716-19522.jpg,20170228002719-50917.jpg',38,'Fitted dress in lace. V-neck at front and back, long sleeves, and seam at waist. Lined.','92% nylon, 8% spandex. Machine wash cold\nImported','available',6);
+INSERT INTO `product_info` (`ID`,`NAME`,`UNIT_PRICE`,`DISCOUNT`,`IMAGE`,`QUANTITY`,`DESCRIPTION`,`DETAIL`,`STATUS`,`CATEGORY_ID`) VALUES (40,'Black Lace Dress',39.99,0,'20170228002714-58716.jpg,20170228002716-19522.jpg,20170228002719-50917.jpg',38,'Fitted dress in lace. V-neck at front and back, long sleeves, and seam at waist. Lined.','92% nylon, 8% spandex. Machine wash cold\nImported','available',6);

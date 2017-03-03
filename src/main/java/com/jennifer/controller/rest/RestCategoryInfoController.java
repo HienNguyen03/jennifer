@@ -104,11 +104,11 @@ public class RestCategoryInfoController {
                 if (categoryInfo.getId() != categoryInfo.getSuperCategoryInfo().getId())
                     return categoryInfoService.updateCategory(categoryInfo);
                 else
-                    return new ResponseEntity("Category '" + categoryInfo.getName() + "' cannot be super category itself!", HttpStatus.CONFLICT);
+                    return new ResponseEntity<>("Category '" + categoryInfo.getName() + "' cannot be super category itself!", HttpStatus.CONFLICT);
             else
                 return categoryInfoService.updateCategory(categoryInfo);
 
-        return new ResponseEntity("Unable to update!", HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>("Unable to update!", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @DeleteMapping("/api/category")
@@ -121,9 +121,9 @@ public class RestCategoryInfoController {
                 categoryInfoService.deleteCategory(categoryInfo);
             return categoryInfoData;
         } catch (DataIntegrityViolationException e){
-            return new ResponseEntity("Category '" + categoryInfoData.getName() + "' is in used! Unable to delete!", HttpStatus.CONFLICT);
+            return new ResponseEntity<>("Category '" + categoryInfoData.getName() + "' is in used! Unable to delete!", HttpStatus.CONFLICT);
         } catch (Exception e){
-            return new ResponseEntity("Unable to delete!", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("Unable to delete!", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

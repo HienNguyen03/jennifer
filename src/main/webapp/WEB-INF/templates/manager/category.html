@@ -27,7 +27,7 @@
 
         <div class="row">
             <div class="col-lg-12">
-                <div class="panel panel-default animated fadeIn">
+                <div class="panel plus panel-default animated fadeIn">
                     <div class="panel-heading">
                         <i class="fa fa-tags"></i> Categories
                     </div>
@@ -79,20 +79,11 @@
     $(document).ready(function () {
         let db = {
             loadData: function (filter) {
-                let d = $.Deferred();
-
-                $.ajax({
+                return $.ajax({
                     type: "GET",
                     url: "/api/category",
                     dataType: "json"
-                }).done(function (response) {
-                    //setTimeout(function () {
-                        d.resolve(response);
-                    //}, 1000);
-                    categorySelect2();
-                });
-
-                return d.promise();
+                })
             },
             insertItem: function (item) {
                 return $.ajax({
@@ -136,21 +127,20 @@
         };
 
         window.db = db;
+        categorySelect2();
 
         function categorySelect2() {
-            return $.ajax({
+            $.ajax({
                 type: "GET",
                 url: "/api/category-same-level",
                 dataType: "json"
             }).done(function (data) {
-                if($("#category"))
-                    $("#category").empty();
-
-                $("#category").select2({
+                let sameLevelCategories = data ? data.items : [];
+                $("#category").empty().select2({
                     allowClear: true,
                     width: "100%",
                     placeholder: "Select a category",
-                    data: data ? data.items : [],
+                    data: sameLevelCategories,
                     templateSelection: function (item) {
                         return item.text + ' _ ID:' + item.id;
                     },

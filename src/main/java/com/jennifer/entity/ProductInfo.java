@@ -233,12 +233,6 @@ public class ProductInfo {
                 ", description='" + description + '\'' +
                 ", detail='" + detail + '\'' +
                 ", status='" + status + '\'' +
-                ", categoryInfo=" + categoryInfo +
-                ", orderDetails=" + orderDetails +
-                ", shoppingProducts=" + shoppingProducts +
-                ", campaignProducts=" + campaignProducts +
-                ", viewedProducts=" + viewedProducts +
-                ", favoriteBags=" + favoriteBags +
                 '}';
     }
 }

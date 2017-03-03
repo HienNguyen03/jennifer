@@ -1,8 +1,5 @@
 package com.jennifer.entity;
 
-import com.fasterxml.jackson.annotation.JsonValue;
-import org.codehaus.jackson.map.annotate.JsonDeserialize;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Embeddable;
 import javax.persistence.FetchType;

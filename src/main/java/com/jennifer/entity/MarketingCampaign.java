@@ -1,5 +1,9 @@
 package com.jennifer.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
@@ -10,6 +14,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "marketing_campaign")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class MarketingCampaign {
 
     @Id
@@ -34,6 +39,7 @@ public class MarketingCampaign {
     @Column(name = "STATUS")
     private String status;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "primaryKey.marketingCampaign", cascade = CascadeType.ALL)
     private List<CampaignProduct> campaignProducts = new ArrayList<>();
 
@@ -93,5 +99,17 @@ public class MarketingCampaign {
 
     public void setCampaignProducts(List<CampaignProduct> campaignProducts) {
         this.campaignProducts = campaignProducts;
+    }
+
+    @Override
+    public String toString() {
+        return "MarketingCampaign{" +
+                "id=" + id +
+                ", event='" + event + '\'' +
+                ", banner='" + banner + '\'' +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", status='" + status + '\'' +
+                '}';
     }
 }

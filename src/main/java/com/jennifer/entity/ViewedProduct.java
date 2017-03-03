@@ -16,7 +16,7 @@ public class ViewedProduct {
 
     // composite id key
     @EmbeddedId
-    private ViewedProductId primaryKey;
+    private ViewedProductId primaryKey = new ViewedProductId();
 
     @Column(name = "NO_OF_TIMES")
     private int noOfTimes;

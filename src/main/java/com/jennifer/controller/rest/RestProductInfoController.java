@@ -32,6 +32,12 @@ public class RestProductInfoController {
         this.productInfoService = productInfoService;
     }
 
+    @GetMapping("/{productId}")
+    public Object findProduct(@PathVariable int productId) {
+        log.info(" > [rest] Product - findProduct");
+        return productInfoService.findProduct(productId);
+    }
+
     @GetMapping
     public Object findAll() throws JsonProcessingException {
         log.info(" > [rest] Product - findAll");
@@ -56,7 +62,7 @@ public class RestProductInfoController {
         if(productInfoData != null)
             return productInfoService.updateProduct(productInfo);
 
-        return new ResponseEntity("Unable to update!", HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>("Unable to delete!", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @DeleteMapping
@@ -69,9 +75,9 @@ public class RestProductInfoController {
                 productInfoService.deleteProduct(productInfo);
             return productInfoData;
         } catch (DataIntegrityViolationException e){
-            return new ResponseEntity("Product '" + productInfoData.getName() + "' is in used! Unable to delete!", HttpStatus.CONFLICT);
+            return new ResponseEntity<>("Product '" + productInfoData.getName() + "' is in used! Unable to delete!", HttpStatus.CONFLICT);
         } catch (Exception e){
-            return new ResponseEntity("Unable to delete!", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("Unable to delete!", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
