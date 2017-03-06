@@ -50,4 +50,9 @@ public class ProductInfoServiceImpl implements ProductInfoService {
     public ProductInfo addProduct(ProductInfo productInfo) {
         return productInfoDao.save(productInfo);
     }
+
+    @Override
+    public List<ProductInfo> getLatestProducts() {
+        return productInfoDao.findLatestProducts();
+    }
 }

@@ -1,0 +1,57 @@
+/* index - favorite on product picture */
+.campaign-slider {
+    box-shadow: 0 10px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19) !important;
+}
+.product-image-wrapper {
+    position: relative;
+}
+.favorite {
+    position: absolute;
+    top: 0;
+    z-index: 12;
+    right: 0px;
+    font-size: x-large;
+    cursor: pointer;
+    margin: 3px 8px;
+    color: #e84b3a;
+}
+.favorite span:before {
+    color: #e84b3a;
+    content: "\f08a";
+    font-style: normal;
+    font-family: FontAwesome;
+}
+.favorite:hover span {
+    display: none;
+}
+.favorite:hover:after {
+    color: #e84b3a;
+    content: "\f004";
+    font-family: FontAwesome;
+}
+
+
+/* Product detail - review image part */
+.display-product {
+    width: 310px;
+    border: 1px solid #F7F7F0;
+    cursor: -webkit-zoom-in;
+}
+
+.product-images {
+    display: inline-block;
+    margin: 10px 0 0 0;
+}
+
+.product-images img {
+    width: 100px;
+    border: 1px solid #F7F7F0;
+    cursor: pointer;
+}
+
+.product-information {
+    border: 1px solid #F7F7F0;
+    overflow: hidden;
+    padding: 20px 30px 0 20px;
+    position: relative;
+}

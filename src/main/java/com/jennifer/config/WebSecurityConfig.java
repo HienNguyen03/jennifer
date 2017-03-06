@@ -110,14 +110,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.and()
 				.csrf()
 			.and()
-				.exceptionHandling().accessDeniedPage("/access-denied")
+				.exceptionHandling().accessDeniedPage("/error")
 			.and()
 				.sessionManagement()
 				.sessionFixation()
 				.changeSessionId()
 		        .maximumSessions(1)
 		        .maxSessionsPreventsLogin(true)
-		        .expiredUrl("/session-expired")
 		        .sessionRegistry(sessionRegistry);
 
 	}

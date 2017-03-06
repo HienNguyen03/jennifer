@@ -17,4 +17,6 @@ public interface MarketingCampaignService {
     void deleteCampaign(MarketingCampaign campaign);
     MarketingCampaign addCampaign(MarketingCampaign campaign);
 
+    List<MarketingCampaign> getAvailableCampaigns();
+
 }

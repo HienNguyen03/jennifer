@@ -188,7 +188,7 @@ a#scrollUp i{
 .shop-menu ul li {
 	display:inline-block;
   padding-left: 15px;
-  padding-right: 15px;
+  padding-right: 45px;
 }
 
 .shop-menu ul li:last-child {
@@ -200,7 +200,7 @@ a#scrollUp i{
   background: #FFFFFF;
   color: #696763;
   font-family: 'Roboto', sans-serif;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 300;
   padding:0;
   padding-right: 0;
@@ -209,13 +209,15 @@ a#scrollUp i{
 
 
 .shop-menu ul li a i{
-	margin-right:3px;
+  margin-right: 8px;
+  vertical-align: middle;
+  font-size: 29px;
 }
 
 
 .shop-menu ul li a:hover {
-	color:#fe980f;
-	background:#fff;
+  color:#fe980f;
+  background:#fff;
 }
 
 
@@ -914,6 +916,10 @@ h2.title {
   width: 100%;
 }
 
+.product-overlay .overlay-content img {
+  width: 100%;
+}
+
 .product-overlay .add-to-cart {
   background:#fff;
   border: 0 none;
@@ -1215,9 +1221,7 @@ h2.title {
 .product-information {
   border: 1px solid #F7F7F0;
   overflow: hidden;
-  padding-bottom: 60px;
-  padding-left: 60px;
-  padding-top: 60px;
+  padding: 30px 30px 0 20px;
   position: relative;
 }
 
@@ -1235,7 +1239,6 @@ h2.title {
 }
 
 .product-information p {
-  color: #696763;
   font-family: 'Roboto', sans-serif;
   margin-bottom: 5px;
 }
@@ -1243,14 +1246,14 @@ h2.title {
 .product-information span {
   display: inline-block;
   margin-bottom: 8px;
-  margin-top: 18px;
+  margin-top: 15px;
 }
 
 .product-information span span {
   color: #FE980F;
   float: left;
   font-family: 'Roboto', sans-serif;
-  font-size: 30px;
+  font-size: 20px;
   font-weight: 700;
   margin-right: 20px;
   margin-top: 0px;

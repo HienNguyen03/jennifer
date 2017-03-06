@@ -108,6 +108,9 @@
         <!-- /.row -->
     </div>
     <!-- /#page-wrapper -->
+
+    <div th:replace="common/footer :: credit-footer-manager" th:remove="tag"></div>
+
 </div>
 <!-- /#wrapper -->
 
@@ -144,19 +147,12 @@
                     fileUpload.innerHTML = serverResponse.newFileName;
                     addedFiles.push(serverResponse.newFileName);
                 });
-
-                //this.on("error", function(file, message) { alert(message); });
             },
             removedfile: function (file) {
                 // get the name of removed file
                 let name = file.previewElement.querySelector('[data-dz-name]').innerHTML;
-
-                /*<![CDATA[*/
-                if(myDropzone.files.length < uploadLimit)
-                    deletedFiles.push(name);
-
+                deletedFiles.push(name);
                 myDropzone.options.maxFiles += 1; // set remain upload limit
-                /*]]>*/
 
                 let _ref;
                 return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
@@ -202,9 +198,6 @@
                 });
             },
             deleteItem: function (item) {
-                if(item.image.length > 0)
-                    deleteUploadedFiles(item.image.split(","));
-
                 return $.ajax({
                     type: "DELETE",
                     url: "/api/product",
@@ -212,6 +205,8 @@
                     data: JSON.stringify(item)
                 }).done(function (data, textStatus, jqXHR) {
                     alertify.success("Successfully deleted!");
+                    if(item.image.length > 0)
+                        deleteUploadedFiles(item.image.split(","));
                 }).fail(function (jqXHR, textStatus, errorThrown) {
                     alertify.error(jqXHR.responseText);
                 });

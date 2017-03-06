@@ -2,6 +2,7 @@ package com.jennifer.dao;
 
 import com.jennifer.entity.MarketingCampaign;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
@@ -14,5 +15,8 @@ public interface MarketingCampaignDao extends JpaRepository<MarketingCampaign, I
     MarketingCampaign findById(int id);
     List<MarketingCampaign> findAll();
     List<MarketingCampaign> findAllByOrderByIdDesc();
+
+    @Query("from MarketingCampaign mc where mc.status like 'running'")
+    List<MarketingCampaign> getRunningCampaigns();
 
 }

@@ -34,6 +34,18 @@ td.jsgrid-cell:first-child {
 }
 
 
+/* credit */
+
+.credit {
+    position: fixed;
+    bottom: 0;
+    padding: 10px 20px 5px 20px;
+    width: 250px;
+    font-size: small;
+    height: 50px;
+}
+
+
 /* form error */
 
 .ui-widget *, .ui-widget input, .ui-widget select, .ui-widget button {

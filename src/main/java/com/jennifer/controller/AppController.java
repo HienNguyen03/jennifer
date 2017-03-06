@@ -40,11 +40,6 @@ public class AppController {
         this.userInfoService = userInfoService;
     }
 
-    @RequestMapping("/")
-    public String customer_homepage(){
-        return "index";
-    }
-
     @RequestMapping("/manager")
     public String manager_homepage(){
         return "manager/index";

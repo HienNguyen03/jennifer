@@ -1,3 +1,14 @@
+
+
+
+SET FOREIGN_KEY_CHECKS = 0;
+TRUNCATE category_info;
+TRUNCATE product_info;
+TRUNCATE marketing_campaign;
+TRUNCATE campaign_product;
+SET FOREIGN_KEY_CHECKS = 1;
+
+
 /*
 -- Query: SELECT * FROM jennifer_db.category_info
 LIMIT 0, 400
@@ -93,3 +104,76 @@ INSERT INTO `product_info` (`ID`,`NAME`,`UNIT_PRICE`,`DISCOUNT`,`IMAGE`,`QUANTIT
 INSERT INTO `product_info` (`ID`,`NAME`,`UNIT_PRICE`,`DISCOUNT`,`IMAGE`,`QUANTITY`,`DESCRIPTION`,`DETAIL`,`STATUS`,`CATEGORY_ID`) VALUES (38,'Lace Dress',39.99,0,'20170228002353-16530.jpg,20170228002356-55246.jpg,20170228002359-72966.jpg',42,'Fitted dress in lace. V-neck at front and back, long sleeves, and seam at waist. Lined.','92% nylon, 8% spandex. Machine wash cold\nImported','available',6);
 INSERT INTO `product_info` (`ID`,`NAME`,`UNIT_PRICE`,`DISCOUNT`,`IMAGE`,`QUANTITY`,`DESCRIPTION`,`DETAIL`,`STATUS`,`CATEGORY_ID`) VALUES (39,'Ribbed Jersey Dress',24.99,0,'20170228002521-59707.jpg,20170228002524-26445.jpg,20170228002524-50276.jpg',16,'Short dress in ribbed jersey. Opening at back of neck with covered button. 3/4-length sleeves and flared skirt.','95% polyester, 5% spandex. Machine wash warm\nImported','available',6);
 INSERT INTO `product_info` (`ID`,`NAME`,`UNIT_PRICE`,`DISCOUNT`,`IMAGE`,`QUANTITY`,`DESCRIPTION`,`DETAIL`,`STATUS`,`CATEGORY_ID`) VALUES (40,'Black Lace Dress',39.99,0,'20170228002714-58716.jpg,20170228002716-19522.jpg,20170228002719-50917.jpg',38,'Fitted dress in lace. V-neck at front and back, long sleeves, and seam at waist. Lined.','92% nylon, 8% spandex. Machine wash cold\nImported','available',6);
+
+
+
+/*
+-- Query: SELECT * FROM jennifer_db.marketing_campaign
+LIMIT 0, 400
+
+-- Date: 2017-03-03 19:32
+*/
+INSERT INTO `marketing_campaign` (`ID`,`EVENT`,`BANNER`,`START_DATE`,`END_DATE`,`STATUS`) VALUES (1,'Spring Sale 2016','20170303191628-29829.jpg','2016-02-08','2016-02-21','concluded');
+INSERT INTO `marketing_campaign` (`ID`,`EVENT`,`BANNER`,`START_DATE`,`END_DATE`,`STATUS`) VALUES (2,'Summer Sale 2016','20170303191642-38633.jpg','2016-05-02','2016-05-29','concluded');
+INSERT INTO `marketing_campaign` (`ID`,`EVENT`,`BANNER`,`START_DATE`,`END_DATE`,`STATUS`) VALUES (3,'Autumn Sale 2016','20170303191939-98440.jpg','2016-09-01','2016-09-18','concluded');
+INSERT INTO `marketing_campaign` (`ID`,`EVENT`,`BANNER`,`START_DATE`,`END_DATE`,`STATUS`) VALUES (4,'Winnter Sale 2016','20170303191923-33735.jpg','2016-12-12','2016-12-25','concluded');
+INSERT INTO `marketing_campaign` (`ID`,`EVENT`,`BANNER`,`START_DATE`,`END_DATE`,`STATUS`) VALUES (5,'Spring Sale 2017','20170303192046-34348.jpg','2017-03-06','2017-03-26','running');
+INSERT INTO `marketing_campaign` (`ID`,`EVENT`,`BANNER`,`START_DATE`,`END_DATE`,`STATUS`) VALUES (6,'Furniture Sale 2017','20170303192235-52779.jpg','2017-03-06','2017-04-30','running');
+
+
+
+/*
+-- Query: SELECT * FROM jennifer_db.campaign_product
+LIMIT 0, 400
+
+-- Date: 2017-03-03 19:32
+*/
+INSERT INTO `campaign_product` (`PRODUCT_ID`,`CAMPAIGN_ID`,`DISCOUNT`) VALUES (1,6,10);
+INSERT INTO `campaign_product` (`PRODUCT_ID`,`CAMPAIGN_ID`,`DISCOUNT`) VALUES (2,6,5);
+INSERT INTO `campaign_product` (`PRODUCT_ID`,`CAMPAIGN_ID`,`DISCOUNT`) VALUES (4,6,5);
+INSERT INTO `campaign_product` (`PRODUCT_ID`,`CAMPAIGN_ID`,`DISCOUNT`) VALUES (5,6,10);
+INSERT INTO `campaign_product` (`PRODUCT_ID`,`CAMPAIGN_ID`,`DISCOUNT`) VALUES (6,6,15);
+INSERT INTO `campaign_product` (`PRODUCT_ID`,`CAMPAIGN_ID`,`DISCOUNT`) VALUES (7,6,15);
+INSERT INTO `campaign_product` (`PRODUCT_ID`,`CAMPAIGN_ID`,`DISCOUNT`) VALUES (8,6,10);
+INSERT INTO `campaign_product` (`PRODUCT_ID`,`CAMPAIGN_ID`,`DISCOUNT`) VALUES (10,6,12);
+INSERT INTO `campaign_product` (`PRODUCT_ID`,`CAMPAIGN_ID`,`DISCOUNT`) VALUES (11,3,5);
+INSERT INTO `campaign_product` (`PRODUCT_ID`,`CAMPAIGN_ID`,`DISCOUNT`) VALUES (11,4,5);
+INSERT INTO `campaign_product` (`PRODUCT_ID`,`CAMPAIGN_ID`,`DISCOUNT`) VALUES (11,5,15);
+INSERT INTO `campaign_product` (`PRODUCT_ID`,`CAMPAIGN_ID`,`DISCOUNT`) VALUES (13,5,15);
+INSERT INTO `campaign_product` (`PRODUCT_ID`,`CAMPAIGN_ID`,`DISCOUNT`) VALUES (15,2,12);
+INSERT INTO `campaign_product` (`PRODUCT_ID`,`CAMPAIGN_ID`,`DISCOUNT`) VALUES (15,4,5);
+INSERT INTO `campaign_product` (`PRODUCT_ID`,`CAMPAIGN_ID`,`DISCOUNT`) VALUES (15,5,10);
+INSERT INTO `campaign_product` (`PRODUCT_ID`,`CAMPAIGN_ID`,`DISCOUNT`) VALUES (17,1,10);
+INSERT INTO `campaign_product` (`PRODUCT_ID`,`CAMPAIGN_ID`,`DISCOUNT`) VALUES (17,3,10);
+INSERT INTO `campaign_product` (`PRODUCT_ID`,`CAMPAIGN_ID`,`DISCOUNT`) VALUES (17,4,10);
+INSERT INTO `campaign_product` (`PRODUCT_ID`,`CAMPAIGN_ID`,`DISCOUNT`) VALUES (18,5,10);
+INSERT INTO `campaign_product` (`PRODUCT_ID`,`CAMPAIGN_ID`,`DISCOUNT`) VALUES (20,1,5);
+INSERT INTO `campaign_product` (`PRODUCT_ID`,`CAMPAIGN_ID`,`DISCOUNT`) VALUES (21,1,5);
+INSERT INTO `campaign_product` (`PRODUCT_ID`,`CAMPAIGN_ID`,`DISCOUNT`) VALUES (21,3,10);
+INSERT INTO `campaign_product` (`PRODUCT_ID`,`CAMPAIGN_ID`,`DISCOUNT`) VALUES (21,5,10);
+INSERT INTO `campaign_product` (`PRODUCT_ID`,`CAMPAIGN_ID`,`DISCOUNT`) VALUES (22,4,10);
+INSERT INTO `campaign_product` (`PRODUCT_ID`,`CAMPAIGN_ID`,`DISCOUNT`) VALUES (24,2,20);
+INSERT INTO `campaign_product` (`PRODUCT_ID`,`CAMPAIGN_ID`,`DISCOUNT`) VALUES (25,4,10);
+INSERT INTO `campaign_product` (`PRODUCT_ID`,`CAMPAIGN_ID`,`DISCOUNT`) VALUES (26,2,5);
+INSERT INTO `campaign_product` (`PRODUCT_ID`,`CAMPAIGN_ID`,`DISCOUNT`) VALUES (26,5,10);
+INSERT INTO `campaign_product` (`PRODUCT_ID`,`CAMPAIGN_ID`,`DISCOUNT`) VALUES (28,4,15);
+INSERT INTO `campaign_product` (`PRODUCT_ID`,`CAMPAIGN_ID`,`DISCOUNT`) VALUES (28,5,15);
+INSERT INTO `campaign_product` (`PRODUCT_ID`,`CAMPAIGN_ID`,`DISCOUNT`) VALUES (29,1,10);
+INSERT INTO `campaign_product` (`PRODUCT_ID`,`CAMPAIGN_ID`,`DISCOUNT`) VALUES (30,2,10);
+INSERT INTO `campaign_product` (`PRODUCT_ID`,`CAMPAIGN_ID`,`DISCOUNT`) VALUES (31,3,15);
+INSERT INTO `campaign_product` (`PRODUCT_ID`,`CAMPAIGN_ID`,`DISCOUNT`) VALUES (31,5,5);
+INSERT INTO `campaign_product` (`PRODUCT_ID`,`CAMPAIGN_ID`,`DISCOUNT`) VALUES (32,4,5);
+INSERT INTO `campaign_product` (`PRODUCT_ID`,`CAMPAIGN_ID`,`DISCOUNT`) VALUES (32,5,10);
+INSERT INTO `campaign_product` (`PRODUCT_ID`,`CAMPAIGN_ID`,`DISCOUNT`) VALUES (34,1,5);
+INSERT INTO `campaign_product` (`PRODUCT_ID`,`CAMPAIGN_ID`,`DISCOUNT`) VALUES (35,2,20);
+INSERT INTO `campaign_product` (`PRODUCT_ID`,`CAMPAIGN_ID`,`DISCOUNT`) VALUES (36,3,15);
+INSERT INTO `campaign_product` (`PRODUCT_ID`,`CAMPAIGN_ID`,`DISCOUNT`) VALUES (37,5,15);
+INSERT INTO `campaign_product` (`PRODUCT_ID`,`CAMPAIGN_ID`,`DISCOUNT`) VALUES (38,1,15);
+INSERT INTO `campaign_product` (`PRODUCT_ID`,`CAMPAIGN_ID`,`DISCOUNT`) VALUES (38,2,5);
+INSERT INTO `campaign_product` (`PRODUCT_ID`,`CAMPAIGN_ID`,`DISCOUNT`) VALUES (39,2,5);
+INSERT INTO `campaign_product` (`PRODUCT_ID`,`CAMPAIGN_ID`,`DISCOUNT`) VALUES (39,3,5);
+INSERT INTO `campaign_product` (`PRODUCT_ID`,`CAMPAIGN_ID`,`DISCOUNT`) VALUES (39,5,15);
+INSERT INTO `campaign_product` (`PRODUCT_ID`,`CAMPAIGN_ID`,`DISCOUNT`) VALUES (40,1,20);
+INSERT INTO `campaign_product` (`PRODUCT_ID`,`CAMPAIGN_ID`,`DISCOUNT`) VALUES (40,3,15);
+INSERT INTO `campaign_product` (`PRODUCT_ID`,`CAMPAIGN_ID`,`DISCOUNT`) VALUES (40,5,20);
+

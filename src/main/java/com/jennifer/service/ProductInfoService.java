@@ -16,4 +16,6 @@ public interface ProductInfoService {
     void deleteProduct(ProductInfo productInfo);
     ProductInfo addProduct(ProductInfo productInfo);
 
+    List<ProductInfo> getLatestProducts();
+
 }

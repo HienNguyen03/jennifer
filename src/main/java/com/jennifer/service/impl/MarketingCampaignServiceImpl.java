@@ -51,4 +51,9 @@ public class MarketingCampaignServiceImpl implements MarketingCampaignService {
     public MarketingCampaign addCampaign(MarketingCampaign marketingCampaign) {
         return marketingCampaignDao.save(marketingCampaign);
     }
+
+    @Override
+    public List<MarketingCampaign> getAvailableCampaigns() {
+        return marketingCampaignDao.getRunningCampaigns();
+    }
 }
