@@ -14,6 +14,8 @@ public interface UserInfoService {
 	//public boolean updateProfile(EditProfileForm editProfileForm);
 	//public boolean checkUserPassword(String inputPassword);
 	UserInfo updateUser(UserInfo userInfo);
+	boolean compareUserPassword(UserInfo userInfo,String newPassword);
+	UserInfo changePassword(UserInfo userInfo, String newPassword);
 
 
 	

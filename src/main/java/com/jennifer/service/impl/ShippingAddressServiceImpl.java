@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -34,7 +36,34 @@ public class ShippingAddressServiceImpl implements ShippingAddressService{
 
     @Override
     public List<ShippingAddress> findByUser(UserInfo userInfo) {
-        return shippingAddressDao.findByUserInfo(userInfo.getId());
+        List<ShippingAddress> shippingAddresses = shippingAddressDao.findByUserInfo(userInfo.getId());
+        List<ShippingAddress> shippingAddressesReturn = new ArrayList<>();
+        for (ShippingAddress s : shippingAddresses){
+            if(!s.getStatus().equals("Deleted")){
+                shippingAddressesReturn.add(s);
+            }
+        }
+        return shippingAddressesReturn;
+    }
+
+    @Override
+    public ShippingAddress findById(int id) {
+        return shippingAddressDao.findById(id);
+    }
+
+    @Override
+    public ShippingAddress update(ShippingAddress shippingAddress) {
+        return shippingAddressDao.save(shippingAddress);
+    }
+
+    @Override
+    public ShippingAddress insert(ShippingAddress shippingAddress) {
+        return shippingAddressDao.save(shippingAddress);
+    }
+
+    @Override
+    public void delete(ShippingAddress shippingAddress) {
+        shippingAddressDao.delete(shippingAddress);
     }
 }
 

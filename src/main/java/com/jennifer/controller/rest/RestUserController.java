@@ -1,5 +1,6 @@
 package com.jennifer.controller.rest;
 
+import com.jennifer.dto.ChangePasswordForm;
 import com.jennifer.entity.UserInfo;
 import com.jennifer.service.UserInfoService;
 import com.jennifer.util.AppUtil;
@@ -8,10 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 
@@ -19,7 +17,7 @@ import java.util.ArrayList;
  * Controls all activities related to users
  */
 @RestController
-@RequestMapping("/api/profile")
+@RequestMapping("/api/user")
 public class RestUserController {
     private static final Logger log = LoggerFactory.getLogger(RestUserController.class);
     private UserInfoService userInfoService;
@@ -29,7 +27,7 @@ public class RestUserController {
         this.userInfoService = userInfoService;
     }
 
-    @GetMapping
+    @GetMapping("/profile")
     public Object findUserInfo(){
         UserInfo userInfo = AppUtil.getCustomerFromSession();
 //        log.info(userInfo.toString());
@@ -38,18 +36,30 @@ public class RestUserController {
         return userInfo;
     }
 
-    @PutMapping
-    public Object updateProfile(UserInfo userInfo){
+    @PutMapping("/profile")
+    public Object updateProfile(@RequestBody UserInfo userInfo){
         UserInfo userInfoFound = AppUtil.getCustomerFromSession();
-
         log.info("Sended" + userInfo.toString());
 
         if (userInfo.getId()!= userInfoFound.getId()){
             return new ResponseEntity("Unable to update!", HttpStatus.INTERNAL_SERVER_ERROR);
+        }else{
+            userInfoFound.setFullname(userInfo.getFullname());
+            userInfoFound.setEmail(userInfo.getEmail());
+            return userInfoService.updateUser(userInfoFound);
         }
+    }
 
-        log.info(userInfoService.updateUser(userInfo).toString());
-        return userInfoService.updateUser(userInfo);
+    @PutMapping("/password")
+    public Object changePassword(@RequestBody ChangePasswordForm changePasswordForm){
+        UserInfo userInfo = AppUtil.getCustomerFromSession();
+
+        boolean passwordMatched = userInfoService.compareUserPassword(userInfo,changePasswordForm.getOldPassword());
+        if (passwordMatched != true){
+            return new ResponseEntity("Password does not match", HttpStatus.INTERNAL_SERVER_ERROR);
+        }else{
+            return userInfoService.changePassword(userInfo, changePasswordForm.getNewPassword());
+        }
 
     }
 

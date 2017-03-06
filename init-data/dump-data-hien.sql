@@ -37,24 +37,25 @@ INSERT INTO `delivery_method` (`ID`,`NAME`,`COST`,`START_DATE`,`END_DATE`) VALUE
 /*
 -- Query: SELECT * FROM jennifer_db.shipping_address
 LIMIT 0, 1000
+
 */
-INSERT INTO `shipping_address` (`ID`,`RECIPIENT`,`ADDRESS`,`CITY`,`POSTAL_CODE`,`USER_ID`) VALUES (1,'Olympiakatu 10 A11','Olympiakatu 10 A11','Vaasa','65100',1);
-INSERT INTO `shipping_address` (`ID`,`RECIPIENT`,`ADDRESS`,`CITY`,`POSTAL_CODE`,`USER_ID`) VALUES (2,'Konepajakatu 12 P27','Konepajakatu 12 P27','Vaasa','65100',2);
-INSERT INTO `shipping_address` (`ID`,`RECIPIENT`,`ADDRESS`,`CITY`,`POSTAL_CODE`,`USER_ID`) VALUES (3,'Wolffintie 30','Wolffintie 30','Vaasa','65200',3);
-INSERT INTO `shipping_address` (`ID`,`RECIPIENT`,`ADDRESS`,`CITY`,`POSTAL_CODE`,`USER_ID`) VALUES (4,'Tekla 16 A001','Tekla 16','Vaasa','65500',4);
-INSERT INTO `shipping_address` (`ID`,`RECIPIENT`,`ADDRESS`,`CITY`,`POSTAL_CODE`,`USER_ID`) VALUES (5,'Rastaankuja 20','Rastaankuja 20','Vaasa','65100',5);
-INSERT INTO `shipping_address` (`ID`,`RECIPIENT`,`ADDRESS`,`CITY`,`POSTAL_CODE`,`USER_ID`) VALUES (6,'Myllykatu 16 L32','Myllykatu 16 L32','Vaasa','65100',6);
-INSERT INTO `shipping_address` (`ID`,`RECIPIENT`,`ADDRESS`,`CITY`,`POSTAL_CODE`,`USER_ID`) VALUES (7,'New Yok 16','New Yok 16','New York','644672',7);
-INSERT INTO `shipping_address` (`ID`,`RECIPIENT`,`ADDRESS`,`CITY`,`POSTAL_CODE`,`USER_ID`) VALUES (8,'California 452','California 452','California City','645435',8);
-INSERT INTO `shipping_address` (`ID`,`RECIPIENT`,`ADDRESS`,`CITY`,`POSTAL_CODE`,`USER_ID`) VALUES (9,'Los Angeles LA543','Los Angeles LA543','Los Angeles ','987643',9);
-INSERT INTO `shipping_address` (`ID`,`RECIPIENT`,`ADDRESS`,`CITY`,`POSTAL_CODE`,`USER_ID`) VALUES (10,'Shanghai 34 K89','Shanghai 34 K89','Shanghai','651200',10);
-INSERT INTO `shipping_address` (`ID`,`RECIPIENT`,`ADDRESS`,`CITY`,`POSTAL_CODE`,`USER_ID`) VALUES (11,'London 16 L32','London 16 L32','London','234467',11);
+INSERT INTO `shipping_address` (`ID`,`RECIPIENT`,`ADDRESS`,`CITY`,`POSTAL_CODE`,`STATUS`,`USER_ID`) VALUES (1,'Manager Hien','Olympiakatu 10 A11','Vaasa','65100','Available',1);
+INSERT INTO `shipping_address` (`ID`,`RECIPIENT`,`ADDRESS`,`CITY`,`POSTAL_CODE`,`STATUS`,`USER_ID`) VALUES (2,'Lily Nguyen','Konepajakatu 12 P27','Vaasa','65100','Available',2);
+INSERT INTO `shipping_address` (`ID`,`RECIPIENT`,`ADDRESS`,`CITY`,`POSTAL_CODE`,`STATUS`,`USER_ID`) VALUES (3,'Ho Hoang Phuc','Wolffintie 30','Vaasa','65200','Available',3);
+INSERT INTO `shipping_address` (`ID`,`RECIPIENT`,`ADDRESS`,`CITY`,`POSTAL_CODE`,`STATUS`,`USER_ID`) VALUES (4,'Manager Phuc','Tekla 16','Vaasa','65500','Available',4);
+INSERT INTO `shipping_address` (`ID`,`RECIPIENT`,`ADDRESS`,`CITY`,`POSTAL_CODE`,`STATUS`,`USER_ID`) VALUES (5,'Alex Max','Rastaankuja 20','Vaasa','65100','Available',5);
+INSERT INTO `shipping_address` (`ID`,`RECIPIENT`,`ADDRESS`,`CITY`,`POSTAL_CODE`,`STATUS`,`USER_ID`) VALUES (6,'Larry Pages','Myllykatu 16 L32','Vaasa','65100','Available',6);
+INSERT INTO `shipping_address` (`ID`,`RECIPIENT`,`ADDRESS`,`CITY`,`POSTAL_CODE`,`STATUS`,`USER_ID`) VALUES (7,'Tim Cook','New Yok 16','New York','644672','Available',7);
+INSERT INTO `shipping_address` (`ID`,`RECIPIENT`,`ADDRESS`,`CITY`,`POSTAL_CODE`,`STATUS`,`USER_ID`) VALUES (8,'Jennifer Lawrence','California 452','California City','645435','Available',8);
+INSERT INTO `shipping_address` (`ID`,`RECIPIENT`,`ADDRESS`,`CITY`,`POSTAL_CODE`,`STATUS`,`USER_ID`) VALUES (9,'Brad Pitt','Los Angeles LA543','Los Angeles ','987643','Available',9);
+INSERT INTO `shipping_address` (`ID`,`RECIPIENT`,`ADDRESS`,`CITY`,`POSTAL_CODE`,`STATUS`,`USER_ID`) VALUES (10,'Jackie Chan','Shanghai 34 K89','Shanghai','651200','Available',10);
+INSERT INTO `shipping_address` (`ID`,`RECIPIENT`,`ADDRESS`,`CITY`,`POSTAL_CODE`,`STATUS`,`USER_ID`) VALUES (11,'Harry Potter','London 16 L32','London','234467','Available',11);
+INSERT INTO `shipping_address` (`ID`,`RECIPIENT`,`ADDRESS`,`CITY`,`POSTAL_CODE`,`STATUS`,`USER_ID`) VALUES (12,'Manager Hien','Olympiakatu 12 B48','Vaasa','65100','Available',1);
 
 /*
 -- Query: SELECT * FROM jennifer_db.order_info
 LIMIT 0, 1000
 
--- Date: 2017-03-01 21:41
 */
 INSERT INTO `order_info` (`ID`,`ORDER_DATE`,`TOTAL_PRICE`,`USER_ID`,`SHIPPING_ADDRESS_ID`,`DELIVERY_ID`,`STATUS`) VALUES (1,'2017-02-27 00:00:00',82.98,2,2,1,'Done');
 INSERT INTO `order_info` (`ID`,`ORDER_DATE`,`TOTAL_PRICE`,`USER_ID`,`SHIPPING_ADDRESS_ID`,`DELIVERY_ID`,`STATUS`) VALUES (2,'2017-03-01 00:00:00',42.00,3,3,2,'Pending');

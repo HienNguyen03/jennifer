@@ -45,4 +45,9 @@ public class RestOrderInfoController {
 
         return new ResponseEntity("Unable to update!", HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+    @GetMapping("/new")
+    public Object getNewOrder(){
+        return orderInfoService.getNewOrder();
+    }
 }

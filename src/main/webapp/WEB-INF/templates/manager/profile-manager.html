@@ -54,7 +54,7 @@
                                         </tbody>
                                     </table>
 
-                                    <a id = "editProfileBtn" class="btn btn-primary btn-sm"> <i class="fa fa-pencil"></i> Edit</a>
+                                    <a id ="edit-profile-btn" class="btn btn-primary btn-xs small-corner-btn"> <i class="fa fa-pencil"></i> Edit</a>
                                 </div>
                             </div>
                         </div> <!-- for manager-profile table -->
@@ -63,22 +63,22 @@
                             <form id="edit-profile-form">
                                 <div class="col-lg-10" style="float:none; margin:0 auto">
                                     <div class="form-group">
-                                        <label for="managerName">Full name: </label>
+                                        <label for="managerName">Full name * </label>
                                         <input id="managerName" name="managerName" type="text" class="form-control"
                                                placeholder="Full Name"/>
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="managerEmail">Email: </label>
+                                        <label for="managerEmail">Email * </label>
                                         <input id="managerEmail" name="managerEmail" type="text" class="form-control" placeholder="Email"/>
                                     </div>
 
                                     <div class="form-group text-center">
                                         <button id="save-profile" type="submit" class="btn btn-primary"> <i class="fa fa-pencil"></i> Edit profile</button>
-                                    </div><!-- button #save-delivery -->
+                                    </div><!-- button #save-profile -->
                                 </div>
-                            </form><!-- form #delivery-detailsForm -->
-                        </div><!-- /#delivery-detailsDialog -->
+                            </form><!-- /.form #edit-profile-form -->
+                        </div><!-- /.dialog -->
                     </div><!-- /.panel-body -->
                 </div>  <!-- /.panel -->
             </div><!-- /.col-lg-8 -->
@@ -86,15 +86,48 @@
             <div class="col-lg-4">
                 <div class="panel plus panel-default animated fadeIn">
                     <div class="panel-heading">
-                        <i class="fa fa-pencil-square-o"></i> Change Password
+                        <i class="fa fa-lock"></i>Password
                     </div><!-- /.panel-heading -->
 
                     <div class="panel-body">
-                        <div id="change-password-grid"></div> <!-- change password table -->
+                        <div id="change-password-grid">
+                            <div  class="col-lg-12">
+                                <p></p>
+                                <a id ="change-pass-btn" type="button"><i class="fa fa-pencil-square-o"></i>Change password</a>
+                                <p></p>
+                            </div>
+
+                            <div id = "change-password-dialog" title = "Change Password">
+                                <form id = "change-password-form">
+                                    <div class="col-lg-10" style="float:none; margin:0 auto">
+                                        <div class="form-group">
+                                            <label for="newPassword">New password * </label>
+                                            <input id="newPassword" name="newPassword" type="password" class="form-control"
+                                                   placeholder="New password"/>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="confirmPassword">Confirm password * </label>
+                                            <input id="confirmPassword" name="confirmPassword" type="password" class="form-control"
+                                                   placeholder="Confirm password"/>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="oldPassword">Old password * </label>
+                                            <input id="oldPassword" name="oldPassword" type="password" class="form-control" placeholder="Old password"/>
+                                        </div>
+
+                                        <div class="form-group text-center">
+                                            <button id="save-password" type="submit" class="btn btn-primary"> <i class="fa fa-pencil"></i> Change password</button>
+                                        </div><!-- button #save-password -->
+                                    </div>
+                                </form><!-- /.form -->
+                            </div><!-- /.dialog -->
+
+                        </div> <!-- change password table -->
                     </div><!-- /.panel-body -->
                 </div>  <!-- /.panel -->
             </div>
-
         </div><!-- /.row -->
 
         <div class="row">
@@ -102,14 +135,47 @@
                 <div class="panel plus panel-default animated fadeIn">
                     <div class="panel-heading">
                         <i class="fa fa-home"></i> Shipping Address
+                        <a id = "shipping-address-btn" type="button" class="pull-right btn-primary btn-xs small-corner-btn"><i class="fa fa-plus-square-o"></i>Add</a>
                     </div><!-- /.panel-heading -->
 
                     <div class="panel-body">
-                        <div id="address-user-grid"></div> <!-- change password table -->
+                        <div id="address-user-grid"></div> <!-- address table -->
+
+                        <div id = "shipping-address-dialog">
+                            <form id = "shipping-address-form">
+                                <div class="col-lg-10" style="float:none; margin:0 auto">
+                                    <div class="form-group">
+                                        <label for="recipient">Recipient</label>
+                                        <input id="recipient" name="recipient" type="text" class="form-control"
+                                               placeholder="Recipient"/>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="address">Shipping Address</label>
+                                        <input id="address" name="address" type="text" class="form-control"
+                                               placeholder="Address"/>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="city">City</label>
+                                        <input id="city" name="city" type="text" class="form-control" placeholder="City"/>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="postalCode">Postal code</label>
+                                        <input id="postalCode" name="postalCode" type="number" class="form-control" placeholder="Postal code"/>
+                                    </div>
+
+                                    <div class="form-group text-center">
+                                        <button id="save-address" type="submit" class="btn btn-primary"> <i class="fa fa-pencil"></i> Add</button>
+                                    </div><!-- button #save -->
+                                </div>
+                            </form><!-- /.form -->
+                        </div><!-- /.dialog -->
                     </div><!-- /.panel-body -->
                 </div>  <!-- /.panel -->
             </div>
-        </div>
+        </div><!-- /.row -->
 
     </div><!-- /#page-wrapper -->
 
@@ -122,29 +188,24 @@
     let context = /*[[@{~/}]]*/"";
     /*]]>*/
 
-//    $(function () {
-//        let token = $("meta[name='_csrf']").attr("content");
-//        let header = $("meta[name='_csrf_header']").attr("content");
-//        $(document).ajaxSend(function (e, xhr, options) {
-//            xhr.setRequestHeader(header, token);
-//        });
-//    });
+    $(function () {
+        let token = $("meta[name='_csrf']").attr("content");
+        let header = $("meta[name='_csrf_header']").attr("content");
+        $(document).ajaxSend(function (e, xhr, options) {
+            xhr.setRequestHeader(header, token);
+        });
+    });
 
     $(document).ready(function () {
         let userloadData = function () { // load date from db
             return $.ajax({
                 type: "GET",
-                url: "/api/profile",
+                url: "/api/user/profile",
                 dataType: "json"
             }).done(function (response) {
                 console.log(response);
-                $("#manager-name").val(response.fullname);
-                $("#manager-email").val(response.email);
-                $("#manager-name").append(response.fullname);
-                $("#manager-email").append(response.email);
 
                 showDialog(response);
-
             });
         }
 
@@ -155,21 +216,29 @@
             width: "30%",
             maxWidth: "200px",
             close: function () {
-                resetForm();
+                resetEditProfileForm();
             }
         });
 
-        $('#editProfileBtn').click(function() {
+        let showDialog = function (item) {
+            $("#manager-name").text(item.fullname);
+            $("#manager-email").text(item.email);
+
+            $("#managerName").val(item.fullname);
+            $("#managerEmail").val(item.email);
+
+        }; // display data in dialog
+
+        $('#edit-profile-btn').click(function() {
             $('#edit-profile-dialog').dialog("open");
         })
 
-        function resetForm() {
+        function resetEditProfileForm() {
             $("#edit-profile-form").validate().resetForm();
             $("#edit-profile-form").find(".error").removeClass("error");
         };
 
-        $.validator.addMethod(
-            "regex",
+        $.validator.addMethod("regex",
             function(value, element, regexp)  {
                 if (regexp.constructor != RegExp)
                     regexp = new RegExp(regexp);
@@ -178,6 +247,10 @@
                 return this.optional(element) || regexp.test(value);
             });
 
+        function resetPasswordForm() {
+            $("#change-password-form").validate().resetForm();
+            $("#change-password-form").find(".error").removeClass("error");
+        };
 
         $("#edit-profile-form").validate({
             rules: {
@@ -189,60 +262,154 @@
                 }
             },
             messages: {
-                name: "Please enter full name",
+                managerName: "Please enter full name",
                 managerEmail: "Please enter a valid email",
+            },
+
+            submitHandler: function (form) {
+                $.get( "/api/user/profile", function( userProfile ) {
+
+                    $.extend(userProfile,{
+                        fullname: $("#managerName").val(),
+                        email : $("#managerEmail").val()
+                    })
+                    console.log(userProfile);
+                    $.ajax({
+                        type: "PUT",
+                        url: "/api/user/profile",
+                        dataType: "json",
+                        data: JSON.stringify(userProfile)
+                    }).done(function (data, textStatus, jqXHR) {
+                        alertify.success("Successfully updated!");
+                        userloadData();
+                        $('#edit-profile-dialog').dialog("close");
+                    }).fail(function (jqXHR, textStatus, errorThrown) {
+                        alertify.error(jqXHR.responseText);
+                    })
+                })
+            }
+        });
+
+        $("#change-password-dialog").dialog({
+            autoOpen: false,
+            width: "30%",
+            maxWidth: "200px",
+            close: function () {
+                resetPasswordForm();
+            }
+        });
+
+        $('#change-pass-btn').click(function() {
+            $('#change-password-dialog').dialog("open");
+        })
+
+        $("#change-password-form").validate({
+            rules: {
+                newPassword : {
+                    required : true,
+                    minlength: 6,
+                    maxlength : 20
+                },
+
+                confirmPassword : {
+                    required : true,
+                    minlength: 6,
+                    maxlength : 20,
+                    equalTo : "#newPassword"
+                },
+
+                oldPassword : {
+                    required : true,
+                    minlength: 6,
+                    maxlength : 20
+                }
+            },
+            messages: {
+                newPassword : "Password cannot be less than 6 characters or more than 20 characters !",
+                confirmPassword : "Confirm password does not match",
+                oldPassword : "Please type your current password"
+            },
+
+            submitHandler: function (form) {
+
+                $.ajax({
+                    type: "PUT",
+                    url: "/api/user/password",
+                    dataType: "json",
+                    data: JSON.stringify({
+                        "newPassword": $('#newPassword').val(),
+                        "confirmPassword": $('#confirmPassword').val(),
+                        "oldPassword": $('#oldPassword').val()
+                    })
+                }).done(function (data, textStatus, jqXHR) {
+                    alert("Password changed successfully! Please login again! ");
+                    $('#change-password-dialog').dialog("close");
+
+                    let token = $("meta[name='_csrf']").attr("content");
+                    $.ajax({
+                        url: '/logout',
+                        type: 'POST',
+                        data: token,
+                    }).done(function(data) {
+                        window.location ="/login";
+                    });
+
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    alertify.error(jqXHR.responseText);
+                })
             }
         });
 
 
-        let showDialog = function (item) {
-//            $("#managerName").val($("#manager-name").val());
-//            $("#managerEmail").val($("#manager-email").val());
-            $("#managerName").val(item.fullname);
-            $("#managerEmail").val(item.email);
-
-            return item;
-
-        }; // display data in dialog
-
-        $('#save-profile').click({
-
-             submitData : function() {
-
-                $.extend(client, {
-                    fullname: $("#managerName").val(),
-                    email: $("#managerEmail").val()
-                });
-
-                return $.ajax({
-                    type: "PUT",
-                    url: "/api/profile" ,
-                    data: JSON.stringify(),
-                    dataType: 'json'
-
-                }).done(function (updatedItemReturnedFromServer) {
-                    alertify.success("Successfully updated!");
-                    //$("#edit-profile-dialog").dialog("close");
-                }).fail(function (jqXHR, textStatus, errorThrown) {
-                    alertify.error(jqXHR.responseText);
-
-                });
-
-             }
-
-        });
 
         let shippingAddressDB ={
 
             loadData: function (filter) { // load date from db
-
                 return $.ajax({
                     type: "GET",
                     url: "/api/shipping-address/user",
                     data: filter,
                     dataType: "json"
                 }).done(function (response) {
-                    //console.log(response);
+                });
+            },
+
+            updateItem: function (item) {
+                return $.ajax({
+                    type: "PUT",
+                    url: "/api/shipping-address/user",
+                    data: JSON.stringify(item),
+                    dataType: "json"
+                }).done(function (updatedItemReturnedFromServer) {
+                    alertify.success("Successfully updated!");
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    alertify.error(jqXHR.responseText);
+                });
+            },// update data
+
+            insertItem : function(item) {
+                return $.ajax({
+                    type: "POST",
+                    url : "/api/shipping-address/user",
+                    data : JSON.stringify(item),
+                    dataType: "json"
+                }).done(function (updatedItemReturnedFromServer) {
+                    alertify.success("Successfully updated!");
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    alertify.error(jqXHR.responseText);
+                });
+            },
+
+            deleteItem: function (item) {
+                return $.ajax({
+                    type: "DELETE",
+                    url: "/api/shipping-address/user/delete",
+                    data: JSON.stringify(item),
+                    dataType: "json"
+                }).done(function (deletedItemReturnedFromServer) {
+                    alertify.success("Successfully deleted!");
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    alertify.error(jqXHR.responseText);
                 });
             }
         }
@@ -257,29 +424,35 @@
             filtering: false,
             inserting: false,
             editing: false,
-            sorting: true,
+            sorting: false,
             paging: true,
             //pageLoading: true,
 
             noDataContent: "",
+            confirmDeleting: false,
 
-            rowClick: function (args) {
-                let selectedId = args.item.id;
-                //console.log(selectedId);
-            },
-            rowRenderer: function(item) {
-                let shippingAddress = item;
-                let $control = $("<button>").attr("type", "button").text("Edit").addClass("btn btn-default btn-sm").append("</button>")
+            rowRenderer: function(args) {
+                let shippingAddress = args;
+                let $editBtn = $("<button>").attr("type", "button").text(" Edit").addClass("btn btn-default btn-xs small-corner-btn")
+                    .append("<i>").addClass("fa fa fa-pencil").append("</i>").append("</button>")
                     .on("click", function () {
+                        resetForm();
+                        showDetailsDialog("Edit", args);
+                        console.log(args);
+                        $('#save-address').text("Update Shipping Address");
+                    });
 
+                let $delBtn = $("<button>").attr("type", "button").text(" Delete").addClass("btn btn-default btn-xs small-corner-btn")
+                    .append("<i>").addClass("fa fa-trash").append("</i>").append("</button>")
+                    .on("click", function () {
+                        $('#address-user-grid').jsGrid("deleteItem", args);
                     });
                 let $info = $("<div>").addClass("client-info")
                     .append($("<p>").text("Recipient: " + shippingAddress.recipient.capitalize())).css("padding", "10px").append("</p>")
                     .append($("<p>").text("Shipping to: " + shippingAddress.address)).append("</p>")
                     .append($("<p>").text("City: " + shippingAddress.city)).append("</p>")
-                    .append($("<p>").text("Postal code: " + shippingAddress.postalCode).append("</p>").append($control).append("</div>"));
-
-
+                    .append($("<p>").text("Postal code: " + shippingAddress.postalCode).append("</p>")
+                    .append($editBtn).append($delBtn).append("</div>"));
 
                 return $("<tr>").append($("<td>").append($info).append("</td>")).append("</tr>");
             },
@@ -307,16 +480,100 @@
 
             fields: [
                 {title: "Shipping Addresses"},
+//                {
+//                    type: "control",
+//                    modeSwitchButton: false,
+//                    editButton: false,
+//                    width: 30,
+//
+//                    headerTemplate: function () {
+//                        return $("<button>").attr("type", "button").addClass("btn btn-info btn-xs small-corner-btn").text("Add").append("</button>")
+//                            .on("click", function () {
+//                                resetForm();
+//                                $("#save-delivery").text("Add new delivery method");
+//                                showDetailsDialog("Add", {});
+//                            });
+//                    }
+//                }
             ]
         });
+
+        $("#shipping-address-dialog").dialog({
+            autoOpen: false,
+            width: "30%",
+            maxWidth: "500px",
+            close: function () {
+               resetForm();
+            }
+        });
+
+        function resetForm() {
+            $("#shipping-address-form").validate().resetForm();
+            $("#shipping-address-form").find(".error").removeClass("error");
+        };
+
+        $('#shipping-address-btn').on("click", function () {
+            resetForm();
+            showDetailsDialog("Add", {});
+            $('#save-address').text("Add new shipping address");
+
+        });
+
+        $('#shipping-address-form').validate({
+            rules: {
+                recipient : "required",
+                address : "required",
+                city : "required",
+                postalCode : "required"
+            },
+            messages: {
+                recipient : "Please type full your recipient address",
+                address : "Please type your shipping address",
+                city : "City cannot be empty",
+                postalCode : "Please give your shipping address postal code"
+            },
+            submitHandler: function () {
+                formSubmitHandler();
+            }
+        });
+
+        let formSubmitHandler = $.noop;
+
+        let showDetailsDialog = function (dialogType, client) {
+            $("#recipient").val(client.recipient);
+            $("#address").val(client.address);
+            $("#city").val(client.city);
+            $("#postalCode").val(client.postalCode);
+
+            formSubmitHandler = function () {
+                saveClient(client, dialogType === "Add");
+            };
+
+            $("#shipping-address-dialog").dialog("option", "title", dialogType + " Shipping Address").dialog("open");
+        }; // display data in dialog
+
+        let saveClient = function (client, isNew) {
+            $.extend(client, {
+                recipient: $("#recipient").val(),
+                address: $("#address").val(),
+                city: $("#city").val(),
+                postalCode: parseInt($("#postalCode").val())
+            });
+            console.log("save client");
+            console.log(client)
+
+
+            $("#address-user-grid").jsGrid(isNew ? "insertItem" : "updateItem", client);
+
+            $("#address-user-grid").trigger("reloadGrid");
+            $("#shipping-address-dialog").dialog("close");
+        };
 
         String.prototype.capitalize = function() {
             return this.charAt(0).toUpperCase() + this.slice(1);
         };
 
     });
-
-
 </script>
 </body>
 
