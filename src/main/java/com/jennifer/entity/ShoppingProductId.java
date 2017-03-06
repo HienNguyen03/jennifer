@@ -16,7 +16,7 @@ class ShoppingProductId implements Serializable {
     private ProductInfo productInfo;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    private ShoppingBag shoppingBag;
+    private UserInfo userInfo;
 
     ProductInfo getProductInfo() {
         return productInfo;
@@ -26,12 +26,12 @@ class ShoppingProductId implements Serializable {
         this.productInfo = productInfo;
     }
 
-    ShoppingBag getShoppingBag() {
-        return shoppingBag;
+    public UserInfo getUserInfo() {
+        return userInfo;
     }
 
-    void setShoppingBag(ShoppingBag shoppingBag) {
-        this.shoppingBag = shoppingBag;
+    public void setUserInfo(UserInfo userInfo) {
+        this.userInfo = userInfo;
     }
 
     @Override
@@ -42,13 +42,13 @@ class ShoppingProductId implements Serializable {
         ShoppingProductId that = (ShoppingProductId) o;
 
         if (!getProductInfo().equals(that.getProductInfo())) return false;
-        return getShoppingBag().equals(that.getShoppingBag());
+        return getUserInfo().equals(that.getUserInfo());
     }
 
     @Override
     public int hashCode() {
         int result = getProductInfo().hashCode();
-        result = 31 * result + getShoppingBag().hashCode();
+        result = 31 * result + getUserInfo().hashCode();
         return result;
     }
 }

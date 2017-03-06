@@ -70,8 +70,8 @@ public class ProductInfo {
 
     @JsonIgnore
     @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "favorite_product", joinColumns = @JoinColumn(name = "PRODUCT_ID"), inverseJoinColumns = @JoinColumn(name = "FAVORITE_PRODUCT_ID"))
-    private List<FavoriteBag> favoriteBags = new ArrayList<>();
+    @JoinTable(name = "favorite_product", joinColumns = @JoinColumn(name = "PRODUCT_ID"), inverseJoinColumns = @JoinColumn(name = "USER_ID"))
+    private List<UserInfo> userInfos = new ArrayList<>();
 
     public ProductInfo() {
     }
@@ -205,12 +205,12 @@ public class ProductInfo {
         this.campaignProducts = campaignProducts;
     }
 
-    public List<FavoriteBag> getFavoriteBags() {
-        return favoriteBags;
+    public List<UserInfo> getUserInfos() {
+        return userInfos;
     }
 
-    public void setFavoriteBags(List<FavoriteBag> favoriteBags) {
-        this.favoriteBags = favoriteBags;
+    public void setUserInfos(List<UserInfo> userInfos) {
+        this.userInfos = userInfos;
     }
 
     public List<ViewedProduct> getViewedProducts() {

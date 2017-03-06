@@ -102,24 +102,6 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `jennifer_db`.`shopping_bag`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `jennifer_db`.`shopping_bag` ;
-
-CREATE TABLE IF NOT EXISTS `jennifer_db`.`shopping_bag` (
-  `ID` INT NOT NULL AUTO_INCREMENT,
-  `USER_ID` INT NOT NULL,
-  INDEX `fk_shopping_bag_user_info1_idx` (`USER_ID` ASC),
-  PRIMARY KEY (`ID`),
-  CONSTRAINT `fk_shopping_bag_user_info1`
-    FOREIGN KEY (`USER_ID`)
-    REFERENCES `jennifer_db`.`user_info` (`ID`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
 -- Table `jennifer_db`.`delivery_method`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `jennifer_db`.`delivery_method` ;
@@ -274,37 +256,20 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `jennifer_db`.`shopping_product` ;
 
 CREATE TABLE IF NOT EXISTS `jennifer_db`.`shopping_product` (
-  `SHOPPING_PRODUCT_ID` INT NOT NULL,
+  `USER_ID` INT NOT NULL,
   `PRODUCT_ID` INT NOT NULL,
   `UNIT_PRICE` DECIMAL(13,2) NULL,
   `QUANTITY` INT NULL,
   `APPLIED_DISCOUNT` INT NULL,
-  PRIMARY KEY (`SHOPPING_PRODUCT_ID`, `PRODUCT_ID`),
+  PRIMARY KEY (`USER_ID`, `PRODUCT_ID`),
   INDEX `fk_shopping_product_product_info1_idx` (`PRODUCT_ID` ASC),
-  CONSTRAINT `fk_shopping_product_shopping_bag1`
-    FOREIGN KEY (`SHOPPING_PRODUCT_ID`)
-    REFERENCES `jennifer_db`.`shopping_bag` (`ID`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+  INDEX `fk_shopping_product_user_info1_idx` (`USER_ID` ASC),
   CONSTRAINT `fk_shopping_product_product_info1`
     FOREIGN KEY (`PRODUCT_ID`)
     REFERENCES `jennifer_db`.`product_info` (`ID`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `jennifer_db`.`favorite_bag`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `jennifer_db`.`favorite_bag` ;
-
-CREATE TABLE IF NOT EXISTS `jennifer_db`.`favorite_bag` (
-  `ID` INT NOT NULL AUTO_INCREMENT,
-  `USER_ID` INT NOT NULL,
-  INDEX `fk_shopping_bag_user_info1_idx` (`USER_ID` ASC),
-  PRIMARY KEY (`ID`),
-  CONSTRAINT `fk_shopping_bag_user_info10`
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_shopping_product_user_info1`
     FOREIGN KEY (`USER_ID`)
     REFERENCES `jennifer_db`.`user_info` (`ID`)
     ON DELETE NO ACTION
@@ -318,18 +283,19 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `jennifer_db`.`favorite_product` ;
 
 CREATE TABLE IF NOT EXISTS `jennifer_db`.`favorite_product` (
-  `FAVORITE_PRODUCT_ID` INT NOT NULL,
+  `USER_ID` INT NOT NULL,
   `PRODUCT_ID` INT NOT NULL,
-  PRIMARY KEY (`FAVORITE_PRODUCT_ID`, `PRODUCT_ID`),
+  PRIMARY KEY (`USER_ID`, `PRODUCT_ID`),
   INDEX `fk_shopping_product_product_info1_idx` (`PRODUCT_ID` ASC),
-  CONSTRAINT `fk_shopping_product_shopping_bag10`
-    FOREIGN KEY (`FAVORITE_PRODUCT_ID`)
-    REFERENCES `jennifer_db`.`favorite_bag` (`ID`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+  INDEX `fk_favorite_product_user_info1_idx` (`USER_ID` ASC),
   CONSTRAINT `fk_shopping_product_product_info10`
     FOREIGN KEY (`PRODUCT_ID`)
     REFERENCES `jennifer_db`.`product_info` (`ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_favorite_product_user_info1`
+    FOREIGN KEY (`USER_ID`)
+    REFERENCES `jennifer_db`.`user_info` (`ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;

@@ -1,8 +1,6 @@
 package com.jennifer.entity;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -51,12 +49,12 @@ public class UserInfo {
     private List<OrderInfo> orderInfos = new ArrayList<>();
 
     @JsonIgnore
-    @OneToOne(mappedBy = "userInfo")
-    private FavoriteBag favoriteBag;
+    @ManyToMany(mappedBy = "userInfos", cascade = CascadeType.ALL)
+    private List<ProductInfo> productInfos = new ArrayList<>();
 
     @JsonIgnore
-    @OneToOne(mappedBy = "userInfo")
-    private ShoppingBag shoppingBag;
+    @OneToMany(mappedBy = "primaryKey.userInfo", cascade = CascadeType.ALL)
+    private List<ShoppingProduct> shoppingProducts = new ArrayList<>();
 
     @JsonIgnore
     @OneToMany(mappedBy = "primaryKey.userInfo", cascade = CascadeType.ALL)
@@ -129,20 +127,20 @@ public class UserInfo {
         this.orderInfos = orderInfos;
     }
 
-    public FavoriteBag getFavoriteBag() {
-        return favoriteBag;
+    public List<ProductInfo> getProductInfos() {
+        return productInfos;
     }
 
-    public void setFavoriteBag(FavoriteBag favoriteBag) {
-        this.favoriteBag = favoriteBag;
+    public void setProductInfos(List<ProductInfo> productInfos) {
+        this.productInfos = productInfos;
     }
 
-    public ShoppingBag getShoppingBag() {
-        return shoppingBag;
+    public List<ShoppingProduct> getShoppingProducts() {
+        return shoppingProducts;
     }
 
-    public void setShoppingBag(ShoppingBag shoppingBag) {
-        this.shoppingBag = shoppingBag;
+    public void setShoppingProducts(List<ShoppingProduct> shoppingProducts) {
+        this.shoppingProducts = shoppingProducts;
     }
 
     public List<ViewedProduct> getViewedProducts() {

@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 @Table(name = "shopping_product")
 @AssociationOverrides({
         @AssociationOverride(name = "primaryKey.productInfo", joinColumns = @JoinColumn(name = "PRODUCT_ID")),
-        @AssociationOverride(name = "primaryKey.shoppingBag", joinColumns = @JoinColumn(name = "SHOPPING_PRODUCT_ID"))
+        @AssociationOverride(name = "primaryKey.userInfo", joinColumns = @JoinColumn(name = "USER_ID"))
 })
 public class ShoppingProduct {
 
@@ -46,12 +46,12 @@ public class ShoppingProduct {
     }
 
     @Transient
-    public ShoppingBag getShoppingBag(){
-        return getPrimaryKey().getShoppingBag();
+    public UserInfo getUserInfo(){
+        return getPrimaryKey().getUserInfo();
     }
 
-    public void setShoppingBag(ShoppingBag shoppingBag){
-        getPrimaryKey().setShoppingBag(shoppingBag);
+    public void setUserInfo(UserInfo userInfo){
+        getPrimaryKey().setUserInfo(userInfo);
     }
 
     public BigDecimal getUnitPrice() {
