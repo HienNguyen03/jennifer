@@ -35,6 +35,9 @@ public class ShippingAddress {
     @Column(name = "POSTAL_CODE", nullable = false, length = 10)
     private String postalCode;
 
+    @Column(name = "STATUS", nullable = false, length = 45)
+    private String status;
+
     //@JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "USER_ID")
@@ -101,6 +104,14 @@ public class ShippingAddress {
 
     public void setOrderInfos(List<OrderInfo> orderInfos) {
         this.orderInfos = orderInfos;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     @Override

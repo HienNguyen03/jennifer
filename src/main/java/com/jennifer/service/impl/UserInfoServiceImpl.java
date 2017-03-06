@@ -56,4 +56,25 @@ public class UserInfoServiceImpl implements UserInfoService, UserDetailsService 
         userInfoDao.save(userInfo);
         return true;
     }
+
+    @Override
+    public UserInfo updateUser(UserInfo userInfo) {
+        return userInfoDao.save(userInfo);
+    }
+
+    @Override
+    public boolean compareUserPassword(UserInfo userInfo, String newPassword) {
+        UserInfo userInfoFound = userInfoDao.findById(userInfo.getId());
+
+        return passwordEncoder.matches(newPassword,userInfoFound.getPassword());
+    }
+
+    @Override
+    public UserInfo changePassword(UserInfo userInfo, String newPassword) {
+        UserInfo userInfoFound = userInfoDao.findById(userInfo.getId());
+
+        userInfoFound.setPassword(passwordEncoder.encode(newPassword));
+
+        return userInfoDao.save(userInfoFound);
+    }
 }

@@ -27,7 +27,7 @@
 
         <div class="row">
             <div class="col-lg-12">
-                <div class="panel panel-default">
+                <div class="panel panel-default animated fadeIn">
                     <div class="panel-heading">
                         <i class="fa fa-truck"></i> Delivery Methods
                     </div><!-- /.panel-heading -->
@@ -176,10 +176,7 @@
             //pageLoading: true,
 
             noDataContent: "No delivery method found",
-
-            deleteConfirm: function (item) {
-                return "The delivery method \"" + item.name + "\" will be removed. Are you sure?";
-            },
+            confirmDeleting: false,
 
             rowClick: function (args) {
                 resetForm();
@@ -257,14 +254,25 @@
             $("#delivery-detailsForm").validate().resetForm();
             $("#delivery-detailsForm").find(".error").removeClass("error");
         };
-
+        /*<![CDATA[*/
         $("#delivery-detailsForm").validate({
             rules: {
                 name: "required",
                 cost: {required: true, range: [0, 300]},
                 "start-date": {required: true},
-                "end-date": {required: false}
+                "end-date": {
+                    required: function () {
+                        var startDateVal = $("#start-date").datepicker("getDate");
+                        var endDayVal = $("#end-date").datepicker("getDate");
+                        if(endDayVal!= null){
+                            return (startDateVal < endDayVal);
+                        }else{
+                            return false;
+                        }
+                    }
+                }
             },
+
             messages: {
                 name: "Please enter delivery method's name",
                 cost: "Please enter a valid cost",
@@ -275,7 +283,7 @@
                 formSubmitHandler();
             }
         });
-
+        /*]]>*/
         let formSubmitHandler = $.noop;
 
         let dateTemplateFromServer = function (data) {
@@ -315,9 +323,10 @@
                 name: $("#name").val(),
                 cost: parseFloat($("#cost").val()),
                 startDate: dateTemplateToServer($("#start-date").datepicker("getDate")),
+
                 endDate: dateTemplateToServer($("#end-date").datepicker("getDate"))
             });
-
+            console.log($("#end-date").datepicker("getDate"));
             $("#delivery-method-grid").jsGrid(isNew ? "insertItem" : "updateItem", client);
             $("#delivery-detailsDialog").dialog("close");
         };

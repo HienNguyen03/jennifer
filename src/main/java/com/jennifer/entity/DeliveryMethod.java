@@ -39,24 +39,6 @@ public class DeliveryMethod {
     @OneToMany(mappedBy = "deliveryMethod", cascade = CascadeType.PERSIST)
     private List<OrderInfo> orderInfos = new ArrayList<>();
 
-    public DeliveryMethod() {
-    }
-
-    public DeliveryMethod(String name, BigDecimal cost, Date startDate, Date endDate) {
-        this.name = name;
-        this.cost = cost;
-        this.startDate = startDate;
-        this.endDate = endDate;
-    }
-
-    public DeliveryMethod(int id, String name, BigDecimal cost, Date startDate, Date endDate) {
-        this.id = id;
-        this.name = name;
-        this.cost = cost;
-        this.startDate = startDate;
-        this.endDate = endDate;
-    }
-
     public int getId() {
         return id;
     }

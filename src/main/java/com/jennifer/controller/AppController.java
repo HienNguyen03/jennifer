@@ -1,6 +1,7 @@
 package com.jennifer.controller;
 
 import com.jennifer.dto.SignupForm;
+import com.jennifer.entity.UserInfo;
 import com.jennifer.service.UserInfoService;
 import com.jennifer.util.AppUtil;
 import com.jennifer.validator.SignupFormValidator;
@@ -110,5 +111,15 @@ public class AppController {
 
         return "redirect:/login";
 
+    }
+    @RequestMapping(value = "/manager/profile")
+    public String profilePage(Model model){
+        UserInfo userInfo = AppUtil.getCustomerFromSession();
+        if(userInfo.isManager()) {
+            model.addAttribute(userInfo);
+            return "/manager/profile-manager";
+        }
+
+        return null;
     }
 }
