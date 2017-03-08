@@ -1,13 +1,18 @@
 package com.jennifer.controller;
 
 import com.jennifer.entity.ProductInfo;
+import com.jennifer.entity.UserInfo;
 import com.jennifer.service.MarketingCampaignService;
 import com.jennifer.service.ProductInfoService;
+import com.jennifer.util.AppUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+
+import java.util.List;
 
 /**
  * Handles requests from Customers
@@ -29,6 +34,7 @@ public class CustomerController {
     public String customer_homepage(Model model){
         model.addAttribute("availableCampaigns", marketingCampaignService.getAvailableCampaigns());
         model.addAttribute("availableProducts", productInfoService.getLatestProducts());
+
         return "index";
     }
 
@@ -50,6 +56,11 @@ public class CustomerController {
     @GetMapping("/cart")
     public String cart(){
         return "cart";
+    }
+
+    @GetMapping("/favorite")
+    public String favorite(){
+        return "favorite";
     }
 
     @GetMapping("/contact")

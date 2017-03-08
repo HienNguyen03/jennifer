@@ -1,6 +1,8 @@
 package com.jennifer.controller;
 
+import com.jennifer.config.WebSecurityConfig;
 import com.jennifer.dto.SignupForm;
+import com.jennifer.entity.ProductInfo;
 import com.jennifer.entity.UserInfo;
 import com.jennifer.service.UserInfoService;
 import com.jennifer.util.AppUtil;
@@ -9,8 +11,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationTrustResolver;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.CookieClearingLogoutHandler;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,7 +23,10 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * This controls all basic activities related to the application such as login,
@@ -59,25 +67,18 @@ public class AppController {
     @RequestMapping(value = "/login")
     public String login(Model model, @RequestParam(value = "error", required = false) String error,
                         @RequestParam(value = "logout", required = false) String logout) {
-
-        //log.info("error:" + error);
-        //log.info("logout:" + logout);
-
-        if (error != null) {
+        if (error != null)
             model.addAttribute("error", AppUtil.getMessage("login.failure"));
-        }
 
-        if (logout != null) {
+        if (logout != null)
             model.addAttribute("logout_error", AppUtil.getMessage("logout.success"));
-        }
 
         model.addAttribute(new SignupForm());
 
-        if (isCurrentAuthenticationAnonymous()) {
+        if (isCurrentAuthenticationAnonymous())
             return "login";
-        } else {
+        else
             return "redirect:/";
-        }
     }
 
     // This method returns true if users is already authenticated [logged-in]

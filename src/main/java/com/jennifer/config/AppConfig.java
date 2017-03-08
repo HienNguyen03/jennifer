@@ -1,13 +1,13 @@
 package com.jennifer.config;
 
 import com.jennifer.config.handler.SessionTimeoutCookieFilter;
-import org.springframework.boot.context.embedded.ConfigurableEmbeddedServletContainer;
+import com.jennifer.service.impl.FavoriteProductServiceImpl;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
 import org.springframework.boot.web.servlet.ErrorPage;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationTrustResolver;
@@ -33,6 +33,7 @@ import java.util.Locale;
 
 @Configuration
 @EnableWebMvc
+@ComponentScan("com.jennifer")
 public class AppConfig extends WebMvcConfigurerAdapter {
 
     @Bean
@@ -76,7 +77,7 @@ public class AppConfig extends WebMvcConfigurerAdapter {
     @Bean
     public MessageSource messageSource() {
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
-        messageSource.setBasename("WEB-INF/i18n/messages");
+        messageSource.setBasename("/WEB-INF/i18n/messages");
         messageSource.setDefaultEncoding("UTF-8");
         messageSource.setCacheSeconds(10);
         return messageSource;

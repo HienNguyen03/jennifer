@@ -3,6 +3,8 @@ package com.jennifer.entity;
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.jennifer.controller.rest.deserializer.ProductInfoDeserializer;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -58,20 +60,22 @@ public class ProductInfo {
 
     @JsonIgnore
     @OneToMany(mappedBy = "primaryKey.productInfo", cascade = CascadeType.ALL)
-    private List<ShoppingProduct> shoppingProducts = new ArrayList<>();
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "primaryKey.productInfo", cascade = CascadeType.ALL)
     private List<CampaignProduct> campaignProducts = new ArrayList<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "primaryKey.productInfo", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "primaryKey.productInfo", fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SUBSELECT)
+    private List<ShoppingProduct> shoppingProducts = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "primaryKey.productInfo", fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SUBSELECT)
     private List<ViewedProduct> viewedProducts = new ArrayList<>();
 
     @JsonIgnore
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "favorite_product", joinColumns = @JoinColumn(name = "PRODUCT_ID"), inverseJoinColumns = @JoinColumn(name = "USER_ID"))
-    private List<UserInfo> userInfos = new ArrayList<>();
+    @OneToMany(mappedBy = "primaryKey.productInfo", fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SUBSELECT)
+    private List<FavoriteProduct> favoriteProducts = new ArrayList<>();
 
     public ProductInfo() {
     }
@@ -205,12 +209,12 @@ public class ProductInfo {
         this.campaignProducts = campaignProducts;
     }
 
-    public List<UserInfo> getUserInfos() {
-        return userInfos;
+    public List<FavoriteProduct> getFavoriteProducts() {
+        return favoriteProducts;
     }
 
-    public void setUserInfos(List<UserInfo> userInfos) {
-        this.userInfos = userInfos;
+    public void setFavoriteProducts(List<FavoriteProduct> favoriteProducts) {
+        this.favoriteProducts = favoriteProducts;
     }
 
     public List<ViewedProduct> getViewedProducts() {
@@ -234,5 +238,30 @@ public class ProductInfo {
                 ", detail='" + detail + '\'' +
                 ", status='" + status + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ProductInfo)) return false;
+
+        ProductInfo that = (ProductInfo) o;
+
+        if (getId() != that.getId()) return false;
+        if (getQuantity() != that.getQuantity()) return false;
+        if (getName() != null ? !getName().equals(that.getName()) : that.getName() != null) return false;
+        if (getUnitPrice() != null ? !getUnitPrice().equals(that.getUnitPrice()) : that.getUnitPrice() != null)
+            return false;
+        return getStatus() != null ? getStatus().equals(that.getStatus()) : that.getStatus() == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getId();
+        result = 31 * result + (getName() != null ? getName().hashCode() : 0);
+        result = 31 * result + (getUnitPrice() != null ? getUnitPrice().hashCode() : 0);
+        result = 31 * result + getQuantity();
+        result = 31 * result + (getStatus() != null ? getStatus().hashCode() : 0);
+        return result;
     }
 }

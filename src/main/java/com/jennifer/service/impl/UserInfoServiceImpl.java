@@ -13,7 +13,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -58,6 +57,11 @@ public class UserInfoServiceImpl implements UserInfoService, UserDetailsService 
     }
 
     @Override
+    public UserInfo findById(int id) {
+        return userInfoDao.findById(id);
+    }
+
+    @Override
     public UserInfo updateUser(UserInfo userInfo) {
         return userInfoDao.save(userInfo);
     }
@@ -65,16 +69,33 @@ public class UserInfoServiceImpl implements UserInfoService, UserDetailsService 
     @Override
     public boolean compareUserPassword(UserInfo userInfo, String newPassword) {
         UserInfo userInfoFound = userInfoDao.findById(userInfo.getId());
-
         return passwordEncoder.matches(newPassword,userInfoFound.getPassword());
     }
 
     @Override
     public UserInfo changePassword(UserInfo userInfo, String newPassword) {
         UserInfo userInfoFound = userInfoDao.findById(userInfo.getId());
-
         userInfoFound.setPassword(passwordEncoder.encode(newPassword));
-
         return userInfoDao.save(userInfoFound);
     }
+
+//    @Override
+//    public List<ProductInfo> addProductToFavorite(ProductInfo productInfo) {
+//        UserInfo userInfo = AppUtil.getCustomerFromSession();
+//        if(userInfo.getProductInfos() == null){
+//            List<ProductInfo> productInfoList = new ArrayList<>();
+//            productInfoList.add(productInfo);
+//            userInfo.setProductInfos(productInfoList);
+//        } else {
+//            log.info("add here!");
+//            userInfo.getProductInfos().add(productInfo);
+//        }
+//        //userInfoDao.save(userInfo);
+//        return userInfo.getProductInfos();
+//    }
+
+//    @Override
+//    public void onApplicationEvent(AuthenticationSuccessEvent authenticationSuccessEvent) {
+//
+//    }
 }
