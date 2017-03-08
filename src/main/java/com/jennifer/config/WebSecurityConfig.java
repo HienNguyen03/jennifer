@@ -3,6 +3,7 @@ package com.jennifer.config;
 import javax.annotation.Resource;
 
 import com.jennifer.config.handler.CustomAuthenticationSuccessHandler;
+import com.jennifer.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -25,8 +26,9 @@ import org.springframework.security.web.authentication.rememberme.TokenBasedReme
 
 @Configuration
 @EnableWebSecurity
-@ComponentScan
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+	public static final String REMEMBER_ME_COOKE_NAME      = "REMEMBER_ME_COOKE";
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
@@ -35,7 +37,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Resource
 	private UserDetailsService customerDetailsService;
-	
+
 	@Resource
     private SessionRegistry sessionRegistry;
 //	
@@ -72,6 +74,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				customerDetailsService);
 		rememberMeServices.setAlwaysRemember(false);
 		rememberMeServices.setTokenValiditySeconds(86400);
+		rememberMeServices.setCookieName(REMEMBER_ME_COOKE_NAME);
 		return rememberMeServices;
 	}
 
@@ -100,6 +103,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				//.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
 				.invalidateHttpSession(true)
 				.clearAuthentication(true)
+				.deleteCookies(REMEMBER_ME_COOKE_NAME)
 				.deleteCookies("JSESSIONID")
 				//.addLogoutHandler(new ProperCookieClearingLogoutHandler("JSESSIONID"))
 				.permitAll()

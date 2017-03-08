@@ -1,5 +1,6 @@
 package com.jennifer.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Embeddable;
 import javax.persistence.ManyToOne;
 import java.io.Serializable;
@@ -9,7 +10,7 @@ import java.io.Serializable;
  */
 
 @Embeddable
-class ShoppingProductId implements Serializable {
+class FavoriteProductId implements Serializable {
 
     @ManyToOne
     private ProductInfo productInfo;
@@ -36,9 +37,9 @@ class ShoppingProductId implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof ShoppingProductId)) return false;
+        if (!(o instanceof FavoriteProductId)) return false;
 
-        ShoppingProductId that = (ShoppingProductId) o;
+        FavoriteProductId that = (FavoriteProductId) o;
 
         if (getProductInfo() != null ? !getProductInfo().equals(that.getProductInfo()) : that.getProductInfo() != null)
             return false;

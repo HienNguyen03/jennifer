@@ -1,6 +1,8 @@
 package com.jennifer.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -49,18 +51,28 @@ public class UserInfo {
     private List<OrderInfo> orderInfos = new ArrayList<>();
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "userInfos", cascade = CascadeType.ALL)
-    private List<ProductInfo> productInfos = new ArrayList<>();
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "primaryKey.userInfo", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "primaryKey.userInfo", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SUBSELECT)
     private List<ShoppingProduct> shoppingProducts = new ArrayList<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "primaryKey.userInfo", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "primaryKey.userInfo", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SUBSELECT)
     private List<ViewedProduct> viewedProducts = new ArrayList<>();
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "primaryKey.userInfo", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SUBSELECT)
+    private List<FavoriteProduct> favoriteProducts = new ArrayList<>();
+
     public UserInfo() {
+    }
+
+    public UserInfo(String fullname, String email, String password, Role role, List<ProductInfo> productInfos) {
+        this.fullname = fullname;
+        this.email = email;
+        this.password = password;
+        this.role = role;
     }
 
     public boolean isCustomer() {
@@ -127,12 +139,12 @@ public class UserInfo {
         this.orderInfos = orderInfos;
     }
 
-    public List<ProductInfo> getProductInfos() {
-        return productInfos;
+    public List<FavoriteProduct> getFavoriteProducts() {
+        return favoriteProducts;
     }
 
-    public void setProductInfos(List<ProductInfo> productInfos) {
-        this.productInfos = productInfos;
+    public void setFavoriteProducts(List<FavoriteProduct> favoriteProducts) {
+        this.favoriteProducts = favoriteProducts;
     }
 
     public List<ShoppingProduct> getShoppingProducts() {
@@ -157,6 +169,34 @@ public class UserInfo {
                 "id=" + id +
                 ", fullname='" + fullname + '\'' +
                 ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", role=" + role +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof UserInfo)) return false;
+
+        UserInfo userInfo = (UserInfo) o;
+
+        if (getId() != userInfo.getId()) return false;
+        if (getFullname() != null ? !getFullname().equals(userInfo.getFullname()) : userInfo.getFullname() != null)
+            return false;
+        if (getEmail() != null ? !getEmail().equals(userInfo.getEmail()) : userInfo.getEmail() != null) return false;
+        if (getPassword() != null ? !getPassword().equals(userInfo.getPassword()) : userInfo.getPassword() != null)
+            return false;
+        return getRole() == userInfo.getRole();
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getId();
+        result = 31 * result + (getFullname() != null ? getFullname().hashCode() : 0);
+        result = 31 * result + (getEmail() != null ? getEmail().hashCode() : 0);
+        result = 31 * result + (getPassword() != null ? getPassword().hashCode() : 0);
+        result = 31 * result + (getRole() != null ? getRole().hashCode() : 0);
+        return result;
     }
 }

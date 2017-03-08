@@ -9,6 +9,7 @@
         <mapping class="com.jennifer.entity.CampaignProduct"/>
         <mapping class="com.jennifer.entity.CategoryInfo"/>
         <mapping class="com.jennifer.entity.DeliveryMethod"/>
+        <mapping class="com.jennifer.entity.FavoriteProduct"/>
         <mapping class="com.jennifer.entity.MarketingCampaign"/>
         <mapping class="com.jennifer.entity.OrderDetail"/>
         <mapping class="com.jennifer.entity.OrderInfo"/>

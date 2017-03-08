@@ -11,7 +11,7 @@
                         <div class="contactinfo">
                             <ul class="nav nav-pills">
                                 <li><a href="#"><i class="fa fa-phone"></i> +358 41 234 5678</a></li>
-                                <li><a href="#"><i class="fa fa-envelope"></i> manager@jennifer.com</a></li>
+                                <li><a th:href="@{/contact}"><i class="fa fa-envelope"></i> Contact us</a></li>
                             </ul>
                         </div>
                     </div>
@@ -47,35 +47,65 @@
                             .added-item-favorite {
                                 position: absolute;
                                 font-size: 10px;
-                                /* background: darkorange; */
-                                color: white;
-                                border-radius: 33%;
-                                width: 25px;
-                                height: 18px;
-                                top: 14px;
-                                left: 17px;
+                                background: #e6e6e6;
+                                color: black;
+                                border-radius: 2%;
+                                width: 20px;
+                                height: 19px;
+                                top: 16px;
+                                left: -4px;
                                 padding: 3px;
                             }
                             .added-item-cart {
                                 position: absolute;
                                 font-size: 10px;
-                                color: white;
-                                border-radius: 0%;
-                                width: 25px;
-                                height: 18px;
-                                top: 13px;
-                                left: 19px;
+                                background: #e6e6e6;
+                                color: black;
+                                border-radius: 2%;
+                                width: 20px;
+                                height: 19px;
+                                top: 16px;
+                                left: -4px;
                                 padding: 3px;
+                            }
+                            .shop-menu > ul > li > a {
+                                border: 1px dashed #cacaca;
+                                padding: 5px 10px;
+                                border-radius: 5%;
+                            }
+                            .shop-menu > ul > li > a:hover {
+                                border: 1px dashed #ffcfcf;
+                                padding: 5px 10px;
+                                border-radius: 5%;
+                                transition: all 0.2s ease 0s;
+                                -moz-transition: all 0.2s ease 0s;
+                                -webkit-transition: all 0.2s ease 0s;
+                                -o-transition: all 0.2s ease 0s;
+                            }
+                            .shop-menu > ul > li > a:hover + span {
+                                background: #ff7b7b;
+                                color: white;
+                                transition: all 0.2s ease 0s;
+                                -moz-transition: all 0.2s ease 0s;
+                                -webkit-transition: all 0.2s ease 0s;
+                                -o-transition: all 0.2s ease 0s;
                             }
                         </style>
                         <div class="shop-menu pull-right">
                             <ul class="nav navbar-nav">
-                                <li><a href="#"><i class="fa fa-heart fa-2x"></i> Favorite </a><span class="added-item-favorite text-center">45</span></li>
-                                <li><a th:href="@{/checkout}"><i class="fa fa-sliders fa-2x"></i> Checkout</a></li>
-                                <li><a th:href="@{/cart}"><i class="fa fa-shopping-cart fa-2x"></i> Cart</a><span class="added-item-cart text-center">45</span></li>
-                                <li><a th:href="@{/contact}"><i class="fa fa-info-circle fa-2x"></i> Contact</a></li>
+                                <li>
+                                    <a th:href="@{/favorite}"><i class="fa fa-heart-o"></i> Favorite</a>
+                                    <span th:if="${(session.favoriteBag == null)}" th:text="0" class="added-item-favorite text-center"></span>
+                                    <span th:unless="${(session.favoriteBag == null)}" th:text="${#lists.size(session.favoriteBag)}" class="added-item-favorite text-center"></span>
+                                </li>
+                                <li><a th:href="@{/checkout}"><i class="fa fa-sliders"></i> Checkout</a></li>
+                                <li>
+                                    <a th:href="@{/cart}"><i class="fa fa-shopping-cart"></i> Cart</a>
+                                    <span th:if="${(session.shoppingBag == null)}" th:text="0" class="added-item-cart text-center"></span>
+                                    <span th:unless="${(session.shoppingBag == null)}" th:text="${#lists.size(session.shoppingBag)}" class="added-item-cart text-center"></span>
+                                </li>
 
-                                <li sec:authorize="${isAnonymous()}" ><a th:href="@{/login}"><i class="fa fa-lock fa-2x"></i> Login</a></li>
+                                <li sec:authorize="${isAnonymous()}" ><a th:href="@{/login}"><i class="fa fa-lock"></i> Login</a></li>
                                 <li sec:authorize="${isAuthenticated()}" class="dropdown">
 
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -87,7 +117,7 @@
                                         <!--<li class="dropdown-header">Personal zone</li>-->
                                         <li>
                                             <a th:href="@{/profile}">
-                                                <i class="fa fa-user fa-2x"></i> Profile
+                                                <i class="fa fa-user"></i> Profile
                                             </a>
                                         </li>
                                         <li>
@@ -95,7 +125,7 @@
                                                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                                             </form>
                                             <a href="javascript:document.getElementById('logoutForm').submit()">
-                                                <i class="fa fa-sign-out fa-2x"></i>Sign out
+                                                <i class="fa fa-sign-out"></i>Sign out
                                             </a>
                                         </li>
                                     </ul>
@@ -208,6 +238,14 @@
             <!-- /.dropdown-user -->
         </li>
     </ul> <!-- /.navbar-top-links -->
+
+    <script>
+        $(document).ready(function(){
+            $("shop-menu li a").on("hover", function(){
+                $("shop-menu li a + span").addClass("animated shake");
+            });
+        });
+    </script>
 
 </body>
 </html>

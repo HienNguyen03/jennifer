@@ -46,7 +46,7 @@ public class AppUtil {
         return customerDetails == null ? null : customerDetails.getUser();
     }
 
-    public static CustomerDetails getAuth() {
+    private static CustomerDetails getAuth() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         if (auth != null) {

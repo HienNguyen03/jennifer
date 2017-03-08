@@ -2,6 +2,7 @@ package com.jennifer.service.impl;
 
 import com.jennifer.dao.ProductInfoDao;
 import com.jennifer.entity.ProductInfo;
+import com.jennifer.entity.UserInfo;
 import com.jennifer.service.ProductInfoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,4 +56,5 @@ public class ProductInfoServiceImpl implements ProductInfoService {
     public List<ProductInfo> getLatestProducts() {
         return productInfoDao.findLatestProducts();
     }
+
 }

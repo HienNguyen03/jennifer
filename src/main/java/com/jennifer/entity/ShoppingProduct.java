@@ -19,14 +19,17 @@ public class ShoppingProduct {
     @EmbeddedId
     private ShoppingProductId primaryKey = new ShoppingProductId();
 
-    @Column(name = "UNIT_PRICE", nullable = false)
-    private BigDecimal unitPrice;
-
     @Column(name = "QUANTITY", nullable = false)
     private int quantity;
 
-    @Column(name = "APPLIED_DISCOUNT")
-    private int appliedDiscount;
+    public ShoppingProduct() {
+    }
+
+    public ShoppingProduct(UserInfo userInfo, ProductInfo productInfo, int quantity) {
+        this.getPrimaryKey().setUserInfo(userInfo);
+        this.getPrimaryKey().setProductInfo(productInfo);
+        this.quantity = quantity;
+    }
 
     private ShoppingProductId getPrimaryKey() {
         return primaryKey;
@@ -54,14 +57,6 @@ public class ShoppingProduct {
         getPrimaryKey().setUserInfo(userInfo);
     }
 
-    public BigDecimal getUnitPrice() {
-        return unitPrice;
-    }
-
-    public void setUnitPrice(BigDecimal unitPrice) {
-        this.unitPrice = unitPrice;
-    }
-
     public int getQuantity() {
         return quantity;
     }
@@ -70,11 +65,4 @@ public class ShoppingProduct {
         this.quantity = quantity;
     }
 
-    public int getAppliedDiscount() {
-        return appliedDiscount;
-    }
-
-    public void setAppliedDiscount(int appliedDiscount) {
-        this.appliedDiscount = appliedDiscount;
-    }
 }

@@ -175,14 +175,42 @@
 		<script th:src="@{/custom/co/js/jquery.prettyPhoto.js}"></script>
 		<script th:src="@{/custom/co/js/main.js}"></script>
 
+		<!-- jsGrid plugin -->
+		<script th:src="@{/custom/cm/plugin/jsgrid/js/jsgrid.min.js}"></script>
+
+		<script th:src="@{/custom/cm/plugin/jsgrid/jsgrid.core.js}"></script>
+		<script th:src="@{/custom/cm/plugin/jsgrid/jsgrid.load-indicator.js}"></script>
+		<script th:src="@{/custom/cm/plugin/jsgrid/jsgrid.load-strategies.js}"></script>
+		<script th:src="@{/custom/cm/plugin/jsgrid/jsgrid.sort-strategies.js}"></script>
+		<script th:src="@{/custom/cm/plugin/jsgrid/jsgrid.field.js}"></script>
+		<script th:src="@{/custom/cm/plugin/jsgrid/fields/jsgrid.field.text.js}"></script>
+		<script th:src="@{/custom/cm/plugin/jsgrid/fields/jsgrid.field.number.js}"></script>
+		<script th:src="@{/custom/cm/plugin/jsgrid/fields/jsgrid.field.select.js}"></script>
+		<script th:src="@{/custom/cm/plugin/jsgrid/fields/jsgrid.field.checkbox.js}"></script>
+		<script th:src="@{/custom/cm/plugin/jsgrid/fields/jsgrid.field.control.js}"></script>
+
+		<!-- Others -->
 		<script th:src="@{/custom/cm/plugin/slick/slick.min.js}"></script>
 		<script th:src="@{/custom/cm/plugin/drift/dist/Drift.js}"></script>
+		<script th:src="@{/custom/cm/plugin/alertifyjs/alertify.js}"></script>
 
 		<script type="text/javascript" th:inline="javascript">
 			$(document).ready( function() {
 				/*<![CDATA[*/
 				var context = /*[[@{~/custom/}]]*/"";
 				/*]]>*/
+
+                $(function () {
+                    let token = $("meta[name='_csrf']").attr("content");
+                    let header = $("meta[name='_csrf_header']").attr("content");
+                    $(document).ajaxSend(function(e, xhr, options) {
+                        xhr.setRequestHeader(header, token);
+                        xhr.setRequestHeader('Accept', 'application/json');
+                        xhr.setRequestHeader('Content-Type', 'application/json');
+                    });
+                });
+
+                alertify.set('notifier','position', 'top-right');
 
 				// random background
 				//var images = [ 'bg1.jpg', 'bg2.jpg', 'bg3.jpg', 'bg4.jpg', 'bg5.jpg' ],

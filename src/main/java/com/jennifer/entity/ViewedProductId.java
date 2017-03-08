@@ -12,10 +12,10 @@ import java.io.Serializable;
 @Embeddable
 public class ViewedProductId implements Serializable {
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private ProductInfo productInfo;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private UserInfo userInfo;
 
     ProductInfo getProductInfo() {
@@ -41,14 +41,15 @@ public class ViewedProductId implements Serializable {
 
         ViewedProductId that = (ViewedProductId) o;
 
-        if (!getProductInfo().equals(that.getProductInfo())) return false;
-        return getUserInfo().equals(that.getUserInfo());
+        if (getProductInfo() != null ? !getProductInfo().equals(that.getProductInfo()) : that.getProductInfo() != null)
+            return false;
+        return getUserInfo() != null ? getUserInfo().equals(that.getUserInfo()) : that.getUserInfo() == null;
     }
 
     @Override
     public int hashCode() {
-        int result = getProductInfo().hashCode();
-        result = 31 * result + getUserInfo().hashCode();
+        int result = getProductInfo() != null ? getProductInfo().hashCode() : 0;
+        result = 31 * result + (getUserInfo() != null ? getUserInfo().hashCode() : 0);
         return result;
     }
 }
