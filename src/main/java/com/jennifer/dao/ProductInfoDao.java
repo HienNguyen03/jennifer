@@ -1,5 +1,6 @@
 package com.jennifer.dao;
 
+import com.jennifer.entity.CategoryInfo;
 import com.jennifer.entity.ProductInfo;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -17,6 +18,9 @@ public interface ProductInfoDao extends JpaRepository<ProductInfo, Integer> {
     ProductInfo findById(int id);
     List<ProductInfo> findAll();
     List<ProductInfo> findAllByOrderByIdDesc();
+
+    //@Query("from ProductInfo p where p.categoryInfo.id = ?1")
+    List<ProductInfo> findByCategoryInfo(CategoryInfo categoryInfo);
 
     List<ProductInfo> findByStatusLikeOrderByIdDesc(String status, Pageable pageable);
     default List<ProductInfo> findLatestProducts() {

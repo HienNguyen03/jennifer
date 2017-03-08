@@ -122,4 +122,15 @@ public class AppController {
 
         return null;
     }
+
+    @RequestMapping(value = "/profile")
+    public String customerProfilePage(Model model){
+        UserInfo userInfo = AppUtil.getCustomerFromSession();
+        if(userInfo.isCustomer()) {
+            model.addAttribute(userInfo);
+            return "profile";
+        }
+
+        return null;
+    }
 }

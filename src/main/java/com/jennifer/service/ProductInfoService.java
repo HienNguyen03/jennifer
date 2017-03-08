@@ -1,5 +1,6 @@
 package com.jennifer.service;
 
+import com.jennifer.entity.CategoryInfo;
 import com.jennifer.entity.ProductInfo;
 
 import java.util.List;
@@ -15,7 +16,7 @@ public interface ProductInfoService {
     ProductInfo updateProduct(ProductInfo productInfo);
     void deleteProduct(ProductInfo productInfo);
     ProductInfo addProduct(ProductInfo productInfo);
-
+    List<ProductInfo> findProductsByCategory(CategoryInfo categoryInfo);
     List<ProductInfo> getLatestProducts();
 
 }

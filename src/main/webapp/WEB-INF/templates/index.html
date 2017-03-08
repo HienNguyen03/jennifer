@@ -31,7 +31,9 @@
 	<section>
 		<div class="container">
 			<div class="row">
-				<div th:replace="common/sidebar :: common-sidebar-customer" th:remove="tag"></div>
+				<!--<div th:replace="common/sidebar :: common-sidebar-customer" th:remove="tag"></div>-->
+				<div id = "categorySidebar"></div>
+
 				<div class="col-sm-9 padding-right">
 					<div class="features_items"><!--features_items-->
 						<h2 class="title text-center">Features Items</h2>
@@ -95,6 +97,12 @@
                     alertify.error(jqXHR.responseText);
                 });
 			});
+
+			/*<![CDATA[*/
+            var category_url = /*[[@{'/categories'}]]*/"";
+			/*]]>*/
+
+			$('#categorySidebar').load(category_url);
         });
 	</script>
 

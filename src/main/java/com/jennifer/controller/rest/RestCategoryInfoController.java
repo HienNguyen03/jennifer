@@ -69,7 +69,9 @@ public class RestCategoryInfoController {
         if (categoryInfoList.isEmpty()) {
             return new ResponseEntity<String>(HttpStatus.NO_CONTENT);
         }
-
+        for(CategoryInfo c : categoryInfoList){
+            log.info(c.toString());
+        }
         ObjectMapper mapper = new ObjectMapper();
         SimpleModule module = new SimpleModule();
         module.addSerializer(List.class, new CategoryInfoSerializer());
@@ -84,6 +86,10 @@ public class RestCategoryInfoController {
         List<CategoryInfo> categoryInfoList = categoryInfoService.findAllCategories();
         if (categoryInfoList.isEmpty()) {
             return new ResponseEntity<String>(HttpStatus.NO_CONTENT);
+        }
+
+        for(CategoryInfo c : categoryInfoList){
+            log.info(c.toString());
         }
 
         ObjectMapper mapper = new ObjectMapper();

@@ -5,127 +5,40 @@
 <div th:fragment="common-sidebar-customer" class="col-sm-3">
     <div class="left-sidebar">
         <h2>Category</h2>
-        <div class="panel-group category-products" id="accordian"><!--category-productsr-->
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordian" href="#sportswear">
-                            <span class="badge pull-right"><i class="fa fa-plus"></i></span>
-                            Sportswear
-                        </a>
-                    </h4>
-                </div>
-                <div id="sportswear" class="panel-collapse collapse">
-                    <div class="panel-body">
-                        <ul>
-                            <li><a href="#">Nike </a></li>
-                            <li><a href="#">Under Armour </a></li>
-                            <li><a href="#">Adidas </a></li>
-                            <li><a href="#">Puma</a></li>
-                            <li><a href="#">ASICS </a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordian" href="#mens">
-                            <span class="badge pull-right"><i class="fa fa-plus"></i></span>
-                            Mens
-                        </a>
-                    </h4>
-                </div>
-                <div id="mens" class="panel-collapse collapse">
-                    <div class="panel-body">
-                        <ul>
-                            <li><a href="#">Fendi</a></li>
-                            <li><a href="#">Guess</a></li>
-                            <li><a href="#">Valentino</a></li>
-                            <li><a href="#">Dior</a></li>
-                            <li><a href="#">Versace</a></li>
-                            <li><a href="#">Armani</a></li>
-                            <li><a href="#">Prada</a></li>
-                            <li><a href="#">Dolce and Gabbana</a></li>
-                            <li><a href="#">Chanel</a></li>
-                            <li><a href="#">Gucci</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+        <!--/*@thymesVar id="categoryInfos" type=""*/-->
+        <div class="panel-group category-products" id="accordian" role="tablist" aria-multiselectable="true"><!--category-products-->
 
-            <div class="panel panel-default">
-                <div class="panel-heading">
+            <div th:each="instanceSuper : ${categoryInfos}" th:if="!${instanceSuper.superCategoryInfo}" class="panel panel-default">
+                <!--/*@thymesVar id="id" type=""*/-->
+                <div class="panel-heading" th:attr="id='headSuperCategory' + ${instanceSuper.id}">
                     <h4 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordian" href="#womens">
-                            <span class="badge pull-right"><i class="fa fa-plus"></i></span>
-                            Womens
+                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordian" th:href="'#superCategory' + ${instanceSuper.id}"
+                           aria-expanded="false" th:attr="aria-controls='superCategory' + ${instanceSuper.id}" th:inline="text">
+                            [[${instanceSuper.name}]]
+                            <span class="badge pull-right" ><i class="fa fa-plus"></i></span>
                         </a>
                     </h4>
                 </div>
-                <div id="womens" class="panel-collapse collapse">
+
+                <div th:attr="id='superCategory' + ${instanceSuper.id}, aria-labelledby='headSuperCategory' + ${instanceSuper.id}" class="panel-collapse collapse"
+                     role="tabpanel">
                     <div class="panel-body">
                         <ul>
-                            <li><a href="#">Fendi</a></li>
-                            <li><a href="#">Guess</a></li>
-                            <li><a href="#">Valentino</a></li>
-                            <li><a href="#">Dior</a></li>
-                            <li><a href="#">Versace</a></li>
+                            <li th:each="child : ${categoryInfos}" th:if="${child.superCategoryInfo != null and child.superCategoryInfo.id == instanceSuper.id}">
+                                <a th:href="${'/categories/' + child.id}" th:text="${child.name}"></a></li>
                         </ul>
                     </div>
-                </div>
-            </div>
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4 class="panel-title"><a href="#">Kids</a></h4>
-                </div>
-            </div>
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4 class="panel-title"><a href="#">Fashion</a></h4>
-                </div>
-            </div>
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4 class="panel-title"><a href="#">Households</a></h4>
-                </div>
-            </div>
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4 class="panel-title"><a href="#">Interiors</a></h4>
-                </div>
-            </div>
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4 class="panel-title"><a href="#">Clothing</a></h4>
-                </div>
-            </div>
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4 class="panel-title"><a href="#">Bags</a></h4>
-                </div>
-            </div>
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4 class="panel-title"><a href="#">Shoes</a></h4>
+
                 </div>
             </div>
         </div><!--/category-products-->
-
-        <div class="price-range"><!--price-range-->
-            <h2>Price Range</h2>
-            <div class="well text-center">
-                <input type="text" class="span2" value="" data-slider-min="0" data-slider-max="600" data-slider-step="5"
-                       data-slider-value="[250,450]" id="sl2"/><br/>
-                <b class="pull-left">$ 0</b> <b class="pull-right">$ 600</b>
-            </div>
-        </div><!--/price-range-->
 
         <div class="shipping text-center"><!--shipping-->
             <img th:src="@{/custom/co/images/home/shipping.jpg}" alt=""/>
         </div><!--/shipping-->
 
     </div>
+
 </div>
 
 
@@ -158,92 +71,6 @@
                 <a th:href="@{/manager/delivery-method}"><i class="fa fa-truck"></i> Delivery Method</a>
             </li>
 
-
-
-            <!--<li>-->
-                <!--<a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Charts<span class="fa arrow"></span></a>-->
-                <!--<ul class="nav nav-second-level">-->
-                    <!--<li>-->
-                        <!--<a href="flot.html">Flot Charts</a>-->
-                    <!--</li>-->
-                    <!--<li>-->
-                        <!--<a href="morris.html">Morris.js Charts</a>-->
-                    <!--</li>-->
-                <!--</ul>-->
-                <!--&lt;!&ndash; /.nav-second-level &ndash;&gt;-->
-            <!--</li>-->
-            <!--<li>-->
-                <!--<a href="tables.html"><i class="fa fa-table fa-fw"></i> Tables</a>-->
-            <!--</li>-->
-            <!--<li>-->
-                <!--<a href="forms.html"><i class="fa fa-edit fa-fw"></i> Forms</a>-->
-            <!--</li>-->
-            <!--<li>-->
-                <!--<a href="#"><i class="fa fa-wrench fa-fw"></i> UI Elements<span class="fa arrow"></span></a>-->
-                <!--<ul class="nav nav-second-level">-->
-                    <!--<li>-->
-                        <!--<a href="panels-wells.html">Panels and Wells</a>-->
-                    <!--</li>-->
-                    <!--<li>-->
-                        <!--<a href="buttons.html">Buttons</a>-->
-                    <!--</li>-->
-                    <!--<li>-->
-                        <!--<a href="notifications.html">Notifications</a>-->
-                    <!--</li>-->
-                    <!--<li>-->
-                        <!--<a href="typography.html">Typography</a>-->
-                    <!--</li>-->
-                    <!--<li>-->
-                        <!--<a href="icons.html"> Icons</a>-->
-                    <!--</li>-->
-                    <!--<li>-->
-                        <!--<a href="grid.html">Grid</a>-->
-                    <!--</li>-->
-                <!--</ul>-->
-                <!--&lt;!&ndash; /.nav-second-level &ndash;&gt;-->
-            <!--</li>-->
-            <!--<li>-->
-                <!--<a href="#"><i class="fa fa-sitemap fa-fw"></i> Multi-Level Dropdown<span class="fa arrow"></span></a>-->
-                <!--<ul class="nav nav-second-level">-->
-                    <!--<li>-->
-                        <!--<a href="#">Second Level Item</a>-->
-                    <!--</li>-->
-                    <!--<li>-->
-                        <!--<a href="#">Second Level Item</a>-->
-                    <!--</li>-->
-                    <!--<li>-->
-                        <!--<a href="#">Third Level <span class="fa arrow"></span></a>-->
-                        <!--<ul class="nav nav-third-level">-->
-                            <!--<li>-->
-                                <!--<a href="#">Third Level Item</a>-->
-                            <!--</li>-->
-                            <!--<li>-->
-                                <!--<a href="#">Third Level Item</a>-->
-                            <!--</li>-->
-                            <!--<li>-->
-                                <!--<a href="#">Third Level Item</a>-->
-                            <!--</li>-->
-                            <!--<li>-->
-                                <!--<a href="#">Third Level Item</a>-->
-                            <!--</li>-->
-                        <!--</ul>-->
-                        <!--&lt;!&ndash; /.nav-third-level &ndash;&gt;-->
-                    <!--</li>-->
-                <!--</ul>-->
-                <!--&lt;!&ndash; /.nav-second-level &ndash;&gt;-->
-            <!--</li>-->
-            <!--<li>-->
-                <!--<a href="#"><i class="fa fa-files-o fa-fw"></i> Sample Pages<span class="fa arrow"></span></a>-->
-                <!--<ul class="nav nav-second-level">-->
-                    <!--<li>-->
-                        <!--<a href="blank.html">Blank Page</a>-->
-                    <!--</li>-->
-                    <!--<li>-->
-                        <!--<a href="login.html">Login Page</a>-->
-                    <!--</li>-->
-                <!--</ul>-->
-                <!--&lt;!&ndash; /.nav-second-level &ndash;&gt;-->
-            <!--</li>-->
         </ul>
     </div>
     <!-- /.sidebar-collapse -->

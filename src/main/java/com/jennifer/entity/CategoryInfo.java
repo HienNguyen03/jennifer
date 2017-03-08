@@ -108,4 +108,13 @@ public class CategoryInfo {
         this.categoryInfos = categoryInfos;
     }
 
+    @Override
+    public String toString() {
+        return "CategoryInfo{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", superCategoryInfo=" + superCategoryInfo +
+                ", placeOrder=" + placeOrder +
+                '}';
+    }
 }

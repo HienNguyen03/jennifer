@@ -153,13 +153,34 @@
 
         window.db = db;
 
-        $('.datePicker').datepicker({
-            //startDate: '-3d',
+//        $('.datePicker').datepicker({
+//            //startDate: '-3d',
+//            format: "dd/mm/yyyy",
+//            todayBtn: "linked",
+//            autoclose: true,
+//            todayHighlight: true
+//        });
+
+
+        $('#start-date').datepicker({
             format: "dd/mm/yyyy",
             todayBtn: "linked",
             autoclose: true,
             todayHighlight: true
+        // update "end-date" defaults whenever "start-date" changes
+        }).on('changeDate', function(){
+            console.log($('#start-date').datepicker("getDate"));
+            // set the "end-date" start to not be later than "start-date" ends:
+            $('#end-date').datepicker("clearDates");
+            $('#end-date').datepicker("setStartDate", dateTemplateFromServer($('#start-date').datepicker("getDate")));
         });
+        console.log($('#start-date').datepicker("getDate"));
+        $('#end-date').datepicker({
+            format: "dd/mm/yyyy",
+            autoclose: true,
+            todayHighlight: true
+        }),
+
 
         $("#delivery-method-grid").jsGrid({
             width: "100%",
@@ -254,22 +275,14 @@
             $("#delivery-detailsForm").validate().resetForm();
             $("#delivery-detailsForm").find(".error").removeClass("error");
         };
-        /*<![CDATA[*/
+
         $("#delivery-detailsForm").validate({
             rules: {
                 name: "required",
                 cost: {required: true, range: [0, 300]},
-                "start-date": {required: true},
-                "end-date": {
-                    required: function () {
-                        var startDateVal = $("#start-date").datepicker("getDate");
-                        var endDayVal = $("#end-date").datepicker("getDate");
-                        if(endDayVal!= null){
-                            return (startDateVal < endDayVal);
-                        }else{
-                            return false;
-                        }
-                    }
+                "start-date": {
+                    required: true,
+
                 }
             },
 
@@ -277,13 +290,12 @@
                 name: "Please enter delivery method's name",
                 cost: "Please enter a valid cost",
                 "start-date": "Please choose a valid date",
-                "end-date": "Please choose a valid date"
             },
             submitHandler: function () {
                 formSubmitHandler();
             }
         });
-        /*]]>*/
+
         let formSubmitHandler = $.noop;
 
         let dateTemplateFromServer = function (data) {
@@ -317,7 +329,6 @@
             $("#delivery-detailsDialog").dialog("option", "title", dialogType + " Delivery Method").dialog("open");
         }; // display data in dialog
 
-
         let saveClient = function (client, isNew) {
             $.extend(client, {
                 name: $("#name").val(),
@@ -326,7 +337,7 @@
 
                 endDate: dateTemplateToServer($("#end-date").datepicker("getDate"))
             });
-            console.log($("#end-date").datepicker("getDate"));
+            //console.log($("#end-date").datepicker("getDate"));
             $("#delivery-method-grid").jsGrid(isNew ? "insertItem" : "updateItem", client);
             $("#delivery-detailsDialog").dialog("close");
         };

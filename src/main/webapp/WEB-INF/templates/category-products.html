@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Jennifer - Online shopping webstore</title>
+    <object th:include="common/header :: common-header-customer" th:remove="tag"></object>
+    <style>
+
+    </style>
+</head>
+
+<body>
+<div th:replace="common/navbar :: common-navbar-customer" th:remove="tag"></div>
+
+<section id="slider"><!--slider-->
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 well-lg">
+                <div th:if="${#lists.isEmpty(availableCampaigns) }" class="campaign-slider">
+                    <img th:src="@{/custom/co/images/home/default-banner.jpg}" />
+                </div>
+
+                <div th:unless="${#lists.isEmpty(availableCampaigns) }" class="campaign-slider">
+                    <img th:each="campaign : ${availableCampaigns}" th:src="@{/pics/{banner}(banner=${campaign.banner})}" />
+                </div>
+            </div>
+        </div>
+    </div>
+</section><!--/slider-->
+
+<section>
+    <div class="container">
+        <div class="row">
+            <!--<div th:replace="common/sidebar :: common-sidebar-customer" th:remove="tag"></div>-->
+            <div id = "categorySidebar"></div>
+
+            <div class="col-sm-9 padding-right">
+                <div class="features_items"><!--features_items-->
+                    <h2 class="title text-center" th:text="${categoryInfo.superCategoryInfo.name + ' - '+ categoryInfo.name}">Features Items</h2>
+
+                    <!--/*@thymesVar id="availableProducts" type=""*/-->
+                    <div th:each="product : ${productInfos}" class="col-sm-4">
+                        <div class="product-image-wrapper">
+                            <div th:with="productImages = ${#strings.arraySplit(product.image, ',')}" class="single-products">
+                                <div th:each="productImage,iter : ${productImages}" th:if="${iter.index} == 0" class="productinfo text-center">
+                                    <img th:src="@{/pics/{iName}(iName=${productImage})}" />
+                                    <h2 th:text="'€' + ${product.unitPrice}"></h2>
+                                    <p th:text="${product.name}"></p>
+                                    <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                </div>
+                                <div th:each="productImage,iter : ${productImages}" th:if="${iter.index} == 1" class="product-overlay">
+                                    <div class="overlay-content">
+                                        <a th:href="${'/product/' + product.id}"><img th:src="@{/pics/{iName}(iName=${productImage})}" /></a>
+                                        <h2 th:text="'€' + ${product.unitPrice}"></h2>
+                                        <p th:text="${product.name}"></p>
+                                        <a href="#" class="btn btn-default add-to-cart" title="Add to cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                    </div>
+                                </div>
+                                <div class="favorite" th:attr="data-favorite=${product.id}" title="Add to favorite"><span></span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div><!--features_items-->
+            </div>
+        </div>
+    </div>
+</section>
+
+<div th:replace="common/footer :: common-footer-customer" th:remove="tag"></div>
+
+<div th:replace="common/footer :: common-footer-scripts-customer" th:remove="tag"></div>
+
+<script type="text/javascript" th:inline="javascript">
+    $(document).ready(function(){
+        $('.campaign-slider').slick({
+            dots: true,
+            infinite: true,
+            speed: 300,
+            fade: true,
+            autoplay: true,
+            cssEase: 'linear',
+            adaptiveHeight: true
+        });
+
+        // TODO have not create api for PUT yet
+        $('.favorite').click(function(){
+            $.ajax({
+                type: "PUT",
+                url: "/api/favorite",
+                dataType: "json",
+                data: JSON.stringify({
+                    id: $(this).data("favorite")
+                })
+            }).done(function (data, textStatus, jqXHR) {
+                alertify.success("Added to your favorite!");
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                alertify.error(jqXHR.responseText);
+            });
+        });
+
+        /*<![CDATA[*/
+        var category_url = /*[[@{'/categories'}]]*/"";
+        /*]]>*/
+
+        $('#categorySidebar').load(category_url);
+    });
+</script>
+
+</body>
+</html>
