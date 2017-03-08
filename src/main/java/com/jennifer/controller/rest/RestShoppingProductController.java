@@ -61,28 +61,29 @@ public class RestShoppingProductController {
             productsInShoppingBag.add(shoppingProduct.getProductInfo());
         }
 
-        if(productsInShoppingBag.contains(productInfo)){
-            ShoppingProduct shoppingProduct = new ShoppingProduct(userInfo, productInfo, productInfo.getQuantity()+1);
-            shoppingProductService.update(shoppingProduct);
-
-            List<ShoppingProduct> newShoppingProduct = shoppingProductService.findAllByUserId(userInfo.getId());
-            shoppingBag = newShoppingProduct;
-
-            return newShoppingProduct.size();
-        } else {
+        if(productsInShoppingBag.contains(productInfo)) {
             if(userInfo != null) {
-                // add to shopping bag - database
-                ShoppingProduct shoppingProduct = new ShoppingProduct(userInfo, productInfo, 1);
+                ShoppingProduct shoppingProduct = new ShoppingProduct(userInfo, productInfo, productInfo.getQuantity()+1);
                 shoppingProductService.update(shoppingProduct);
 
-                // add to shopping bag - session
-                shoppingBag.add(shoppingProduct);
-                return shoppingBag.size();
+                List<ShoppingProduct> newShoppingProduct = shoppingProductService.findAllByUserId(userInfo.getId());
+                shoppingBag = newShoppingProduct;
+
+                return newShoppingProduct.size();
             } else {
-                ShoppingProduct shoppingProduct = new ShoppingProduct(null, productInfo, 1);
-                shoppingBag.add(shoppingProduct);
-                return 1;
+
             }
+
+        } else {
+            ShoppingProduct shoppingProduct;
+            if(userInfo != null) {
+                shoppingProduct = new ShoppingProduct(userInfo, productInfo, 1);
+                shoppingProductService.update(shoppingProduct);
+            } else {
+                shoppingProduct = new ShoppingProduct(null, productInfo, 1);
+            }
+            shoppingBag.add(shoppingProduct);
+            return shoppingBag.size();
         }
 
     }
