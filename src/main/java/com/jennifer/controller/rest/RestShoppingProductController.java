@@ -49,44 +49,44 @@ public class RestShoppingProductController {
         }
     }
 
-    @PutMapping("/{productId}")
-    public Object addProductToShoppingBag(@ModelAttribute("shoppingBag") List<ShoppingProduct> shoppingBag, @PathVariable int productId) {
-        log.info(" > [rest] Shopping Product - addProductToShoppingBag");
-
-        UserInfo userInfo = AppUtil.getCustomerFromSession();
-        ProductInfo productInfo = productInfoService.findProduct(productId);
-
-        List<ProductInfo> productsInShoppingBag = new ArrayList<>();
-        for(ShoppingProduct shoppingProduct : shoppingBag){
-            productsInShoppingBag.add(shoppingProduct.getProductInfo());
-        }
-
-        if(productsInShoppingBag.contains(productInfo)) {
-            if(userInfo != null) {
-                ShoppingProduct shoppingProduct = new ShoppingProduct(userInfo, productInfo, productInfo.getQuantity()+1);
-                shoppingProductService.update(shoppingProduct);
-
-                List<ShoppingProduct> newShoppingProduct = shoppingProductService.findAllByUserId(userInfo.getId());
-                shoppingBag = newShoppingProduct;
-
-                return newShoppingProduct.size();
-            } else {
-
-            }
-
-        } else {
-            ShoppingProduct shoppingProduct;
-            if(userInfo != null) {
-                shoppingProduct = new ShoppingProduct(userInfo, productInfo, 1);
-                shoppingProductService.update(shoppingProduct);
-            } else {
-                shoppingProduct = new ShoppingProduct(null, productInfo, 1);
-            }
-            shoppingBag.add(shoppingProduct);
-            return shoppingBag.size();
-        }
-
-    }
+//    @PutMapping("/{productId}")
+//    public Object addProductToShoppingBag(@ModelAttribute("shoppingBag") List<ShoppingProduct> shoppingBag, @PathVariable int productId) {
+//        log.info(" > [rest] Shopping Product - addProductToShoppingBag");
+//
+//        UserInfo userInfo = AppUtil.getCustomerFromSession();
+//        ProductInfo productInfo = productInfoService.findProduct(productId);
+//
+//        List<ProductInfo> productsInShoppingBag = new ArrayList<>();
+//        for(ShoppingProduct shoppingProduct : shoppingBag){
+//            productsInShoppingBag.add(shoppingProduct.getProductInfo());
+//        }
+//
+//        if(productsInShoppingBag.contains(productInfo)) {
+//            if(userInfo != null) {
+//                ShoppingProduct shoppingProduct = new ShoppingProduct(userInfo, productInfo, productInfo.getQuantity()+1);
+//                shoppingProductService.update(shoppingProduct);
+//
+//                List<ShoppingProduct> newShoppingProduct = shoppingProductService.findAllByUserId(userInfo.getId());
+//                shoppingBag = newShoppingProduct;
+//
+//                return newShoppingProduct.size();
+//            } else {
+//
+//            }
+//
+//        } else {
+//            ShoppingProduct shoppingProduct;
+//            if(userInfo != null) {
+//                shoppingProduct = new ShoppingProduct(userInfo, productInfo, 1);
+//                shoppingProductService.update(shoppingProduct);
+//            } else {
+//                shoppingProduct = new ShoppingProduct(null, productInfo, 1);
+//            }
+//            shoppingBag.add(shoppingProduct);
+//            return shoppingBag.size();
+//        }
+//
+//    }
 
 //    @GetMapping
 //    public Object findAll() throws JsonProcessingException {
