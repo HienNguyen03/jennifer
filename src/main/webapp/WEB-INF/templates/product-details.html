@@ -69,11 +69,14 @@
 								<p class="product-details-name" th:text="${productInfo.name}"></p>
 								<p class="product-details-id" >Web ID: 1089772</p>
 								<p class="product-details-rating" ><img th:src="@{/custom/co/images/product-details/rating.png}" alt="" /></p>
-								<p class="product-details-price"  th:text="${'€ ' + productInfo.unitPrice}"></p>
+								<p class="product-details-price">
+									<span class="discountTag" th:if="${productInfo.discount > 0}" th:text="${productInfo.unitPrice}" ></span>
+									<span class="priceTag" th:text="'€' + ${productInfo.unitPrice * (100-productInfo.discount)/ 100}"></span>
+								</p>
 								<p class="product-details-quantity" >
 									<label>Quantity:</label>
 									<input class="select-quantity text-center" type="number" value="1" size="6" min="0" max="50" />
-									<button type="button" class="btn btn-fefault cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
+									<button type="button" class="btn btn-fefault cart"><i class="fa fa-shopping-cart"></i> Add to cart</button>
 								</p>
 								<p class="product-details-status" >
 									<label>Status:</label>
@@ -93,104 +96,24 @@
 					
 					<div class="recommended_items"><!--recommended_items-->
 						<h2 class="title text-center">Relevant items</h2>
-						
-						<div id="recommended-item-carousel" class="carousel slide" data-ride="carousel">
-							<div class="carousel-inner">
-								<div class="item active">	
-									<div class="col-sm-3">
-										<div class="product-image-wrapper">
-											<div class="single-products">
-												<div class="productinfo text-center">
-													<img th:src="@{/custom/co/images/home/recommend1.jpg}" alt="" />
-													<h2>$56</h2>
-													<p>Easy Polo Black Edition</p>
-													<button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="col-sm-3">
-										<div class="product-image-wrapper">
-											<div class="single-products">
-												<div class="productinfo text-center">
-													<img th:src="@{/custom/co/images/home/recommend2.jpg}" alt="" />
-													<h2>$56</h2>
-													<p>Easy Polo Black Edition</p>
-													<button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="col-sm-3">
-										<div class="product-image-wrapper">
-											<div class="single-products">
-												<div class="productinfo text-center">
-													<img th:src="@{/custom/co/images/home/recommend3.jpg}" alt="" />
-													<h2>$56</h2>
-													<p>Easy Polo Black Edition</p>
-													<button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="col-sm-3">
-										<div class="product-image-wrapper">
-											<div class="single-products">
-												<div class="productinfo text-center">
-													<img th:src="@{/custom/co/images/home/recommend3.jpg}" alt="" />
-													<h2>$56</h2>
-													<p>Easy Polo Black Edition</p>
-													<button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="item">	
-									<div class="col-sm-4">
-										<div class="product-image-wrapper">
-											<div class="single-products">
-												<div class="productinfo text-center">
-													<img th:src="@{/custom/co/images/home/recommend1.jpg}" alt="" />
-													<h2>$56</h2>
-													<p>Easy Polo Black Edition</p>
-													<button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="col-sm-4">
-										<div class="product-image-wrapper">
-											<div class="single-products">
-												<div class="productinfo text-center">
-													<img th:src="@{/custom/co/images/home/recommend2.jpg}" alt="" />
-													<h2>$56</h2>
-													<p>Easy Polo Black Edition</p>
-													<button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="col-sm-4">
-										<div class="product-image-wrapper">
-											<div class="single-products">
-												<div class="productinfo text-center">
-													<img th:src="@{/custom/co/images/home/recommend3.jpg}" alt="" />
-													<h2>$56</h2>
-													<p>Easy Polo Black Edition</p>
-													<button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-												</div>
-											</div>
+						<div class="same-category-product">
+
+							<div th:each="sameCategoryProduct : ${sameCategoryProducts}">
+								<div class="product-image-wrapper">
+									<div class="single-products">
+										<div class="productinfo text-center" th:with="productRelatedImages = ${#strings.arraySplit(sameCategoryProduct.image, ',')}">
+											<img class="display-product" th:src="${'/pics/' + productRelatedImages[0]}" />
+											<p class="product-details-price">
+												<span class="discountTag" th:if="${sameCategoryProduct.discount > 0}" th:text="${sameCategoryProduct.unitPrice}" ></span>
+												<span class="priceTag" th:text="'€' + ${sameCategoryProduct.unitPrice * (100-sameCategoryProduct.discount)/ 100}"></span>
+											</p>
+											<p th:text="${sameCategoryProduct.name}">Easy Polo Black Edition</p>
+											<button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i> Add to cart</button>
 										</div>
 									</div>
 								</div>
 							</div>
-							 <a class="left recommended-item-control" href="#recommended-item-carousel" data-slide="prev">
-								<i class="fa fa-angle-left"></i>
-							  </a>
-							  <a class="right recommended-item-control" href="#recommended-item-carousel" data-slide="next">
-								<i class="fa fa-angle-right"></i>
-							  </a>			
+
 						</div>
 					</div><!--/recommended_items-->
 					
@@ -233,6 +156,42 @@
 			/*]]>*/
             $('.btn.cart').change(function(){
                 console.log("add to cart");
+            });
+
+            $('.same-category-product').slick({
+                dots: true,
+                infinite: false,
+                speed: 300,
+                slidesToShow: 4,
+                slidesToScroll: 4,
+                responsive: [
+                    {
+                        breakpoint: 1024,
+                        settings: {
+                            slidesToShow: 3,
+                            slidesToScroll: 3,
+                            infinite: true,
+                            dots: true
+                        }
+                    },
+                    {
+                        breakpoint: 600,
+                        settings: {
+                            slidesToShow: 2,
+                            slidesToScroll: 2
+                        }
+                    },
+                    {
+                        breakpoint: 480,
+                        settings: {
+                            slidesToShow: 1,
+                            slidesToScroll: 1
+                        }
+                    }
+                    // You can unslick at a given breakpoint now by adding:
+                    // settings: "unslick"
+                    // instead of a settings object
+                ]
             });
 
         });

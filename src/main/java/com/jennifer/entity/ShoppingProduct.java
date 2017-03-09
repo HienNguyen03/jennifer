@@ -65,4 +65,18 @@ public class ShoppingProduct {
         this.quantity = quantity;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ShoppingProduct)) return false;
+
+        ShoppingProduct that = (ShoppingProduct) o;
+
+        return getPrimaryKey() != null ? getPrimaryKey().equals(that.getPrimaryKey()) : that.getPrimaryKey() == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return getPrimaryKey() != null ? getPrimaryKey().hashCode() : 0;
+    }
 }

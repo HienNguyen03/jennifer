@@ -18,5 +18,6 @@ public interface ProductInfoService {
     ProductInfo addProduct(ProductInfo productInfo);
     List<ProductInfo> findProductsByCategory(CategoryInfo categoryInfo);
     List<ProductInfo> getLatestProducts();
+    List<ProductInfo> getSameCategoryProducts(int categoryId);
 
 }

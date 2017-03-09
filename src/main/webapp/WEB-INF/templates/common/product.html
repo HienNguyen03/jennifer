@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<body>
+
+    <div th:fragment="flashAlert(type,message)" th:if="${type}" th:text="${message}"
+                th:attr="class='alert alert-' + ${type} + ' alert-dismissable'">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+    </div>
+
+    <div th:fragment="printProduct(productList)" th:each="product : ${productList}" class="col-sm-4">
+        <div class="product-image-wrapper">
+            <div th:with="productImages = ${#strings.arraySplit(product.image, ',')}" class="single-products">
+                <div th:each="productImage,iter : ${productImages}" th:if="${iter.index} == 0" class="productinfo text-center">
+                    <img th:src="@{/pics/{iName}(iName=${productImage})}" />
+                    <div class="pricePart">
+                        <span class="discountTag" th:if="${product.discount > 0}" th:text="${product.unitPrice}" ></span>
+                        <span class="priceTag" th:text="'€' + ${product.unitPrice * (100-product.discount)/ 100}"></span>
+                    </div>
+
+                    <p th:text="${product.name}"></p>
+                    <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                </div>
+                <div th:each="productImage,iter : ${productImages}" th:if="${iter.index} == 1" class="product-overlay">
+                    <div class="overlay-content">
+                        <a th:href="${'/product/' + product.id}"><img th:src="@{/pics/{iName}(iName=${productImage})}" /></a>
+                        <div class="pricePart">
+                            <span class="discountTag" th:if="${product.discount > 0}" th:text="${product.unitPrice}" ></span>
+                            <span class="priceTag" th:text="'€' + ${product.unitPrice * (100-product.discount)/ 100}"></span>
+                        </div>
+                        <p th:text="${product.name}"></p>
+                        <a th:attr="data-cart=${product.id}" class="btn btn-default add-to-cart" title="Add to cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                    </div>
+                </div>
+                <div class="favorite" th:attr="data-favorite=${product.id}" title="Add to favorite"><span></span></div>
+                <span th:if="${product.discount>0}" class="discountLabel"><a th:href="${'/product/' + product.id}"><img th:src="@{/custom/co/images/shop/sale.png}" /></a></span>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

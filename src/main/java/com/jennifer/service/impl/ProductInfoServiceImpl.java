@@ -58,6 +58,11 @@ public class ProductInfoServiceImpl implements ProductInfoService {
     }
 
     @Override
+    public List<ProductInfo> getSameCategoryProducts(int categoryId) {
+        return productInfoDao.findSameCategoryProducts(categoryId);
+    }
+
+    @Override
     public List<ProductInfo> findProductsByCategory(CategoryInfo categoryInfo) {
         return productInfoDao.findByCategoryInfo(categoryInfo);
     }

@@ -11,8 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Rest API Controller for ShoppingProduct
@@ -39,54 +38,45 @@ public class RestShoppingProductController {
     }
 
     @ModelAttribute("shoppingBag")
-    public List<ShoppingProduct> createShoppingBag(){
-        log.info("create shopping bag !");
+    public Map<ProductInfo, Integer> createShoppingBag(){
         UserInfo userInfo = AppUtil.getCustomerFromSession();
-        if(userInfo != null) {
-            return userInfo.getShoppingProducts();
+        if(userInfo != null && !userInfo.getShoppingProducts().isEmpty()) {
+            Map<ProductInfo, Integer> map = new HashMap<>();
+            for (ShoppingProduct shoppingProduct : userInfo.getShoppingProducts()){
+                map.put(shoppingProduct.getProductInfo(), shoppingProduct.getQuantity());
+            }
+            return map;
         } else {
-            return new ArrayList<>();
+            return new HashMap<>();
         }
     }
 
-//    @PutMapping("/{productId}")
-//    public Object addProductToShoppingBag(@ModelAttribute("shoppingBag") List<ShoppingProduct> shoppingBag, @PathVariable int productId) {
-//        log.info(" > [rest] Shopping Product - addProductToShoppingBag");
-//
-//        UserInfo userInfo = AppUtil.getCustomerFromSession();
-//        ProductInfo productInfo = productInfoService.findProduct(productId);
-//
-//        List<ProductInfo> productsInShoppingBag = new ArrayList<>();
-//        for(ShoppingProduct shoppingProduct : shoppingBag){
-//            productsInShoppingBag.add(shoppingProduct.getProductInfo());
-//        }
-//
-//        if(productsInShoppingBag.contains(productInfo)) {
-//            if(userInfo != null) {
-//                ShoppingProduct shoppingProduct = new ShoppingProduct(userInfo, productInfo, productInfo.getQuantity()+1);
-//                shoppingProductService.update(shoppingProduct);
-//
-//                List<ShoppingProduct> newShoppingProduct = shoppingProductService.findAllByUserId(userInfo.getId());
-//                shoppingBag = newShoppingProduct;
-//
-//                return newShoppingProduct.size();
-//            } else {
-//
-//            }
-//
-//        } else {
-//            ShoppingProduct shoppingProduct;
-//            if(userInfo != null) {
-//                shoppingProduct = new ShoppingProduct(userInfo, productInfo, 1);
-//                shoppingProductService.update(shoppingProduct);
-//            } else {
-//                shoppingProduct = new ShoppingProduct(null, productInfo, 1);
-//            }
-//            shoppingBag.add(shoppingProduct);
-//            return shoppingBag.size();
-//        }
-//
-//    }
+    @PutMapping("/{productId}")
+    public Object addProductToShoppingBag(@ModelAttribute("shoppingBag") Map<ProductInfo, Integer> shoppingBag, @PathVariable int productId) {
+        log.info(" > [rest] Shopping Product - addProductToShoppingBag");
+
+        UserInfo userInfo = AppUtil.getCustomerFromSession();
+        ProductInfo productInfo = productInfoService.findProduct(productId);
+
+        ShoppingProduct shoppingProduct;
+
+        if(shoppingBag.containsKey(productInfo)) {
+            shoppingBag.put(productInfo, shoppingBag.get(productInfo) + 1);
+            if(userInfo != null) {
+                shoppingProduct = new ShoppingProduct(userInfo, productInfo, shoppingBag.get(productInfo));
+                shoppingProductService.update(shoppingProduct);
+            }
+            return shoppingBag.size();
+        } else {
+            shoppingBag.put(productInfo, 1);
+            if(userInfo != null) {
+                shoppingProduct = new ShoppingProduct(userInfo, productInfo, 1);
+                shoppingProductService.update(shoppingProduct);
+            }
+            return shoppingBag.size();
+        }
+
+    }
 
 //    @GetMapping
 //    public Object findAll() throws JsonProcessingException {

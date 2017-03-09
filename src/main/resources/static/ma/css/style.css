@@ -13,6 +13,13 @@
 }
 
 
+
+a#change-pass-btn {
+    cursor: pointer;
+}
+
+
+
 i {
     padding-right: 5px;
 }

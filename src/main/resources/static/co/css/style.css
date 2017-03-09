@@ -51,7 +51,7 @@
 .ajs-message.ajs-success {
     background: #ffefef !important;
     border-color: #ffdbdb !important;
-    color: #ff7b7b !important;
+    color: #f75656 !important;
 }
 
 .ajs-message.ajs-error {
@@ -79,3 +79,46 @@
     cursor: pointer;
 }
 
+
+/** product **/
+.pricePart {
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+.discountTag {
+    color: #696763;
+    font-family: 'Roboto', sans-serif;
+    text-decoration: line-through;
+    font-size: 15px;
+    font-weight: 500;
+}
+.priceTag {
+    color: #ff7b7b;
+    font-family: 'Roboto', sans-serif;
+    font-size: 23px;
+    font-weight: 700;
+}
+.overlay-content .discountTag {
+    color: #e6e6e6;
+    font-family: 'Roboto', sans-serif;
+    text-decoration: line-through;
+    font-size: 15px;
+    font-weight: 500;
+}
+.overlay-content .priceTag {
+    color: #fff;
+    font-family: 'Roboto', sans-serif;
+    font-size: 23px;
+    font-weight: 700;
+}
+.discountLabel {
+    position: absolute;
+    top: -10px;
+    left: -10px;
+}
+.discountLabel:hover {
+    cursor: pointer;
+}
+.discountLabel img {
+    width: 110px;
+}

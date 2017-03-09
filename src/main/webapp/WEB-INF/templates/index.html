@@ -11,59 +11,38 @@
 <body>
 <div th:replace="common/navbar :: common-navbar-customer" th:remove="tag"></div>
 
-<section id="slider"><!--slider-->
-	<div class="container">
-		<div class="row">
-			<div class="col-sm-12 well-lg">
-				<div th:if="${#lists.isEmpty(availableCampaigns) }" class="campaign-slider">
-					<img th:src="@{/custom/co/images/home/default-banner.jpg}" />
-				</div>
-
-				<div th:unless="${#lists.isEmpty(availableCampaigns) }" class="campaign-slider">
-					<img th:each="campaign : ${availableCampaigns}" th:src="@{/pics/{banner}(banner=${campaign.banner})}" />
-				</div>
-			</div>
-		</div>
-	</div>
-</section><!--/slider-->
-
-<section>
-	<div class="container">
-		<div class="row">
-
-			<div id = "categorySidebar"></div>
-
-			<div class="col-sm-9 padding-right">
-				<div class="features_items"><!--features_items-->
-					<h2 class="title text-center">Features Items</h2>
-
-					<div th:each="product : ${availableProducts}" class="col-sm-4">
-						<div class="product-image-wrapper">
-							<div th:with="productImages = ${#strings.arraySplit(product.image, ',')}" class="single-products">
-								<div th:each="productImage,iter : ${productImages}" th:if="${iter.index} == 0" class="productinfo text-center">
-									<img th:src="@{/pics/{iName}(iName=${productImage})}" />
-									<h2 th:text="'€' + ${product.unitPrice}"></h2>
-									<p th:text="${product.name}"></p>
-									<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-								</div>
-								<div th:each="productImage,iter : ${productImages}" th:if="${iter.index} == 1" class="product-overlay">
-									<div class="overlay-content">
-										<a th:href="${'/product/' + product.id}"><img th:src="@{/pics/{iName}(iName=${productImage})}" /></a>
-										<h2 th:text="'€' + ${product.unitPrice}"></h2>
-										<p th:text="${product.name}"></p>
-										<a th:attr="data-cart=${product.id}" class="btn btn-default add-to-cart" title="Add to cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-									</div>
-								</div>
-								<div class="favorite" th:attr="data-favorite=${product.id}" title="Add to favorite"><span></span></div>
-							</div>
-						</div>
+	<section id="slider"><!--slider-->
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-12 well-lg">
+					<div th:if="${#lists.isEmpty(availableCampaigns) }" class="campaign-slider">
+						<img th:src="@{/custom/co/images/home/default-banner.jpg}" />
 					</div>
 
-				</div><!--features_items-->
+					<div th:unless="${#lists.isEmpty(availableCampaigns) }" class="campaign-slider">
+						<img th:each="campaign : ${availableCampaigns}" th:src="@{/pics/{banner}(banner=${campaign.banner})}" />
+					</div>
+				</div>
 			</div>
 		</div>
-	</div>
-</section>
+	</section><!--/slider-->
+
+	<section>
+		<div class="container">
+			<div class="row">
+				<div id = "categorySidebar"></div>
+				<div class="col-sm-9 padding-right">
+					<div class="features_items"><!--features_items-->
+						<h2 class="title text-center">Features Items</h2>
+
+						<div th:replace="common/product : : printProduct(productList=${availableProducts})" >
+							</div >
+
+					</div><!--features_items-->
+				</div>
+			</div>
+		</div>
+	</section>
 
 <div th:replace="common/footer :: common-footer-customer" th:remove="tag"></div>
 

@@ -1,5 +1,6 @@
 package com.jennifer.controller;
 
+import com.jennifer.entity.CampaignProduct;
 import com.jennifer.controller.rest.RestFavoriteProductController;
 import com.jennifer.entity.FavoriteProduct;
 import com.jennifer.entity.ProductInfo;
@@ -61,11 +62,6 @@ public class CustomerController {
         return "shop";
     }
 
-    @GetMapping("/product-details")
-    public String productDetails(){
-        return "product-details";
-    }
-
     @GetMapping("/checkout")
     public String checkout(){
         return "checkout";
@@ -100,38 +96,6 @@ public class CustomerController {
         return "favorite";
     }
 
-//    @GetMapping("/favorite/delete/{productId}")
-//    public String favoriteDelete(Model model, @ModelAttribute("favoriteBag") List<ProductInfo> favoriteBag
-//            , @PathVariable("productId") int productId){
-//        log.info(" > Favorite Product - DELETE");
-//        UserInfo userInfo = AppUtil.getCustomerFromSession();
-//
-//        if(userInfo != null){
-//            FavoriteProduct delFavoriteProduct = favoriteProductService.findByUserIdAndProductId(userInfo.getId(), productId);
-//            favoriteProductService.delete(delFavoriteProduct);
-//
-//            List<FavoriteProduct> userFavoriteBag = favoriteProductService.findAllByUserId(userInfo.getId());
-//            List<ProductInfo> productInfos = new ArrayList<>();
-//            for (FavoriteProduct f : userFavoriteBag){
-//                productInfos.add(f.getProductInfo());
-//            }
-//            log.info(" >Favorite Product - user");
-//            model.addAttribute("favoriteBag",productInfos);
-//
-//        }else{
-//            log.info(""+favoriteBag.size());
-//            for(ProductInfo p: favoriteBag){
-//                if(p.getId()== productId){
-//                    favoriteBag.remove(p);
-//                }
-//            }
-//            log.info(""+favoriteBag.size());
-//            model.addAttribute("favoriteBag",favoriteBag);
-//
-//        }
-//        return "favorite";
-//    }
-
     @GetMapping("/contact")
     public String contact(){
         return "contact";
@@ -140,7 +104,12 @@ public class CustomerController {
 
     @GetMapping("/product/{productId}")
     public String viewProduct(Model model, @PathVariable int productId){
-        model.addAttribute("productInfo", productInfoService.findProduct(productId));
+        ProductInfo productInfo = productInfoService.findProduct(productId);
+        model.addAttribute("productInfo", productInfo);
+
+        List<ProductInfo> productInfoList = productInfoService.getSameCategoryProducts(productInfo.getCategoryInfo().getId());
+        productInfoList.remove(productInfo);
+        model.addAttribute("sameCategoryProducts", productInfoList);
         return "product-details";
     }
 

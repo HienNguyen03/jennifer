@@ -880,12 +880,20 @@ h2.title {
   right: 0;
 }
 
-.productinfo h2{
+.productinfo h2 {
 	color: #ff7b7b;
 	font-family: 'Roboto', sans-serif;
 	font-size: 24px;
 	font-weight: 700;
 }
+
+.productinfo s {
+  color: #696763;
+  font-family: 'Roboto', sans-serif;
+  font-size: 21px;
+  font-weight: 700;
+}
+
 .product-overlay h2{
 	color: #fff;
 	font-family: 'Roboto', sans-serif;
