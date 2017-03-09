@@ -33,10 +33,8 @@
 				<div id = "categorySidebar"></div>
 				<div class="col-sm-9 padding-right">
 					<div class="features_items"><!--features_items-->
-						<h2 class="title text-center">Features Items</h2>
 
-						<div th:replace="common/product : : printProduct(productList=${availableProducts})" >
-							</div >
+						<div th:replace="common/product :: printProduct(productList=${availableProducts})" ></div >
 
 					</div><!--features_items-->
 				</div>
@@ -63,8 +61,8 @@
             cssEase: 'linear',
             adaptiveHeight: true
         });
-        $('.favorite').click(function(){
-            console.log($(this).data("favorite"));
+        $('.favorite').click(function(e){
+            e.preventDefault();
             $.ajax({
                 type: "PUT",
                 url: "/api/favorite-product/"+$(this).data("favorite"),

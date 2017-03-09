@@ -3,6 +3,7 @@ package com.jennifer.controller;
 import com.jennifer.entity.CategoryInfo;
 import com.jennifer.entity.ProductInfo;
 import com.jennifer.service.CategoryInfoService;
+import com.jennifer.service.MarketingCampaignService;
 import com.jennifer.service.ProductInfoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,11 +26,13 @@ public class CategoryInfoController {
     private static final Logger log = LoggerFactory.getLogger(CategoryInfoController.class);
     private CategoryInfoService categoryInfoService;
     private ProductInfoService productInfoService;
+    private MarketingCampaignService marketingCampaignService;
 
     @Autowired
-    public CategoryInfoController(CategoryInfoService categoryInfoService, ProductInfoService productInfoService){
+    public CategoryInfoController(CategoryInfoService categoryInfoService, ProductInfoService productInfoService, MarketingCampaignService marketingCampaignService){
         this.categoryInfoService = categoryInfoService;
         this.productInfoService = productInfoService;
+        this.marketingCampaignService = marketingCampaignService;
     }
 
     @RequestMapping("/manager/category")
@@ -57,6 +60,7 @@ public class CategoryInfoController {
 
         model.addAttribute("categoryInfo", categoryInfo);
         model.addAttribute("productInfos", productInfos);
+        model.addAttribute("availableCampaigns", marketingCampaignService.getAvailableCampaigns());
 
         return "category-products";
 

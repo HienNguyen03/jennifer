@@ -53,7 +53,7 @@
 	<section>
 		<div class="container">
 			<div class="row">
-				<div th:replace="common/sidebar :: common-sidebar-customer" th:remove="tag"></div>
+				<div id = "categorySidebar"></div>
 				
 				<div class="col-sm-9 padding-right">
 					<div class="product-details" th:with="productImages = ${#strings.arraySplit(productInfo.image, ',')}"><!--product-details-->
@@ -147,6 +147,10 @@
 			});
 
 			/*<![CDATA[*/
+
+            var category_url = /*[[@{'/categories'}]]*/"";
+            $('#categorySidebar').load(category_url);
+
             $('.select-quantity').change(function(){
                 if($(this).val() <= 0)
                     $('.btn.cart').attr("disabled", "disabled");
