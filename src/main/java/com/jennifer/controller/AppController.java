@@ -130,8 +130,8 @@ public class AppController {
         if(userInfo.isCustomer()) {
             model.addAttribute(userInfo);
             return "profile";
+        }else{
+            return "/manager/profile-manager";
         }
-
-        return null;
     }
 }

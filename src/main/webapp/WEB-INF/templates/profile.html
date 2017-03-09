@@ -19,160 +19,156 @@
             <div id = "categorySidebar"></div>
 
             <div class="col-sm-9 padding-right">
-                <h2 class="title text-center">Profile Infomation</h2>
-            </div>
+                <h2 class="title text-center">Customer's Infomation</h2>
 
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="panel panel-default animated fadeIn">
-                        <div class="panel-heading">
-                            <i class="fa fa-user"></i> Profile
-                        </div><!-- /.panel-heading -->
+                    <div class="col-lg-8">
+                        <div class="panel panel-default animated fadeIn">
+                            <div class="panel-heading">
+                                <i class="fa fa-user"></i> Profile
+                            </div><!-- /.panel-heading -->
 
-                        <div class="panel-body">
-                            <div id="manager-profile-grid">
-                                <div class="row">
-                                    <div class="col-md-3 col-lg-3 " align="center">
-                                        <i class="fa fa-user fa-5x"></i>
-                                    </div>
-
-                                    <div class=" col-md-9 col-lg-9 ">
-                                        <table class="table">
-                                            <tbody>
-                                            <tr>
-                                                <td>Full name: </td>
-                                                <td id = "manager-name" class="text-primary"></td>
-                                            </tr>
-
-                                            <tr>
-                                                <td>Email: </td>
-                                                <td id = "manager-email" class="text-primary"></td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-
-                                        <a id ="edit-profile-btn" class="btn btn-primary btn-xs small-corner-btn"> <i class="fa fa-pencil"></i> Edit</a>
-                                    </div>
-                                </div>
-                            </div> <!-- for manager-profile table -->
-
-                            <div id="edit-profile-dialog" title="Edit profile">
-                                <form id="edit-profile-form">
-                                    <div class="col-lg-10" style="float:none; margin:0 auto">
-                                        <div class="form-group">
-                                            <label for="managerName">Full name * </label>
-                                            <input id="managerName" name="managerName" type="text" class="form-control"
-                                                   placeholder="Full Name"/>
+                            <div class="panel-body">
+                                <div id="manager-profile-grid">
+                                    <div class="row">
+                                        <div class="col-md-3 col-lg-3 " align="center">
+                                            <i class="fa fa-user fa-5x"></i>
                                         </div>
 
-                                        <div class="form-group">
-                                            <label for="managerEmail">Email * </label>
-                                            <input id="managerEmail" name="managerEmail" type="text" class="form-control" placeholder="Email"/>
+                                        <div class=" col-md-9 col-lg-9 ">
+                                            <table class="table">
+                                                <tbody>
+                                                <tr>
+                                                    <td>Full name: </td>
+                                                    <td id = "manager-name" class="text-primary"></td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td>Email: </td>
+                                                    <td id = "manager-email" class="text-primary"></td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+
+                                            <a id ="edit-profile-btn" class="btn btn-primary btn-xs small-corner-btn"> <i class="fa fa-pencil"></i> Edit</a>
                                         </div>
-
-                                        <div class="form-group text-center">
-                                            <button id="save-profile" type="submit" class="btn btn-primary"> <i class="fa fa-pencil"></i> Edit profile</button>
-                                        </div><!-- button #save-profile -->
                                     </div>
-                                </form><!-- /.form #edit-profile-form -->
-                            </div><!-- /.dialog -->
-                        </div><!-- /.panel-body -->
-                    </div>  <!-- /.panel -->
-                </div><!-- /.col-lg-8 -->
+                                </div> <!-- for manager-profile table -->
 
-                <div class="col-lg-4">
-                    <div class="panel plus panel-default animated fadeIn">
-                        <div class="panel-heading">
-                            <i class="fa fa-lock"></i>Password
-                        </div><!-- /.panel-heading -->
-
-                        <div class="panel-body">
-                            <div id="change-password-grid">
-                                <div  class="col-lg-12">
-                                    <p></p>
-                                    <a id ="change-pass-btn" type="button"><i class="fa fa-pencil-square-o"></i>Change password</a>
-                                    <p></p>
-                                </div>
-
-                                <div id = "change-password-dialog" title = "Change Password">
-                                    <form id = "change-password-form">
+                                <div id="edit-profile-dialog" title="Edit profile">
+                                    <form id="edit-profile-form">
                                         <div class="col-lg-10" style="float:none; margin:0 auto">
                                             <div class="form-group">
-                                                <label for="newPassword">New password * </label>
-                                                <input id="newPassword" name="newPassword" type="password" class="form-control"
-                                                       placeholder="New password"/>
+                                                <label for="managerName">Full name * </label>
+                                                <input id="managerName" name="managerName" type="text" class="form-control"
+                                                       placeholder="Full Name"/>
                                             </div>
 
                                             <div class="form-group">
-                                                <label for="confirmPassword">Confirm password * </label>
-                                                <input id="confirmPassword" name="confirmPassword" type="password" class="form-control"
-                                                       placeholder="Confirm password"/>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label for="oldPassword">Old password * </label>
-                                                <input id="oldPassword" name="oldPassword" type="password" class="form-control" placeholder="Old password"/>
+                                                <label for="managerEmail">Email * </label>
+                                                <input id="managerEmail" name="managerEmail" type="text" class="form-control" placeholder="Email"/>
                                             </div>
 
                                             <div class="form-group text-center">
-                                                <button id="save-password" type="submit" class="btn btn-primary"> <i class="fa fa-pencil"></i> Change password</button>
-                                            </div><!-- button #save-password -->
+                                                <button id="save-profile" type="submit" class="btn btn-primary"> <i class="fa fa-pencil"></i> Edit profile</button>
+                                            </div><!-- button #save-profile -->
+                                        </div>
+                                    </form><!-- /.form #edit-profile-form -->
+                                </div><!-- /.dialog -->
+                            </div><!-- /.panel-body -->
+                        </div>  <!-- /.panel -->
+                    </div><!-- /.col-lg-8 -->
+
+                    <div class="col-lg-4">
+                        <div class="panel plus panel-default animated fadeIn">
+                            <div class="panel-heading">
+                                <i class="fa fa-lock"></i>Password
+                            </div><!-- /.panel-heading -->
+
+                            <div class="panel-body">
+                                <div id="change-password-grid">
+                                    <div  class="col-lg-12">
+                                        <p></p>
+                                        <a id ="change-pass-btn" type="button"><i class="fa fa-pencil-square-o"></i>Change password</a>
+                                        <p></p>
+                                    </div>
+
+                                    <div id = "change-password-dialog" title = "Change Password">
+                                        <form id = "change-password-form">
+                                            <div class="col-lg-10" style="float:none; margin:0 auto">
+                                                <div class="form-group">
+                                                    <label for="newPassword">New password * </label>
+                                                    <input id="newPassword" name="newPassword" type="password" class="form-control"
+                                                           placeholder="New password"/>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="confirmPassword">Confirm password * </label>
+                                                    <input id="confirmPassword" name="confirmPassword" type="password" class="form-control"
+                                                           placeholder="Confirm password"/>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="oldPassword">Old password * </label>
+                                                    <input id="oldPassword" name="oldPassword" type="password" class="form-control" placeholder="Old password"/>
+                                                </div>
+
+                                                <div class="form-group text-center">
+                                                    <button id="save-password" type="submit" class="btn btn-primary"> <i class="fa fa-pencil"></i> Change password</button>
+                                                </div><!-- button #save-password -->
+                                            </div>
+                                        </form><!-- /.form -->
+                                    </div><!-- /.dialog -->
+
+                                </div> <!-- change password table -->
+                            </div><!-- /.panel-body -->
+                        </div>  <!-- /.panel -->
+                    </div>
+
+                    <div class="col-lg-12">
+                        <div class="panel plus panel-default animated fadeIn">
+                            <div class="panel-heading">
+                                <i class="fa fa-home"></i> Shipping Address
+                                <a id = "shipping-address-btn" type="button" class="pull-right btn-primary btn-xs small-corner-btn"><i class="fa fa-plus-square-o"></i>Add</a>
+                            </div><!-- /.panel-heading -->
+
+                            <div class="panel-body">
+                                <div id="address-user-grid"></div> <!-- address table -->
+
+                                <div id = "shipping-address-dialog">
+                                    <form id = "shipping-address-form">
+                                        <div class="col-lg-10" style="float:none; margin:0 auto">
+                                            <div class="form-group">
+                                                <label for="recipient">Recipient</label>
+                                                <input id="recipient" name="recipient" type="text" class="form-control"
+                                                       placeholder="Recipient"/>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="address">Shipping Address</label>
+                                                <input id="address" name="address" type="text" class="form-control"
+                                                       placeholder="Address"/>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="city">City</label>
+                                                <input id="city" name="city" type="text" class="form-control" placeholder="City"/>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="postalCode">Postal code</label>
+                                                <input id="postalCode" name="postalCode" type="number" class="form-control" placeholder="Postal code"/>
+                                            </div>
+
+                                            <div class="form-group text-center">
+                                                <button id="save-address" type="submit" class="btn btn-primary"> <i class="fa fa-pencil"></i> Add</button>
+                                            </div><!-- button #save -->
                                         </div>
                                     </form><!-- /.form -->
                                 </div><!-- /.dialog -->
-
-                            </div> <!-- change password table -->
-                        </div><!-- /.panel-body -->
-                    </div>  <!-- /.panel -->
-                </div>
-            </div><!-- /.row -->
-
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="panel plus panel-default animated fadeIn">
-                        <div class="panel-heading">
-                            <i class="fa fa-home"></i> Shipping Address
-                            <a id = "shipping-address-btn" type="button" class="pull-right btn-primary btn-xs small-corner-btn"><i class="fa fa-plus-square-o"></i>Add</a>
-                        </div><!-- /.panel-heading -->
-
-                        <div class="panel-body">
-                            <div id="address-user-grid"></div> <!-- address table -->
-
-                            <div id = "shipping-address-dialog">
-                                <form id = "shipping-address-form">
-                                    <div class="col-lg-10" style="float:none; margin:0 auto">
-                                        <div class="form-group">
-                                            <label for="recipient">Recipient</label>
-                                            <input id="recipient" name="recipient" type="text" class="form-control"
-                                                   placeholder="Recipient"/>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="address">Shipping Address</label>
-                                            <input id="address" name="address" type="text" class="form-control"
-                                                   placeholder="Address"/>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="city">City</label>
-                                            <input id="city" name="city" type="text" class="form-control" placeholder="City"/>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="postalCode">Postal code</label>
-                                            <input id="postalCode" name="postalCode" type="number" class="form-control" placeholder="Postal code"/>
-                                        </div>
-
-                                        <div class="form-group text-center">
-                                            <button id="save-address" type="submit" class="btn btn-primary"> <i class="fa fa-pencil"></i> Add</button>
-                                        </div><!-- button #save -->
-                                    </div>
-                                </form><!-- /.form -->
-                            </div><!-- /.dialog -->
-                        </div><!-- /.panel-body -->
-                    </div>  <!-- /.panel -->
-                </div>
-            </div><!-- /.row -->
+                            </div><!-- /.panel-body -->
+                        </div>  <!-- /.panel -->
+                    </div>
+            </div>
 
         </div>
     </div>

@@ -4,6 +4,12 @@
 <head>
 	<title>Favorite - Jennifer webstore</title>
 	<object th:include="common/header :: common-header-customer" th:remove="tag"></object>
+	<style>
+		.favotire_product img{
+			width: 100px;
+			height: 120px;
+		}
+	</style>
 </head>
 
 <body>
@@ -25,35 +31,24 @@
 							<td class="text-center">Image</td>
 							<td>Product name</td>
 							<td>Price</td>
-							<td class="text-center">Quantity</td>
-							<td class="total">Total</td>
 							<td></td>
 						</tr>
 					</thead>
-					<tbody>
-						<tr>
-							<td class="cart_product">
-								<a href=""><img th:src="@{/custom/co/images/cart/one.png}" alt="" /></a>
+					<tbody class="cart_content">
+						<tr th:each="product : ${favoriteBag}" th:attr="id='product' + ${product.id}">
+							<td th:each="productImage,iter : ${#strings.arraySplit(product.image, ',')}" th:if="${iter.index} == 0" class="text-center favotire_product cart_product">
+								<a th:href="${'/product/' + product.id}"><img th:src="@{/pics/{iName}(iName=${productImage})}" alt="" /></a>
 							</td>
 							<td class="cart_description">
-								<h4><a href="">Colorblock Scuba</a></h4>
+								<h4><a th:href="@{'/product/'+{product.id}}" th:text="${product.name}">Colorblock Scuba</a></h4>
 								<p>Web ID: 1089772</p>
 							</td>
 							<td class="cart_price">
-								<p>$59</p>
-							</td>
-							<td class="cart_quantity">
-								<div class="cart_quantity_button">
-									<a class="cart_quantity_up" href=""> + </a>
-									<input class="cart_quantity_input" type="text" name="quantity" value="1" autocomplete="off" size="2" />
-									<a class="cart_quantity_down" href=""> - </a>
-								</div>
-							</td>
-							<td class="cart_total">
-								<p class="cart_total_price">$59</p>
+								<p th:text = "'€ '+ ${product.unitPrice}">$59</p>
 							</td>
 							<td class="cart_delete">
-								<a class="cart_quantity_delete" href=""><i class="fa fa-times"></i></a>
+								<!--<a class="cart_quantity_delete" th:href="${'/favorite/delete/' + product.id}"><i class="fa fa-times"></i></a>-->
+								<a class="delFavorite" th:attr="data-favorite=${product.id}" ><i class="fa fa-times"></i></a>
 							</td>
 						</tr>
 					</tbody>
@@ -65,6 +60,29 @@
 	<div th:replace="common/footer :: common-footer-customer" th:remove="tag"></div>
 
 	<div th:replace="common/footer :: common-footer-scripts-customer" th:remove="tag"></div>
+	<script type="text/javascript" th:inline="javascript">
+        $(document).ready(function(){
+			/*<![CDATA[*/
+			$('.delFavorite').click(function (e) {
+                e.preventDefault();
+                console.log($(this).data("favorite"));
+                var productId = 'product' + $(this).data("favorite");
+                $.ajax({
+                    type: "DELETE",
+                    url: "/api/favorite-product/"+$(this).data("favorite"),
+                    dataType: "json"
+                }).done(function (data, textStatus, jqXHR) {
+                    $('.added-item-favorite').text(data);
+                    $('#' + productId).remove();
+                    alertify.success("<i class='fa fa-remove'></i> Delete favorite product!");
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    alertify.error("<i class='fa fa-exclamation-triangle'></i> " + jqXHR.responseText + "!");
+                });
+            });
 
+			/*]]>*/
+
+        });
+	</script>
 </body>
 </html>

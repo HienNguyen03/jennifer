@@ -16,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -30,11 +31,13 @@ public class RestFavoriteProductController {
     private static final Logger log = LoggerFactory.getLogger(RestFavoriteProductController.class);
     private ProductInfoService productInfoService;
     private FavoriteProductService favoriteProductService;
+    private UserInfoService userInfoService;
 
     @Autowired
-    public RestFavoriteProductController(ProductInfoService productInfoService, FavoriteProductService favoriteProductService){
+    public RestFavoriteProductController(ProductInfoService productInfoService, FavoriteProductService favoriteProductService, UserInfoService userInfoService){
         this.productInfoService = productInfoService;
         this.favoriteProductService = favoriteProductService;
+        this.userInfoService = userInfoService;
     }
 
     @ModelAttribute("favoriteBagAnchor")
@@ -43,7 +46,7 @@ public class RestFavoriteProductController {
     }
 
     @ModelAttribute("favoriteBag")
-    public List<ProductInfo> createFavoriteBag(){
+    public static List<ProductInfo> createFavoriteBag(){
         log.info("create favorite bag !");
         UserInfo userInfo = AppUtil.getCustomerFromSession();
         if(userInfo != null) {
@@ -85,7 +88,53 @@ public class RestFavoriteProductController {
                 return favoriteBag.size();
             }
         }
+    }
 
+    @DeleteMapping("/{productId}")
+    public Object deleteProductToFavorite(@ModelAttribute("favoriteBag") List<ProductInfo> favoriteBag, @PathVariable int productId) {
+        log.info(" > [rest] Favorite Product - deleteProductToFavorite");
+
+        UserInfo userInfo = AppUtil.getCustomerFromSession();
+        log.info("."+productId);
+
+        if(userInfo != null){
+//            FavoriteProduct delFavoriteProduct = favoriteProductService.findByUserIdAndProductId(userInfo.getId(), productId);
+//            favoriteProductService.delete(delFavoriteProduct);
+//
+//            for (Iterator<ProductInfo> iter = favoriteBag.listIterator(); iter.hasNext(); ) {
+//                ProductInfo productInfo = iter.next();
+//                if (productInfo.getId() == productId) {
+//                    iter.remove();
+//                }
+//            }
+//
+//            log.info("user "+ favoriteBag.size());
+
+
+            ProductInfo productInfo = productInfoService.findProduct(productId);
+            favoriteBag.remove(productInfo);
+            FavoriteProduct favoriteProduct = new FavoriteProduct(userInfo, productInfo);
+            favoriteProductService.delete(favoriteProduct);
+            userInfo.getFavoriteProducts().remove(favoriteProduct);
+            productInfo.getFavoriteProducts().remove(favoriteProduct);
+
+
+
+
+
+            return favoriteBag.size();
+
+        }else{
+            for (Iterator<ProductInfo> iter = favoriteBag.listIterator(); iter.hasNext(); ) {
+                ProductInfo productInfo = iter.next();
+                if (productInfo.getId() == productId) {
+                    iter.remove();
+                }
+            }
+
+            log.info("bag size "+ favoriteBag.size());
+            return favoriteBag.size();
+        }
     }
 
 //    @GetMapping
