@@ -1,5 +1,6 @@
 package com.jennifer.controller;
 
+import com.jennifer.entity.CampaignProduct;
 import com.jennifer.entity.ProductInfo;
 import com.jennifer.entity.UserInfo;
 import com.jennifer.service.MarketingCampaignService;
@@ -43,11 +44,6 @@ public class CustomerController {
         return "shop";
     }
 
-    @GetMapping("/product-details")
-    public String productDetails(){
-        return "product-details";
-    }
-
     @GetMapping("/checkout")
     public String checkout(){
         return "checkout";
@@ -71,7 +67,12 @@ public class CustomerController {
 
     @GetMapping("/product/{productId}")
     public String viewProduct(Model model, @PathVariable int productId){
-        model.addAttribute("productInfo", productInfoService.findProduct(productId));
+        ProductInfo productInfo = productInfoService.findProduct(productId);
+        model.addAttribute("productInfo", productInfo);
+
+        List<ProductInfo> productInfoList = productInfoService.getSameCategoryProducts(productInfo.getCategoryInfo().getId());
+        productInfoList.remove(productInfo);
+        model.addAttribute("sameCategoryProducts", productInfoList);
         return "product-details";
     }
 

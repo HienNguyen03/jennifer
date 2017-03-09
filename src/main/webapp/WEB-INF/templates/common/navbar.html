@@ -98,13 +98,12 @@
                                     <span th:if="${(session.favoriteBag == null)}" th:text="0" class="added-item-favorite text-center"></span>
                                     <span th:unless="${(session.favoriteBag == null)}" th:text="${#lists.size(session.favoriteBag)}" class="added-item-favorite text-center"></span>
                                 </li>
-                                <li><a th:href="@{/checkout}"><i class="fa fa-sliders"></i> Checkout</a></li>
                                 <li>
                                     <a th:href="@{/cart}"><i class="fa fa-shopping-cart"></i> Cart</a>
                                     <span th:if="${(session.shoppingBag == null)}" th:text="0" class="added-item-cart text-center"></span>
-                                    <span th:unless="${(session.shoppingBag == null)}" th:text="${#lists.size(session.shoppingBag)}" class="added-item-cart text-center"></span>
+                                    <span th:unless="${(session.shoppingBag == null)}" th:text="${#maps.size(session.shoppingBag)}" class="added-item-cart text-center"></span>
                                 </li>
-
+                                <li><a th:href="@{/checkout}"><i class="fa fa-sliders"></i> Checkout</a></li>
                                 <li sec:authorize="${isAnonymous()}" ><a th:href="@{/login}"><i class="fa fa-lock"></i> Login</a></li>
                                 <li sec:authorize="${isAuthenticated()}" class="dropdown">
 

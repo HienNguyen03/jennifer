@@ -35,29 +35,7 @@
 				<div class="col-sm-9 padding-right">
 					<div class="features_items"><!--features_items-->
 						<h2 class="title text-center">Features Items</h2>
-
-						<div th:each="product : ${availableProducts}" class="col-sm-4">
-							<div class="product-image-wrapper">
-								<div th:with="productImages = ${#strings.arraySplit(product.image, ',')}" class="single-products">
-									<div th:each="productImage,iter : ${productImages}" th:if="${iter.index} == 0" class="productinfo text-center">
-										<img th:src="@{/pics/{iName}(iName=${productImage})}" />
-										<h2 th:text="'€' + ${product.unitPrice}"></h2>
-										<p th:text="${product.name}"></p>
-										<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-									</div>
-									<div th:each="productImage,iter : ${productImages}" th:if="${iter.index} == 1" class="product-overlay">
-										<div class="overlay-content">
-											<a th:href="${'/product/' + product.id}"><img th:src="@{/pics/{iName}(iName=${productImage})}" /></a>
-											<h2 th:text="'€' + ${product.unitPrice}"></h2>
-											<p th:text="${product.name}"></p>
-											<a th:attr="data-cart=${product.id}" class="btn btn-default add-to-cart" title="Add to cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-										</div>
-									</div>
-									<div class="favorite" th:attr="data-favorite=${product.id}" title="Add to favorite"><span></span></div>
-								</div>
-							</div>
-						</div>
-
+						<div th:replace="common/product :: printProduct(productList=${availableProducts})"></div>
 					</div><!--features_items-->
 				</div>
 			</div>

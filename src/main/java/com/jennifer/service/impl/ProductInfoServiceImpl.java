@@ -57,4 +57,9 @@ public class ProductInfoServiceImpl implements ProductInfoService {
         return productInfoDao.findLatestProducts();
     }
 
+    @Override
+    public List<ProductInfo> getSameCategoryProducts(int categoryId) {
+        return productInfoDao.findSameCategoryProducts(categoryId);
+    }
+
 }

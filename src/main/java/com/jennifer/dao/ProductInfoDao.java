@@ -23,4 +23,7 @@ public interface ProductInfoDao extends JpaRepository<ProductInfo, Integer> {
         return findByStatusLikeOrderByIdDesc("available", new PageRequest(0,12));
     }
 
+    @Query("from ProductInfo pi where pi.categoryInfo.id = ?1")
+    List<ProductInfo> findSameCategoryProducts(int categoryId);
+
 }
