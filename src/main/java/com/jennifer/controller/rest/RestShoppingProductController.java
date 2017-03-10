@@ -126,6 +126,25 @@ public class RestShoppingProductController {
 
     }
 
+    @PutMapping("/q/{productId}/{updateQuantity}")
+    public Object addProductToShoppingBagQuantity(@ModelAttribute("shoppingBag") Map<ProductInfo, Integer> shoppingBag, @PathVariable int productId, @PathVariable int updateQuantity) {
+        log.info(" > [rest] Shopping Product - addProductToShoppingBagQuantity");
+
+        log.info("productId: "+productId);
+        log.info("updateQuantity: "+updateQuantity);
+
+        UserInfo userInfo = AppUtil.getCustomerFromSession();
+        ProductInfo productInfo = productInfoService.findProduct(productId);
+
+        shoppingBag.put(productInfo, updateQuantity);
+        if(userInfo != null) {
+            ShoppingProduct shoppingProduct = new ShoppingProduct(userInfo, productInfo, updateQuantity);
+            shoppingProductService.update(shoppingProduct);
+        }
+        return shoppingBag.size();
+
+    }
+
 //    @GetMapping
 //    public Object findAll() throws JsonProcessingException {
 //        log.info(" > [rest] Product - findAll");

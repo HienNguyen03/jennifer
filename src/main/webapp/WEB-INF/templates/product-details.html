@@ -172,6 +172,7 @@
             });
             $('.cart').click(function(e){
                 e.preventDefault();
+
                 $.ajax({
                     type: "PUT",
                     url: "/api/shopping-product/a/"+$(this).data("cart-product")+"/"+$(".select-quantity").val(),

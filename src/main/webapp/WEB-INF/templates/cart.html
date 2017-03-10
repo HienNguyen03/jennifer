@@ -46,17 +46,17 @@
 							</td>
 							<td class="cart_price">
 								<span class="discountTag" th:if="${product.key.discount > 0}" th:text="${product.key.unitPrice}" ></span>
-								<span class="priceTag" th:text="'€' + ${product.key.unitPrice * (100-product.key.discount)/ 100}"></span>
+								<span th:class="${'priceTag priceTag_'+{product.key.id}}" th:text="'€' + ${product.key.unitPrice * (100-product.key.discount)/ 100}"></span>
 							</td>
 							<td class="cart_quantity">
 								<div class="cart_quantity_button">
-									<a class="cart_quantity_up" href=""> + </a>
-									<input class="cart_quantity_input" type="text" name="quantity" th:attr="value= ${product.value}" autocomplete="off" size="2" />
-									<a class="cart_quantity_down" href=""> - </a>
+									<a class="cart_quantity_up" href="" th:attr="data-product-id=${product.key.id}"> + </a>
+									<input th:class="${'cart_quantity_input cart_quantity_id_'+product.key.id}" type="text" name="quantity" th:attr="value= ${product.value}" autocomplete="off" size="2" />
+									<a class="cart_quantity_down" href="" th:attr="data-product-id=${product.key.id}"> - </a>
 								</div>
 							</td>
 							<td class="cart_total">
-								<p class="cart_total_price" th:text="'€' + ${(product.key.unitPrice * (100-product.key.discount)/ 100) * product.value}">$59</p>
+								<p th:class="${'cart_total_price cart_total_price_'+{product.key.id}}" th:text="'€' + ${(product.key.unitPrice * (100-product.key.discount)/ 100) * product.value}">$59</p>
 							</td>
 							<td class="cart_delete">
 								<a  class="cart_quantity_delete del-cart" th:attr="data-cart=${product.key.id}" href=""><i class="fa fa-times"></i></a>
@@ -155,7 +155,6 @@
             $('.del-cart').click(function (e) {
                 e.preventDefault();
                 var cartProduct = 'cardProduct' + $(this).data("cart");
-                console.log(cartProduct);
                 $.ajax({
                     type: "DELETE",
                     url: "/api/shopping-product/"+$(this).data("cart"),
@@ -165,6 +164,46 @@
 
                     $('#' + cartProduct).remove();
                     alertify.success("<i class='fa fa-remove'></i> Delete favorite product!");
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    alertify.error("<i class='fa fa-exclamation-triangle'></i> " + jqXHR.responseText + "!");
+                });
+            });
+
+            $('.cart_quantity_up').click(function(e){
+                e.preventDefault();
+                let productQuantity = parseFloat($(".cart_quantity_id_"+$(this).data("product-id")).val());
+                productQuantity++;
+                let currentPrice = parseFloat($(".priceTag_"+$(this).data("product-id")).text().slice(1));
+                let newPrice = productQuantity * currentPrice;
+                $(".cart_quantity_id_"+$(this).data("product-id")).val(productQuantity);
+                $(".cart_total_price_"+$(this).data("product-id")).text(newPrice);
+                $.ajax({
+                    type: "PUT",
+                    url: "/api/shopping-product/q/"+$(this).data("product-id")+"/"+productQuantity,
+                    dataType: "json"
+                }).done(function (data, textStatus, jqXHR) {
+                    $('.added-item-cart').text(data);
+                    alertify.success("<i class='fa fa-cart-plus'></i> Updated your cart!");
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    alertify.error("<i class='fa fa-exclamation-triangle'></i> " + jqXHR.responseText + "!");
+                });
+			});
+
+            $('.cart_quantity_down').click(function(e){
+                e.preventDefault();
+                let productQuantity = parseFloat($(".cart_quantity_id_"+$(this).data("product-id")).val());
+                productQuantity--;
+                let currentPrice = parseFloat($(".priceTag_"+$(this).data("product-id")).text().slice(1));
+                let newPrice = productQuantity * currentPrice;
+                $(".cart_quantity_id_"+$(this).data("product-id")).val(productQuantity);
+                $(".cart_total_price_"+$(this).data("product-id")).text(newPrice);
+                $.ajax({
+                    type: "PUT",
+                    url: "/api/shopping-product/q/"+$(this).data("product-id")+"/"+productQuantity,
+                    dataType: "json"
+                }).done(function (data, textStatus, jqXHR) {
+                    $('.added-item-cart').text(data);
+                    alertify.success("<i class='fa fa-cart-plus'></i> Updated to your cart!");
                 }).fail(function (jqXHR, textStatus, errorThrown) {
                     alertify.error("<i class='fa fa-exclamation-triangle'></i> " + jqXHR.responseText + "!");
                 });
