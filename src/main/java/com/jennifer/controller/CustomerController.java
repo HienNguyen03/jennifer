@@ -1,13 +1,12 @@
 package com.jennifer.controller;
 
-import com.jennifer.entity.CampaignProduct;
+import com.jennifer.controller.rest.RestShoppingProductController;
+import com.jennifer.entity.*;
 import com.jennifer.controller.rest.RestFavoriteProductController;
-import com.jennifer.entity.FavoriteProduct;
-import com.jennifer.entity.ProductInfo;
-import com.jennifer.entity.UserInfo;
 import com.jennifer.service.FavoriteProductService;
 import com.jennifer.service.MarketingCampaignService;
 import com.jennifer.service.ProductInfoService;
+import com.jennifer.service.ShoppingProductService;
 import com.jennifer.util.AppUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,34 +18,40 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Handles requests from Customers
  */
 
 @Controller
-@SessionAttributes({"favoriteBag", "deliveryMethod"})
+@SessionAttributes({"favoriteBag", "shoppingBag"})
 public class CustomerController {
     private static final Logger log = LoggerFactory.getLogger(CustomerController.class);
 
     private FavoriteProductService favoriteProductService;
+    private ShoppingProductService shoppingProductService;
     private MarketingCampaignService marketingCampaignService;
     private ProductInfoService productInfoService;
 
     @Autowired
     public CustomerController(MarketingCampaignService marketingCampaignService, ProductInfoService productInfoService,
-            FavoriteProductService favoriteProductService){
+            FavoriteProductService favoriteProductService, ShoppingProductService shoppingProductService){
         this.marketingCampaignService = marketingCampaignService;
         this.productInfoService = productInfoService;
         this.favoriteProductService = favoriteProductService;
+        this.shoppingProductService = shoppingProductService;
     }
 
     @ModelAttribute("favoriteBag")
     public List<ProductInfo> createFavoriteBag(){
         log.info("create favorite bag !");
         return RestFavoriteProductController.createFavoriteBag();
+    }
+
+    @ModelAttribute("shoppingBag")
+    public Map<ProductInfo, Integer> createShoppingBag(){
+        return RestShoppingProductController.createShoppingBag();
     }
 
     @GetMapping("/")
@@ -64,19 +69,27 @@ public class CustomerController {
 
     @GetMapping("/checkout")
     public String checkout(){
-        UserInfo userInfo = AppUtil.getCustomerFromSession();
-        if(userInfo == null) {
-            return "redirect:/login";
-        } else {
-
-
-            return "checkout";
-        }
+        return "checkout";
+    }
 
     }
 
     @GetMapping("/cart")
-    public String cart(){
+    public String cart(Model model, @ModelAttribute("shoppingBag") Map<ProductInfo, Integer> shoppingBag){
+        log.info(" > CART - GET");
+        UserInfo userInfo = AppUtil.getCustomerFromSession();
+
+        if (userInfo!= null){
+            List<ShoppingProduct> shoppingProducts = shoppingProductService.findAllByUserId(userInfo.getId());
+
+            Map<ProductInfo,Integer> userShoppingBag = new HashMap<ProductInfo,Integer>();
+            for(ShoppingProduct shoppingProduct : shoppingProducts){
+               userShoppingBag.put(shoppingProduct.getProductInfo(), shoppingProduct.getQuantity());
+            }
+
+            model.addAttribute("shoppingBag", userShoppingBag);
+        }
+        log.info("size " + shoppingBag.size() );
         return "cart";
     }
 
@@ -96,10 +109,6 @@ public class CustomerController {
 
             model.addAttribute("favoriteBag",productInfos);
 
-        }else{
-            log.info(""+favoriteBag.size());
-            model.addAttribute("favoriteBag",favoriteBag);
-
         }
         return "favorite";
     }
@@ -108,7 +117,6 @@ public class CustomerController {
     public String contact(){
         return "contact";
     }
-
 
     @GetMapping("/product/{productId}")
     public String viewProduct(Model model, @PathVariable int productId){

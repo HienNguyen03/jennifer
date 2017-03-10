@@ -2,6 +2,7 @@ package com.jennifer.service.impl;
 
 import com.jennifer.dao.OrderInfoDao;
 import com.jennifer.entity.OrderInfo;
+import com.jennifer.entity.UserInfo;
 import com.jennifer.service.OrderInfoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,6 +46,11 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         List<OrderInfo> orderInfos = orderInfoDao.findByOrderStatus("Pending");
 
         return orderInfos.size();
+    }
+
+    @Override
+    public List<OrderInfo> findByUserInfo(UserInfo user) {
+        return orderInfoDao.findByUserInfo(user);
     }
 }
 

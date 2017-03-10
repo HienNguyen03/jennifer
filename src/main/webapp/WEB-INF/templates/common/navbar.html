@@ -119,6 +119,12 @@
                                                 <i class="fa fa-user"></i> Profile
                                             </a>
                                         </li>
+
+                                        <li>
+                                            <a th:href="@{/order-history}">
+                                                <i class="fa fa-history"></i> Order history
+                                            </a>
+                                        </li>
                                         <li>
                                             <form id="logoutForm" th:action="@{/logout}" method="post">
                                                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>

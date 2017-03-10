@@ -1,6 +1,8 @@
 package com.jennifer.service;
 
 import com.jennifer.entity.OrderInfo;
+import com.jennifer.entity.UserInfo;
+
 import java.util.List;
 
 /**
@@ -12,4 +14,6 @@ public interface OrderInfoService {
     OrderInfo findById(int id);
     OrderInfo update(OrderInfo orderInfo);
     int getNewOrder();
+    List<OrderInfo> findByUserInfo(UserInfo user);
+
 }

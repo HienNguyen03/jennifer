@@ -1675,7 +1675,7 @@ h2.title {
 
 .cart_product {
   display: block;
-  margin: 15px -70px 10px 25px;
+  margin: 5px -15px 5px 5px;
 }
 
 .cart_quantity_button a {
@@ -1717,6 +1717,11 @@ h2.title {
 
 .cart_delete a:hover {
   background:#ff7b7b
+}
+
+.favotire_product img{
+  width: 100px;
+  height: 120px;
 }
 
 

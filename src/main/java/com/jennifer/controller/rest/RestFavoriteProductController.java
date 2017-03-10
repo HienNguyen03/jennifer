@@ -119,10 +119,6 @@ public class RestFavoriteProductController {
             //productInfo.getFavoriteProducts().remove(userInfo);
             userInfoService.updateUser(userInfo);
 
-
-
-
-
             return favoriteBag.size();
 
         }else{
