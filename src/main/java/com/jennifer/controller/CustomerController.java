@@ -72,8 +72,6 @@ public class CustomerController {
         return "checkout";
     }
 
-    }
-
     @GetMapping("/cart")
     public String cart(Model model, @ModelAttribute("shoppingBag") Map<ProductInfo, Integer> shoppingBag){
         log.info(" > CART - GET");
