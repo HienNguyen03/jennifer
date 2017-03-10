@@ -27,7 +27,7 @@ import java.util.List;
  */
 
 @Controller
-@SessionAttributes({"favoriteBag"})
+@SessionAttributes({"favoriteBag", "deliveryMethod"})
 public class CustomerController {
     private static final Logger log = LoggerFactory.getLogger(CustomerController.class);
 
@@ -64,7 +64,15 @@ public class CustomerController {
 
     @GetMapping("/checkout")
     public String checkout(){
-        return "checkout";
+        UserInfo userInfo = AppUtil.getCustomerFromSession();
+        if(userInfo == null) {
+            return "redirect:/login";
+        } else {
+
+
+            return "checkout";
+        }
+
     }
 
     @GetMapping("/cart")

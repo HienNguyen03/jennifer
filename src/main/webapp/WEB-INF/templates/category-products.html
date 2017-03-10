@@ -62,24 +62,36 @@
             adaptiveHeight: true
         });
 
-        // TODO have not create api for PUT yet
-        $('.favorite').click(function(){
+        /*<![CDATA[*/
+        var category_url = /*[[@{'/categories'}]]*/"";
+
+        $('.favorite').click(function(e){
+            e.preventDefault();
             $.ajax({
                 type: "PUT",
-                url: "/api/favorite",
-                dataType: "json",
-                data: JSON.stringify({
-                    id: $(this).data("favorite")
-                })
+                url: "/api/favorite-product/"+$(this).data("favorite"),
+                dataType: "json"
             }).done(function (data, textStatus, jqXHR) {
-                alertify.success("Added to your favorite!");
+                $('.added-item-favorite').text(data);
+                alertify.success("<i class='fa fa-heart'></i> Added to your favorite!");
             }).fail(function (jqXHR, textStatus, errorThrown) {
-                alertify.error(jqXHR.responseText);
+                alertify.error("<i class='fa fa-exclamation-triangle'></i> " + jqXHR.responseText + "!");
+            });
+        });
+        $('.add-to-cart').click(function(e){
+            e.preventDefault();
+            $.ajax({
+                type: "PUT",
+                url: "/api/shopping-product/"+$(this).data("cart"),
+                dataType: "json"
+            }).done(function (data, textStatus, jqXHR) {
+                $('.added-item-cart').text(data);
+                alertify.success("<i class='fa fa-cart-plus'></i> Added to your cart!");
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                alertify.error("<i class='fa fa-exclamation-triangle'></i> " + jqXHR.responseText + "!");
             });
         });
 
-        /*<![CDATA[*/
-        var category_url = /*[[@{'/categories'}]]*/"";
         /*]]>*/
 
         $('#categorySidebar').load(category_url);

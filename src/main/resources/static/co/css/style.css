@@ -122,3 +122,18 @@
 .discountLabel img {
     width: 110px;
 }
+
+
+
+
+.panel.plus .panel-body {
+    padding: 0px;
+}
+
+.panel.plus .jsgrid-pager {
+    padding-left: 20px;
+}
+
+.panel.plus .jsgrid-grid-header, .panel.plus .jsgrid-grid-body {
+    border: none;
+}

@@ -116,7 +116,8 @@ public class RestFavoriteProductController {
             FavoriteProduct favoriteProduct = new FavoriteProduct(userInfo, productInfo);
             favoriteProductService.delete(favoriteProduct);
             userInfo.getFavoriteProducts().remove(favoriteProduct);
-            productInfo.getFavoriteProducts().remove(favoriteProduct);
+            //productInfo.getFavoriteProducts().remove(userInfo);
+            userInfoService.updateUser(userInfo);
 
 
 

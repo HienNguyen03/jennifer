@@ -67,7 +67,7 @@
 							<div class="product-information"><!--/product-information-->
 								<!--<img th:src="@{/custom/co/images/product-details/new.jpg}" class="newarrival" alt="" />-->
 								<p class="product-details-name" th:text="${productInfo.name}"></p>
-								<p class="product-details-id" >Web ID: 1089772</p>
+								<p class="product-details-id" th:text="${'Reference ID: '+productInfo.id}"></p>
 								<p class="product-details-rating" ><img th:src="@{/custom/co/images/product-details/rating.png}" alt="" /></p>
 								<p class="product-details-price">
 									<span class="discountTag" th:if="${productInfo.discount > 0}" th:text="${productInfo.unitPrice}" ></span>
@@ -76,7 +76,7 @@
 								<p class="product-details-quantity" >
 									<label>Quantity:</label>
 									<input class="select-quantity text-center" type="number" value="1" size="6" min="0" max="50" />
-									<button type="button" class="btn btn-fefault cart"><i class="fa fa-shopping-cart"></i> Add to cart</button>
+									<button type="button" class="btn btn-default cart" th:attr="data-cart-product=${productInfo.id}"><i class="fa fa-shopping-cart"></i> Add to cart</button>
 								</p>
 								<p class="product-details-status" >
 									<label>Status:</label>
@@ -98,21 +98,7 @@
 						<h2 class="title text-center">Relevant items</h2>
 						<div class="same-category-product">
 
-							<div th:each="sameCategoryProduct : ${sameCategoryProducts}">
-								<div class="product-image-wrapper">
-									<div class="single-products">
-										<div class="productinfo text-center" th:with="productRelatedImages = ${#strings.arraySplit(sameCategoryProduct.image, ',')}">
-											<img class="display-product" th:src="${'/pics/' + productRelatedImages[0]}" />
-											<p class="product-details-price">
-												<span class="discountTag" th:if="${sameCategoryProduct.discount > 0}" th:text="${sameCategoryProduct.unitPrice}" ></span>
-												<span class="priceTag" th:text="'€' + ${sameCategoryProduct.unitPrice * (100-sameCategoryProduct.discount)/ 100}"></span>
-											</p>
-											<p th:text="${sameCategoryProduct.name}">Easy Polo Black Edition</p>
-											<button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i> Add to cart</button>
-										</div>
-									</div>
-								</div>
-							</div>
+							<div th:replace="common/product :: printProduct(productList=${sameCategoryProducts})" class="well-lg"></div >
 
 						</div>
 					</div><!--/recommended_items-->
@@ -157,14 +143,59 @@
                 else
                     $('.btn.cart').removeAttr("disabled");
 			});
+
+            $('.favorite').click(function(e){
+                e.preventDefault();
+                $.ajax({
+                    type: "PUT",
+                    url: "/api/favorite-product/"+$(this).data("favorite"),
+                    dataType: "json"
+                }).done(function (data, textStatus, jqXHR) {
+                    $('.added-item-favorite').text(data);
+                    alertify.success("<i class='fa fa-heart'></i> Added to your favorite!");
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    alertify.error("<i class='fa fa-exclamation-triangle'></i> " + jqXHR.responseText + "!");
+                });
+            });
+            $('.add-to-cart').click(function(e){
+                e.preventDefault();
+                $.ajax({
+                    type: "PUT",
+                    url: "/api/shopping-product/"+$(this).data("cart"),
+                    dataType: "json"
+                }).done(function (data, textStatus, jqXHR) {
+                    $('.added-item-cart').text(data);
+                    alertify.success("<i class='fa fa-cart-plus'></i> Added to your cart!");
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    alertify.error("<i class='fa fa-exclamation-triangle'></i> " + jqXHR.responseText + "!");
+                });
+            });
+            $('.cart').click(function(e){
+                e.preventDefault();
+                $.ajax({
+                    type: "PUT",
+                    url: "/api/shopping-product/a/"+$(this).data("cart-product")+"/"+$(".select-quantity").val(),
+                    dataType: "json"
+                }).done(function (data, textStatus, jqXHR) {
+                    $('.added-item-cart').text(data);
+                    alertify.success("<i class='fa fa-cart-plus'></i> Added to your cart!");
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    alertify.error("<i class='fa fa-exclamation-triangle'></i> " + jqXHR.responseText + "!");
+                });
+            });
+
+
 			/*]]>*/
             $('.btn.cart').change(function(){
                 console.log("add to cart");
             });
 
+
+
             $('.same-category-product').slick({
                 dots: true,
                 infinite: false,
+                autoplay: true,
                 speed: 300,
                 slidesToShow: 4,
                 slidesToScroll: 4,

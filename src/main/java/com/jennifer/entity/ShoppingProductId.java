@@ -1,5 +1,6 @@
 package com.jennifer.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Embeddable;
 import javax.persistence.ManyToOne;
 import java.io.Serializable;
@@ -11,10 +12,10 @@ import java.io.Serializable;
 @Embeddable
 class ShoppingProductId implements Serializable {
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private ProductInfo productInfo;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private UserInfo userInfo;
 
     public ProductInfo getProductInfo() {

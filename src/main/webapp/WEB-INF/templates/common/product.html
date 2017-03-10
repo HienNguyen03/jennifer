@@ -7,7 +7,7 @@
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
     </div>
 
-    <div th:fragment="printProduct(productList)" th:each="product : ${productList}" class="col-sm-4">
+    <div th:fragment="printProduct(productList)" th:each="product : ${productList}" class="col-sm-4" style="outline:0;">
         <div class="product-image-wrapper">
             <div th:with="productImages = ${#strings.arraySplit(product.image, ',')}" class="single-products">
                 <div th:each="productImage,iter : ${productImages}" th:if="${iter.index} == 0" class="productinfo text-center">

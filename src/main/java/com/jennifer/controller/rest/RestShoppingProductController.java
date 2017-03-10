@@ -78,6 +78,33 @@ public class RestShoppingProductController {
 
     }
 
+    @PutMapping("/a/{productId}/{chooseQuantity}")
+    public Object addProductToShoppingBagAlone(@ModelAttribute("shoppingBag") Map<ProductInfo, Integer> shoppingBag, @PathVariable int productId, @PathVariable int chooseQuantity) {
+        log.info(" > [rest] Shopping Product - addProductToShoppingBagAlone");
+
+        UserInfo userInfo = AppUtil.getCustomerFromSession();
+        ProductInfo productInfo = productInfoService.findProduct(productId);
+
+        ShoppingProduct shoppingProduct;
+
+        if(shoppingBag.containsKey(productInfo)) {
+            shoppingBag.put(productInfo, shoppingBag.get(productInfo) + chooseQuantity);
+            if(userInfo != null) {
+                shoppingProduct = new ShoppingProduct(userInfo, productInfo, shoppingBag.get(productInfo)+chooseQuantity);
+                shoppingProductService.update(shoppingProduct);
+            }
+            return shoppingBag.size();
+        } else {
+            shoppingBag.put(productInfo, chooseQuantity);
+            if(userInfo != null) {
+                shoppingProduct = new ShoppingProduct(userInfo, productInfo, chooseQuantity);
+                shoppingProductService.update(shoppingProduct);
+            }
+            return shoppingBag.size();
+        }
+
+    }
+
 //    @GetMapping
 //    public Object findAll() throws JsonProcessingException {
 //        log.info(" > [rest] Product - findAll");
