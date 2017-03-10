@@ -38,7 +38,8 @@ public class RestShoppingProductController {
     }
 
     @ModelAttribute("shoppingBag")
-    public Map<ProductInfo, Integer> createShoppingBag(){
+    public static Map<ProductInfo, Integer> createShoppingBag(){
+        log.info("create cart");
         UserInfo userInfo = AppUtil.getCustomerFromSession();
         if(userInfo != null && !userInfo.getShoppingProducts().isEmpty()) {
             Map<ProductInfo, Integer> map = new HashMap<>();
@@ -77,6 +78,26 @@ public class RestShoppingProductController {
         }
 
     }
+
+    @DeleteMapping("/{productId}")
+    public Object deleteProductInShoppingBag(@ModelAttribute("shoppingBag") Map<ProductInfo, Integer> shoppingBag, @PathVariable int productId ){
+        UserInfo userInfo = AppUtil.getCustomerFromSession();
+
+        if(userInfo != null){
+            ProductInfo productInfo = productInfoService.findProduct(productId);
+            ShoppingProduct shoppingProduct = new ShoppingProduct(userInfo, productInfo, shoppingBag.get(productInfo));
+            shoppingBag.remove(productInfo);
+            shoppingProductService.delete(shoppingProduct);
+
+            return shoppingBag.size();
+        }else{
+            ProductInfo productInfo = productInfoService.findProduct(productId);
+            shoppingBag.remove(productInfo);
+            return shoppingBag.size();
+        }
+    }
+
+
 
 //    @GetMapping
 //    public Object findAll() throws JsonProcessingException {

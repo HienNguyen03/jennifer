@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Favorite - Jennifer webstore</title>
+    <object th:include="common/header :: common-header-customer" th:remove="tag"></object>
+    <!--<style>-->
+    <!--.favotire_product img{-->
+    <!--width: 100px;-->
+    <!--height: 120px;-->
+    <!--}-->
+    <!--</style>-->
+</head>
+
+<body>
+<div th:replace="common/navbar :: common-navbar-customer" th:remove="tag"></div>
+
+<section id="cart_items">
+    <div class="container">
+        <div class="breadcrumbs">
+            <ol class="breadcrumb">
+                <li><a th:href="@{/}">Home</a></li>
+                <li class="active">Order History</li>
+            </ol>
+        </div>
+
+        <div class="table-responsive cart_info">
+            <table class="table table-condensed">
+                <thead>
+                <tr class="cart_menu">
+                    <td class="text-center">Date</td>
+                    <td class="text-center" >Products</td>
+                    <td>Total Price</td>
+                    <td>Shipping to</td>
+                    <td>Delivery type</td>
+                    <td>Status</td>
+                </tr>
+                </thead>
+                <tbody class="cart_content">
+                <tr th:each="order : ${orderHistory}">
+                    <td class="cart_product">
+                        <p th:text = "${#dates.format(order.key.orderDate, 'dd/MM/yyyy')}"></p>
+                    </td>
+                    <td class="cart_description text-center">
+                        <p th:each="orderdetail : ${order.value}" th:text = "${orderdetail.productInfo.name} + ' x ' + ${orderdetail.quantity}"></p>
+                    </td>
+                    <td class="cart_description">
+                        <p th:text = "'€ '+ ${order.key.totalPrice}" >$59</p>
+                    </td>
+                    <td class="cart_description">
+                        <p th:text = "${order.key.shippingAddress.address}+ ', ' + ${order.key.shippingAddress.city}"></p>
+                    </td>
+
+                    <td class="cart_description">
+                        <p th:text = "${order.key.deliveryMethod.name}"></p>
+                    </td>
+
+                    <td class="cart_description">
+                        <p th:text = "${order.key.status}"></p>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section> <!--/#cart_items-->
+
+<div th:replace="common/footer :: common-footer-customer" th:remove="tag"></div>
+
+<div th:replace="common/footer :: common-footer-scripts-customer" th:remove="tag"></div>
+</body>
+</html>

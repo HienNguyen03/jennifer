@@ -118,10 +118,6 @@ public class RestFavoriteProductController {
             userInfo.getFavoriteProducts().remove(favoriteProduct);
             productInfo.getFavoriteProducts().remove(favoriteProduct);
 
-
-
-
-
             return favoriteBag.size();
 
         }else{
