@@ -2,48 +2,48 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-	<title>Jennifer - Online shopping webstore</title>
-	<object th:include="common/header :: common-header-customer" th:remove="tag"></object>
-	<style>
-		.campaign-slider img {
-			cursor: pointer;
-		}
-	</style>
+    <title>Jennifer - Online shopping webstore</title>
+    <object th:include="common/header :: common-header-customer" th:remove="tag"></object>
+    <style>
+        .campaign-slider img {
+            cursor: pointer;
+        }
+    </style>
 </head>
 
 <body>
 <div th:replace="common/navbar :: common-navbar-customer" th:remove="tag"></div>
 
-	<section id="slider"><!--slider-->
-		<div class="container">
-			<div class="row">
-				<div class="col-sm-12 well-lg">
-					<div th:if="${#lists.isEmpty(availableCampaigns) }" class="campaign-slider">
-						<img th:src="@{/custom/co/images/home/default-banner.jpg}" />
-					</div>
+<section id="slider"><!--slider-->
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 well-lg">
+                <div th:if="${#lists.isEmpty(availableCampaigns) }" class="campaign-slider">
+                    <img th:src="@{/custom/co/images/home/default-banner.jpg}" />
+                </div>
 
-					<div th:unless="${#lists.isEmpty(availableCampaigns) }" class="campaign-slider">
-						<img th:each="campaign : ${availableCampaigns}" th:attr="data-camp-id=${campaign.id}" th:src="@{/pics/{banner}(banner=${campaign.banner})}" />
-					</div>
-				</div>
-			</div>
-		</div>
-	</section><!--/slider-->
+                <div th:unless="${#lists.isEmpty(availableCampaigns) }" class="campaign-slider">
+                    <img th:each="campaign : ${availableCampaigns}" th:attr="data-camp-id=${campaign.id}" th:src="@{/pics/{banner}(banner=${campaign.banner})}" />
+                </div>
+            </div>
+        </div>
+    </div>
+</section><!--/slider-->
 
-	<section>
-		<div class="container">
-			<div class="row">
-				<div id = "categorySidebar"></div>
-				<div class="col-sm-9 padding-right">
-					<div class="features_items"><!--features_items-->
+<section>
+    <div class="container">
+        <div class="row">
+            <div id = "categorySidebar"></div>
+            <div class="col-sm-9 padding-right">
+                <div class="features_items"><!--features_items-->
+                    <h2 class="title text-center" th:text="${campaign.event}">Features Items</h2>
+                    <div th:replace="common/product :: printProduct(productList=${productCampaign})" ></div >
 
-						<div th:replace="common/product :: printProduct(productList=${availableProducts})" ></div >
-
-					</div><!--features_items-->
-				</div>
-			</div>
-		</div>
-	</section>
+                </div><!--features_items-->
+            </div>
+        </div>
+    </div>
+</section>
 
 <div th:replace="common/footer :: common-footer-customer" th:remove="tag"></div>
 
@@ -51,7 +51,7 @@
 
 <script type="text/javascript" th:inline="javascript">
     $(document).ready(function(){
-		/*<![CDATA[*/
+        /*<![CDATA[*/
         var category_url = /*[[@{'/categories'}]]*/"";
         $('#categorySidebar').load(category_url);
 
@@ -59,7 +59,7 @@
             let campId = $(this).data('camp-id');
             console.log(campId);
             window.location.replace("/campaign/" + campId);
-		});
+        });
 
         $('.campaign-slider').slick({
             dots: true,
@@ -97,7 +97,7 @@
             });
         });
 
-		/*]]>*/
+        /*]]>*/
 
     });
 </script>
