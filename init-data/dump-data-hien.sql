@@ -10,17 +10,18 @@ TRUNCATE order_info;
 TRUNCATE order_detail;
 SET FOREIGN_KEY_CHECKS = 1;
 
-INSERT INTO `user_info` (`ID`,`FULLNAME`,`EMAIL`,`PASSWORD`,`ROLE`) VALUES (1,'Manager Hien','lily31392@gmail.com','$2a$10$sHTfDyNShMdjRJ2hn2/pKusTH4fYzPUk7hYO0F0uXWXwykwcpDS3q','MANAGER');
-INSERT INTO `user_info` (`ID`,`FULLNAME`,`EMAIL`,`PASSWORD`,`ROLE`) VALUES (2,'Lily Nguyen','thuhien@gmail.com','$2a$10$OoaQ.USmHJkbeA3kdiIsxObmXxzA6MKyOs6V9mQuupyEcKA3MN9ci','CUSTOMER');
-INSERT INTO `user_info` (`ID`,`FULLNAME`,`EMAIL`,`PASSWORD`,`ROLE`) VALUES (3,'Ho Hoang Phuc','jamesho287@gmail.com','$2a$10$HRrqfsMeigkhmnNyvygR/.SHv0CIJgJAZDdMoFyUml4937n0sW.bS','CUSTOMER');
-INSERT INTO `user_info` (`ID`,`FULLNAME`,`EMAIL`,`PASSWORD`,`ROLE`) VALUES (4,'Manager Phuc','manager@jennifer.com','$2a$10$UR.J2bHbQhgeRlmoxkFVvOW4oQShROOG0iCJ5cdfwFsAVHKB5WbPu','MANAGER');
-INSERT INTO `user_info` (`ID`,`FULLNAME`,`EMAIL`,`PASSWORD`,`ROLE`) VALUES (5,'Alex Max','alex@gmail.com','$2a$10$UR.J2bHbQhgeRlmoxkFVvOW4oQShROOG0iCJ5cdfwFsAVHKB5WbPu','CUSTOMER');
-INSERT INTO `user_info` (`ID`,`FULLNAME`,`EMAIL`,`PASSWORD`,`ROLE`) VALUES (6,'Larry Pages','larry@gmail.com','$2a$10$UR.J2bHbQhgeRlmoxkFVvOW4oQShROOG0iCJ5cdfwFsAVHKB5WbPu','CUSTOMER');
-INSERT INTO `user_info` (`ID`,`FULLNAME`,`EMAIL`,`PASSWORD`,`ROLE`) VALUES (7,'Tim Cook','tim@apple.com','$2a$10$UR.J2bHbQhgeRlmoxkFVvOW4oQShROOG0iCJ5cdfwFsAVHKB5WbPu','CUSTOMER');
-INSERT INTO `user_info` (`ID`,`FULLNAME`,`EMAIL`,`PASSWORD`,`ROLE`) VALUES (8,'Jennifer Lawrence','jennifer@apple.com','$2a$10$UR.J2bHbQhgeRlmoxkFVvOW4oQShROOG0iCJ5cdfwFsAVHKB5WbPu','CUSTOMER');
-INSERT INTO `user_info` (`ID`,`FULLNAME`,`EMAIL`,`PASSWORD`,`ROLE`) VALUES (9,'Brad Pitt','brad@gamil.com','$2a$10$UR.J2bHbQhgeRlmoxkFVvOW4oQShROOG0iCJ5cdfwFsAVHKB5WbPu','CUSTOMER');
-INSERT INTO `user_info` (`ID`,`FULLNAME`,`EMAIL`,`PASSWORD`,`ROLE`) VALUES (10,'Jackie Chan','jackie@gmail.com','$2a$10$UR.J2bHbQhgeRlmoxkFVvOW4oQShROOG0iCJ5cdfwFsAVHKB5WbPu','CUSTOMER');
-INSERT INTO `user_info` (`ID`,`FULLNAME`,`EMAIL`,`PASSWORD`,`ROLE`) VALUES (11,'Harry Potter','jack@gmail.com','$2a$10$UR.J2bHbQhgeRlmoxkFVvOW4oQShROOG0iCJ5cdfwFsAVHKB5WbPu','CUSTOMER');
+INSERT INTO `user_info` (`ID`,`FULLNAME`,`EMAIL`,`PASSWORD`,`ROLE`) VALUES (1,'Manager Hien','thuhien@gmail.com','$2a$10$07cQY1uFkjcJ7uOVUW6w.OGUD8aYM3xLaU9KXscob1MA68enIy94e','MANAGER');
+INSERT INTO `user_info` (`ID`,`FULLNAME`,`EMAIL`,`PASSWORD`,`ROLE`) VALUES (2,'Lily Nguyen','lily31392@gmail.com','$2a$10$RJ1VIcVglQiuo37IlJQ75ONZtt2A0b5kT1ESdYfbaLbTun2p7L66i','CUSTOMER');
+INSERT INTO `user_info` (`ID`,`FULLNAME`,`EMAIL`,`PASSWORD`,`ROLE`) VALUES (3,'Ho Hoang Phuc','jamesho287@gmail.com','$2a$10$bXXGpbzUTXcjA4nCkbcoN.nJE6tE7GriX2o29rVzMyef11xjkjUxS','CUSTOMER');
+INSERT INTO `user_info` (`ID`,`FULLNAME`,`EMAIL`,`PASSWORD`,`ROLE`) VALUES (4,'Manager Phuc','manager@jennifer.com','$2a$10$IpllokLKjOcohU1LFxiiJ.TZkBre5b0.SrnuywUGT6vkbHM9ZPHyu','MANAGER');
+INSERT INTO `user_info` (`ID`,`FULLNAME`,`EMAIL`,`PASSWORD`,`ROLE`) VALUES (5,'Alex Max','alex@gmail.com','$2a$10$z2VZQhnNCLD4jXXzRZrTAuqLvs7WYG0bXUFRRar38lNH7eBxpeiXG','CUSTOMER');
+INSERT INTO `user_info` (`ID`,`FULLNAME`,`EMAIL`,`PASSWORD`,`ROLE`) VALUES (6,'Larry Pages','larry@gmail.com','$2a$10$kGxC/O.BBfBe5xU0MkJeKOr2ASl3LJ/9vGC7BRINCNydNe1Rt0SJS','CUSTOMER');
+INSERT INTO `user_info` (`ID`,`FULLNAME`,`EMAIL`,`PASSWORD`,`ROLE`) VALUES (7,'Tim Cook','tim@apple.com','$2a$10$wH5Nj/Q/Yn9WPiscFJ7q5ei1cHJhZ2hi6rhFID8hiQps/I6lmcDxW','CUSTOMER');
+INSERT INTO `user_info` (`ID`,`FULLNAME`,`EMAIL`,`PASSWORD`,`ROLE`) VALUES (8,'Jennifer Lawrence','jennifer@apple.com','$2a$10$IUC6cISvTJQR3Wr3bO5KQOOmnWht1XoDr1hm87Qcz4oDVYrrRb7JC','CUSTOMER');
+INSERT INTO `user_info` (`ID`,`FULLNAME`,`EMAIL`,`PASSWORD`,`ROLE`) VALUES (9,'Brad Pitt','brad@gamil.com','$2a$10$hDjf49UJyrpza.LF/8X6YuJn1G5GlqgSTFJ46rjadaj0Mqb4sjjOy','CUSTOMER');
+INSERT INTO `user_info` (`ID`,`FULLNAME`,`EMAIL`,`PASSWORD`,`ROLE`) VALUES (10,'Jackie Chan','jackie@gmail.com','$2a$10$MJJrMM57Fb4y9I3LPO9Xa.jkehzsoMsKCDZ3sG.HllSSxfRBLZ18u','CUSTOMER');
+INSERT INTO `user_info` (`ID`,`FULLNAME`,`EMAIL`,`PASSWORD`,`ROLE`) VALUES (11,'Harry Potter','harry@gmail.com','$2a$10$Jzh4ey0VXyN4P0Sbr539Wu4IcvADSY4VtqkqawPCiSt.mummwXjPS','CUSTOMER');
+
 
 
 

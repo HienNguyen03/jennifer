@@ -40,10 +40,7 @@ public class RestShippingAddressController {
     @GetMapping("/user")
     public Object findUserShippingAddress(){
         UserInfo userInfo = AppUtil.getCustomerFromSession();
-//        List<ShippingAddress> shippingAddresses = shippingAddressService.findByUser(userInfo);
-//        for (ShippingAddress s: shippingAddresses){
-//            log.info(s.toString());
-//        }
+
         return shippingAddressService.findByUser(userInfo);
     }
 

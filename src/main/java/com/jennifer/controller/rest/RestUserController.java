@@ -30,20 +30,19 @@ public class RestUserController {
     @GetMapping("/profile")
     public Object findUserInfo(){
         UserInfo userInfo = AppUtil.getCustomerFromSession();
-//        log.info(userInfo.toString());
-//        ArrayList<UserInfo> userInfos = new ArrayList<>();
-//        userInfos.add(userInfo);
-        return userInfo;
+        UserInfo userInfoFound = userInfoService.findById(userInfo.getId());
+        return userInfoFound;
     }
 
     @PutMapping("/profile")
     public Object updateProfile(@RequestBody UserInfo userInfo){
-        UserInfo userInfoFound = AppUtil.getCustomerFromSession();
-        log.info("Sended" + userInfo.toString());
+        UserInfo userInfoSession = AppUtil.getCustomerFromSession();
+        log.info("Sended " + userInfo.toString());
 
-        if (userInfo.getId()!= userInfoFound.getId()){
+        if (userInfo.getId()!= userInfoSession.getId()){
             return new ResponseEntity("Unable to update!", HttpStatus.INTERNAL_SERVER_ERROR);
         }else{
+            UserInfo userInfoFound = userInfoService.findById(userInfoSession.getId());
             userInfoFound.setFullname(userInfo.getFullname());
             userInfoFound.setEmail(userInfo.getEmail());
             return userInfoService.updateUser(userInfoFound);
