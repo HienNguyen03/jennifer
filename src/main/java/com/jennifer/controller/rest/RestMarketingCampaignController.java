@@ -46,7 +46,7 @@ public class RestMarketingCampaignController {
         if(marketingCampaignData != null)
             return marketingCampaignService.updateCampaign(marketingCampaign);
 
-        return new ResponseEntity("Unable to update!", HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>("Unable to update!", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @DeleteMapping
@@ -59,9 +59,9 @@ public class RestMarketingCampaignController {
                 marketingCampaignService.deleteCampaign(marketingCampaign);
             return marketingCampaignData;
         } catch (DataIntegrityViolationException e){
-            return new ResponseEntity("Event '" + marketingCampaignData.getEvent() + "' is in used! Unable to delete!", HttpStatus.CONFLICT);
+            return new ResponseEntity<>("Event '" + marketingCampaignData.getEvent() + "' is in used! Unable to delete!", HttpStatus.CONFLICT);
         } catch (Exception e){
-            return new ResponseEntity("Unable to delete!", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("Unable to delete!", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

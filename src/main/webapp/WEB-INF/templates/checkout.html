@@ -15,16 +15,21 @@
 			text-align: left;
 			width: 100px;
 		}
-		.register-req, .verify-info .heading {
+		.verify-info .heading {
 			background: none repeat scroll 0 0 #ff7b7b;
 			color: #fff;
 			font-size: 20px;
 			padding: 10px 25px;
 			font-family: 'Roboto', sans-serif;
 		}
-		.step-one .heading {
-
+		.verify-info .no-product {
+			padding: 10px 10px;
+			font-size: 16px;
+			margin-bottom: 40px;
+			border: 1px solid #E6E4DF;
+			border-top: none;
 		}
+
 		.step-one .delivery-address-option {
 			border: 1px solid #E6E4DF;
 			border-top: none;
@@ -33,7 +38,7 @@
 
 		.step-two .heading {
 			margin-bottom: 0;
-			margin-top: 40px;
+			margin-top: 20px;
 		}
 		.step-two .payment-method-option {
 			border: 1px solid #E6E4DF;
@@ -43,7 +48,7 @@
 
 		.step-three .heading {
 			margin-bottom: 0;
-			margin-top: 40px;
+			margin-top: 20px;
 		}
 		.step-three thead tr td {
 			background-color: #ffefef;
@@ -56,7 +61,7 @@
 	<div th:replace="common/navbar :: common-navbar-customer" th:remove="tag"></div>
 
 	<section id="cart_items">
-		<div class="container">
+		<div class="container" th:if="${#maps.size(shoppingBag) > 0}">
 			<div class="breadcrumbs">
 				<ol class="breadcrumb">
 				  	<li><a th:href="@{/}">Home</a></li>
@@ -66,7 +71,7 @@
 			</div><!--/breadcrums-->
 
 			<div class="verify-info step-one">
-				<div class="heading">Delivery address</div>
+				<div class="heading">Shipping address</div>
 				<div class="delivery-address-option">
 					<div class="row confirmShipping">
 						<div class="shopper-info col-sm-3" th:each="sa,iter : ${confirmShipping}">
@@ -89,6 +94,12 @@
 									<td th:text="${': '+sa.postalCode}"></td>
 								</tr>
 							</table>
+						</div>
+						<div class="shopper-info col-sm-3" th:if="${#lists.size(confirmShipping) == 0}">
+							<span>
+								<p>You have not defined any shipping address yet!</p>
+								<p>Please create one to continue! Please <a th:href="@{/profile}">click here</a> to add!</p>
+							</span>
 						</div>
 					</div>
 				</div>
@@ -172,6 +183,21 @@
 						</div>
 						</tbody>
 					</table>
+				</div>
+			</div>
+		</div>
+		<div class="container" th:unless="${#maps.size(shoppingBag) > 0}">
+			<div class="breadcrumbs">
+				<ol class="breadcrumb">
+					<li><a th:href="@{/}">Home</a></li>
+					<li><a th:href="@{/cart}">Shopping Cart</a></li>
+					<li class="active"><a th:href="@{/checkout}">Check out</a></li>
+				</ol>
+			</div><!--/breadcrums-->
+			<div class="verify-info">
+				<div class="heading">Cannot proceed to check out</div>
+				<div class="no-product">
+				There is no product in your shopping cart! Cannot proceed to check out!
 				</div>
 			</div>
 		</div>

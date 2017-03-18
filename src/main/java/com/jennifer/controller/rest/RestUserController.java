@@ -11,8 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-
 /**
  * Controls all activities related to users
  */
@@ -39,6 +37,8 @@ public class RestUserController {
         UserInfo userInfoSession = AppUtil.getCustomerFromSession();
         log.info("Sended " + userInfo.toString());
 
+        if (userInfo.getId()!= userInfoFound.getId()){
+            return new ResponseEntity<>("Unable to update!", HttpStatus.INTERNAL_SERVER_ERROR);
         if (userInfo.getId()!= userInfoSession.getId()){
             return new ResponseEntity("Unable to update!", HttpStatus.INTERNAL_SERVER_ERROR);
         }else{
@@ -54,8 +54,8 @@ public class RestUserController {
         UserInfo userInfo = AppUtil.getCustomerFromSession();
 
         boolean passwordMatched = userInfoService.compareUserPassword(userInfo,changePasswordForm.getOldPassword());
-        if (passwordMatched != true){
-            return new ResponseEntity("Password does not match", HttpStatus.INTERNAL_SERVER_ERROR);
+        if (passwordMatched){
+            return new ResponseEntity<>("Old password is not correct!", HttpStatus.INTERNAL_SERVER_ERROR);
         }else{
             return userInfoService.changePassword(userInfo, changePasswordForm.getNewPassword());
         }

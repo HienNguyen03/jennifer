@@ -8,7 +8,6 @@ import com.jennifer.controller.rest.serializer.CategoryInfoSelect2Serializer;
 import com.jennifer.controller.rest.serializer.CategoryInfoSerializer;
 import com.jennifer.entity.CategoryInfo;
 import com.jennifer.service.CategoryInfoService;
-import org.hibernate.exception.ConstraintViolationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,8 +1,6 @@
 package com.jennifer.controller;
 
-import com.jennifer.controller.rest.RestShoppingProductController;
 import com.jennifer.entity.*;
-import com.jennifer.controller.rest.RestFavoriteProductController;
 import com.jennifer.service.*;
 import com.jennifer.util.AppUtil;
 import org.slf4j.Logger;
@@ -45,12 +43,33 @@ public class CustomerController {
     @ModelAttribute("favoriteBag")
     public List<ProductInfo> createFavoriteBag(){
         log.info("create favorite bag !");
-        return RestFavoriteProductController.createFavoriteBag();
+        UserInfo userInfo = AppUtil.getCustomerFromSession();
+        if(userInfo != null) {
+            List<ProductInfo> productInfoList = new ArrayList<>();
+            List<FavoriteProduct> favoriteProductList = favoriteProductService.findAllByUserId(userInfo.getId());
+            for(FavoriteProduct favoriteProduct : favoriteProductList){
+                productInfoList.add(favoriteProduct.getProductInfo());
+            }
+            return productInfoList;
+        } else {
+            return new ArrayList<>();
+        }
     }
 
     @ModelAttribute("shoppingBag")
     public Map<ProductInfo, Integer> createShoppingBag(){
-        return RestShoppingProductController.createShoppingBag();
+        log.info("create cart");
+        UserInfo userInfo = AppUtil.getCustomerFromSession();
+
+        if(userInfo != null && !shoppingProductService.findAllByUserId(userInfo.getId()).isEmpty()) {
+            Map<ProductInfo, Integer> map = new HashMap<>();
+            for (ShoppingProduct shoppingProduct : userInfo.getShoppingProducts()){
+                map.put(shoppingProduct.getProductInfo(), shoppingProduct.getQuantity());
+            }
+            return map;
+        } else {
+            return new HashMap<>();
+        }
     }
 
     @GetMapping("/")
@@ -74,6 +93,7 @@ public class CustomerController {
             return "redirect:/login";
         } else {
             model.addAttribute("confirmShipping", shippingAddressService.findByUser(userInfo));
+            model.addAttribute("shoppingProducts", shoppingProductService.findAllByUserId(userInfo.getId()));
             return "checkout";
         }
 

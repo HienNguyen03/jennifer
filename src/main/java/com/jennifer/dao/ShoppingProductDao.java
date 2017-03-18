@@ -3,6 +3,7 @@ package com.jennifer.dao;
 import com.jennifer.entity.ShoppingProduct;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -10,6 +11,7 @@ import java.util.List;
  * ShoppingProduct data access object interface
  */
 
+@Repository
 public interface ShoppingProductDao extends JpaRepository<ShoppingProduct, Integer> {
 
     List<ShoppingProduct> findAll();

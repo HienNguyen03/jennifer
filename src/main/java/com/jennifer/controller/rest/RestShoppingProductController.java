@@ -19,7 +19,7 @@ import java.util.*;
 
 @RestController
 @RequestMapping("/api/shopping-product")
-@SessionAttributes({"shoppingBag", "shoppingBagAnchor"})
+@SessionAttributes({"shoppingBag"})
 public class RestShoppingProductController {
 
     private static final Logger log = LoggerFactory.getLogger(RestShoppingProductController.class);
@@ -32,16 +32,12 @@ public class RestShoppingProductController {
         this.shoppingProductService = shoppingProductService;
     }
 
-    @ModelAttribute("shoppingBagAnchor")
-    public ShoppingProductService createShoppingBagAnchor(){
-        return shoppingProductService;
-    }
-
     @ModelAttribute("shoppingBag")
-    public static Map<ProductInfo, Integer> createShoppingBag(){
+    public Map<ProductInfo, Integer> createShoppingBag(){
         log.info("create cart");
         UserInfo userInfo = AppUtil.getCustomerFromSession();
-        if(userInfo != null && !userInfo.getShoppingProducts().isEmpty()) {
+
+        if(userInfo != null && !shoppingProductService.findAllByUserId(userInfo.getId()).isEmpty()) {
             Map<ProductInfo, Integer> map = new HashMap<>();
             for (ShoppingProduct shoppingProduct : userInfo.getShoppingProducts()){
                 map.put(shoppingProduct.getProductInfo(), shoppingProduct.getQuantity());
@@ -143,54 +139,4 @@ public class RestShoppingProductController {
         return shoppingBag.size();
 
     }
-
-//    @GetMapping
-//    public Object findAll() throws JsonProcessingException {
-//        log.info(" > [rest] Product - findAll");
-//        List<ProductInfo> productInfoList = productInfoService.findAllProducts();
-//        if (productInfoList.isEmpty()) {
-//            return new ResponseEntity<String>(HttpStatus.NO_CONTENT);
-//        }
-//
-//        ObjectMapper mapper = new ObjectMapper();
-//        SimpleModule module = new SimpleModule();
-//        module.addSerializer(List.class, new ProductInfoSerializer());
-//        mapper.registerModule(module);
-//
-//        return mapper.writeValueAsString(productInfoList);
-//    }
-//
-//    @PutMapping
-//    public Object update(@RequestBody ProductInfo productInfo){
-//        log.info(" > [rest] Product - update");
-//        ProductInfo productInfoData = productInfoService.findProduct(productInfo.getId());
-//
-//        if(productInfoData != null)
-//            return productInfoService.updateProduct(productInfo);
-//
-//        return new ResponseEntity<>("Unable to delete!", HttpStatus.INTERNAL_SERVER_ERROR);
-//    }
-//
-//    @DeleteMapping
-//    public Object delete(@RequestBody ProductInfo productInfo){
-//        log.info(" > [rest] Product - delete");
-//        ProductInfo productInfoData = productInfoService.findProduct(productInfo.getId());
-//
-//        try {
-//            if(productInfoData != null)
-//                productInfoService.deleteProduct(productInfo);
-//            return productInfoData;
-//        } catch (DataIntegrityViolationException e){
-//            return new ResponseEntity<>("Product '" + productInfoData.getName() + "' is in used! Unable to delete!", HttpStatus.CONFLICT);
-//        } catch (Exception e){
-//            return new ResponseEntity<>("Unable to delete!", HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-//    }
-//
-//    @PostMapping
-//    public ProductInfo insert(@RequestBody ProductInfo productInfo){
-//        log.info(" > [rest] Product - insert");
-//        return productInfoService.addProduct(productInfo);
-//    }
-
 }

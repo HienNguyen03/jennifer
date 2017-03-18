@@ -1,20 +1,13 @@
 package com.jennifer.config.handler;
 
 import java.io.IOException;
-import java.util.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.jennifer.dto.CustomerDetails;
-import com.jennifer.entity.FavoriteProduct;
-import com.jennifer.entity.ProductInfo;
-import com.jennifer.entity.ShoppingProduct;
 import com.jennifer.entity.UserInfo;
-import com.jennifer.service.FavoriteProductService;
-import com.jennifer.service.ShoppingProductService;
 import com.jennifer.util.AppUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,97 +28,101 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 		handle(request, response, authentication);
 		clearAuthenticationAttributes(request);
 
-		UserInfo userInfo = ((CustomerDetails) authentication.getPrincipal()).getUser();
-		mergeFavoriteBag(userInfo, request);
-		mergeShoppingBag(userInfo, request);
+		//UserInfo userInfo = ((CustomerDetails) authentication.getPrincipal()).getUser();
+		//mergeFavoriteBag(userInfo, request);
+		//mergeShoppingBag(userInfo, request);
 	}
 
-	private void mergeFavoriteBag(UserInfo userInfo, HttpServletRequest request){
-		List<ProductInfo> favoriteBag = (List<ProductInfo>) request.getSession().getAttribute("favoriteBag");
-		FavoriteProductService favoriteProductService = (FavoriteProductService) request.getSession().getAttribute("favoriteBagAnchor");
+//	private void mergeFavoriteBag(UserInfo userInfo, HttpServletRequest request){
+//		List<ProductInfo> favoriteBag = (List<ProductInfo>) request.getSession().getAttribute("favoriteBag");
+//		FavoriteProductService favoriteProductService = (FavoriteProductService) request.getSession().getAttribute("favoriteBagAnchor");
+//
+//		if(favoriteBag == null)
+//			favoriteBag = new ArrayList<>();
+//
+//		List<ProductInfo> aCopyOfFavoriteBag = new ArrayList<>(favoriteBag);
+//		List<ProductInfo> userFavoriteProducts = new ArrayList<>();
+//
+//		log.info("userId: "+userInfo.getId());
+//		log.info("favoriteBag.size: "+favoriteBag.size());
+//		List<FavoriteProduct> favoriteProductList = favoriteProductDao.findAllByUserId(userInfo.getId());
+//
+//		if(favoriteProductList != null && !favoriteProductList.isEmpty()){
+//			for (FavoriteProduct favoriteProduct : userInfo.getFavoriteProducts()){
+//				userFavoriteProducts.add(favoriteProduct.getProductInfo());
+//			}
+//			for (ProductInfo product : userFavoriteProducts){
+//				if(!favoriteBag.contains(product))
+//					favoriteBag.add(product);
+//			}
+//
+//			if(!favoriteBag.isEmpty()) {
+//				for (ProductInfo product : aCopyOfFavoriteBag) {
+//					if (!userFavoriteProducts.contains(product)) {
+//						FavoriteProduct favoriteProduct = new FavoriteProduct(userInfo, product);
+//						favoriteProductService.update(favoriteProduct);
+//					}
+//				}
+//			}
+//
+//			request.getSession().setAttribute("favoriteBag", favoriteBag);
+//		} else {
+//			if(!favoriteBag.isEmpty()) {
+//				for (ProductInfo product : favoriteBag){
+//					FavoriteProduct favoriteProduct = new FavoriteProduct(userInfo, product);
+//					favoriteProductService.update(favoriteProduct);
+//				}
+//			}
+//		}
+//	}
 
-		if(favoriteBag == null)
-			favoriteBag = new ArrayList<>();
-
-		List<ProductInfo> aCopyOfFavoriteBag = new ArrayList<>(favoriteBag);
-		List<ProductInfo> userFavoriteProducts = new ArrayList<>();
-
-		if(!userInfo.getFavoriteProducts().isEmpty()){
-			for (FavoriteProduct favoriteProduct : userInfo.getFavoriteProducts()){
-				userFavoriteProducts.add(favoriteProduct.getProductInfo());
-			}
-			for (ProductInfo product : userFavoriteProducts){
-				if(!favoriteBag.contains(product))
-					favoriteBag.add(product);
-			}
-
-			if(!favoriteBag.isEmpty()) {
-				for (ProductInfo product : aCopyOfFavoriteBag) {
-					if (!userFavoriteProducts.contains(product)) {
-						FavoriteProduct favoriteProduct = new FavoriteProduct(userInfo, product);
-						favoriteProductService.update(favoriteProduct);
-					}
-				}
-			}
-
-			request.getSession().setAttribute("favoriteBag", favoriteBag);
-		} else {
-			if(!favoriteBag.isEmpty()) {
-				for (ProductInfo product : favoriteBag){
-					FavoriteProduct favoriteProduct = new FavoriteProduct(userInfo, product);
-					favoriteProductService.update(favoriteProduct);
-				}
-			}
-		}
-	}
-
-	private void mergeShoppingBag(UserInfo userInfo, HttpServletRequest request){
-		Map<ProductInfo, Integer> shoppingBag = (Map<ProductInfo, Integer>) request.getSession().getAttribute("shoppingBag");
-		ShoppingProductService shoppingProductService = (ShoppingProductService) request.getSession().getAttribute("shoppingBagAnchor");
-
-		if(shoppingBag == null)
-			shoppingBag = new HashMap<>();
-
-		if(!userInfo.getShoppingProducts().isEmpty()) {
-			if(!shoppingBag.isEmpty()) {
-				Map<ProductInfo, Integer> shoppingProductList = new HashMap<>();
-				for (ShoppingProduct shoppingProduct : userInfo.getShoppingProducts()) {
-					shoppingProductList.put(shoppingProduct.getProductInfo(), shoppingProduct.getQuantity());
-				}
-
-				for (Map.Entry<ProductInfo, Integer> entry : shoppingProductList.entrySet()) {
-					ProductInfo productInfo = entry.getKey();
-					if(shoppingBag.containsKey(productInfo)) {
-						shoppingBag.put(productInfo, shoppingBag.get(productInfo) + entry.getValue());
-					} else {
-						shoppingBag.put(productInfo, entry.getValue());
-					}
-				}
-
-				for (Map.Entry<ProductInfo, Integer> entry : shoppingBag.entrySet()) {
-					if(shoppingProductList.containsKey(entry.getKey())){
-						ShoppingProduct shoppingProduct1 = new ShoppingProduct(userInfo, entry.getKey(), entry.getValue());
-						shoppingProductService.update(shoppingProduct1);
-					} else {
-						ShoppingProduct shoppingProduct2 = new ShoppingProduct(userInfo, entry.getKey(), entry.getValue());
-						shoppingProductService.update(shoppingProduct2);
-					}
-				}
-
-			} else {
-				for (ShoppingProduct shoppingProduct : userInfo.getShoppingProducts()){
-					shoppingBag.put(shoppingProduct.getProductInfo(), shoppingProduct.getQuantity());
-				}
-			}
-		} else {
-			if(!shoppingBag.isEmpty()) {
-				for (Map.Entry<ProductInfo, Integer> entry : shoppingBag.entrySet()) {
-					ShoppingProduct shoppingProduct = new ShoppingProduct(userInfo, entry.getKey(), entry.getValue());
-					shoppingProductService.update(shoppingProduct);
-				}
-			}
-		}
-	}
+//	private void mergeShoppingBag(UserInfo userInfo, HttpServletRequest request){
+//		Map<ProductInfo, Integer> shoppingBag = (Map<ProductInfo, Integer>) request.getSession().getAttribute("shoppingBag");
+//		ShoppingProductService shoppingProductService = (ShoppingProductService) request.getSession().getAttribute("shoppingBagAnchor");
+//
+//		if(shoppingBag == null)
+//			shoppingBag = new HashMap<>();
+//
+//		if(!shoppingProductService.findAllByUserId(userInfo.getId()).isEmpty()) {
+//			if(!shoppingBag.isEmpty()) {
+//				Map<ProductInfo, Integer> shoppingProductList = new HashMap<>();
+//				for (ShoppingProduct shoppingProduct : shoppingProductService.findAllByUserId(userInfo.getId())) {
+//					shoppingProductList.put(shoppingProduct.getProductInfo(), shoppingProduct.getQuantity());
+//				}
+//
+//				for (Map.Entry<ProductInfo, Integer> entry : shoppingProductList.entrySet()) {
+//					ProductInfo productInfo = entry.getKey();
+//					if(shoppingBag.containsKey(productInfo)) {
+//						shoppingBag.put(productInfo, shoppingBag.get(productInfo) + entry.getValue());
+//					} else {
+//						shoppingBag.put(productInfo, entry.getValue());
+//					}
+//				}
+//
+//				for (Map.Entry<ProductInfo, Integer> entry : shoppingBag.entrySet()) {
+//					if(shoppingProductList.containsKey(entry.getKey())){
+//						ShoppingProduct shoppingProduct1 = new ShoppingProduct(userInfo, entry.getKey(), entry.getValue());
+//						shoppingProductService.update(shoppingProduct1);
+//					} else {
+//						ShoppingProduct shoppingProduct2 = new ShoppingProduct(userInfo, entry.getKey(), entry.getValue());
+//						shoppingProductService.update(shoppingProduct2);
+//					}
+//				}
+//
+//			} else {
+//				for (ShoppingProduct shoppingProduct : shoppingProductService.findAllByUserId(userInfo.getId())){
+//					shoppingBag.put(shoppingProduct.getProductInfo(), shoppingProduct.getQuantity());
+//				}
+//			}
+//		} else {
+//			if(!shoppingBag.isEmpty()) {
+//				for (Map.Entry<ProductInfo, Integer> entry : shoppingBag.entrySet()) {
+//					ShoppingProduct shoppingProduct = new ShoppingProduct(userInfo, entry.getKey(), entry.getValue());
+//					shoppingProductService.update(shoppingProduct);
+//				}
+//			}
+//		}
+//	}
 
 	private void handle(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
 			throws IOException {

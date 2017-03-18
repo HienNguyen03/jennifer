@@ -22,33 +22,26 @@ import java.util.*;
 
 @RestController
 @RequestMapping("/api/favorite-product")
-@SessionAttributes({"favoriteBag", "favoriteBagAnchor"})
+@SessionAttributes({"favoriteBag"})
 public class RestFavoriteProductController {
 
     private static final Logger log = LoggerFactory.getLogger(RestFavoriteProductController.class);
     private ProductInfoService productInfoService;
     private FavoriteProductService favoriteProductService;
-    private UserInfoService userInfoService;
 
     @Autowired
-    public RestFavoriteProductController(ProductInfoService productInfoService, FavoriteProductService favoriteProductService, UserInfoService userInfoService){
+    public RestFavoriteProductController(ProductInfoService productInfoService, FavoriteProductService favoriteProductService){
         this.productInfoService = productInfoService;
         this.favoriteProductService = favoriteProductService;
-        this.userInfoService = userInfoService;
-    }
-
-    @ModelAttribute("favoriteBagAnchor")
-    public FavoriteProductService createFavoriteBagAnchor(){
-        return favoriteProductService;
     }
 
     @ModelAttribute("favoriteBag")
-    public static List<ProductInfo> createFavoriteBag(){
+    public List<ProductInfo> createFavoriteBag(){
         log.info("create favorite bag !");
         UserInfo userInfo = AppUtil.getCustomerFromSession();
         if(userInfo != null) {
             List<ProductInfo> productInfoList = new ArrayList<>();
-            Set<FavoriteProduct> favoriteProductList = userInfo.getFavoriteProducts();
+            List<FavoriteProduct> favoriteProductList = favoriteProductService.findAllByUserId(userInfo.getId());
             for(FavoriteProduct favoriteProduct : favoriteProductList){
                 productInfoList.add(favoriteProduct.getProductInfo());
             }
@@ -58,10 +51,6 @@ public class RestFavoriteProductController {
         }
     }
 
-    /**
-     * In below method, 'favoriteBag' is the reference-variable of [userInfo returned by AppUtil.getCustomerFromSession()]
-     * so favoriteBag.add() has the same result as userInfo.getProductInfos.add()
-     * */
     @PutMapping("/{productId}")
     public Object addProductToFavorite(@ModelAttribute("favoriteBag") List<ProductInfo> favoriteBag, @PathVariable int productId) {
         log.info(" > [rest] Favorite Product - addProductToFavorite");
@@ -111,54 +100,5 @@ public class RestFavoriteProductController {
             return favoriteBag.size();
         }
     }
-
-//    @GetMapping
-//    public Object findAll() throws JsonProcessingException {
-//        log.info(" > [rest] Product - findAll");
-//        List<ProductInfo> productInfoList = productInfoService.findAllProducts();
-//        if (productInfoList.isEmpty()) {
-//            return new ResponseEntity<String>(HttpStatus.NO_CONTENT);
-//        }
-//
-//        ObjectMapper mapper = new ObjectMapper();
-//        SimpleModule module = new SimpleModule();
-//        module.addSerializer(List.class, new ProductInfoSerializer());
-//        mapper.registerModule(module);
-//
-//        return mapper.writeValueAsString(productInfoList);
-//    }
-//
-//    @PutMapping
-//    public Object update(@RequestBody ProductInfo productInfo){
-//        log.info(" > [rest] Product - update");
-//        ProductInfo productInfoData = productInfoService.findProduct(productInfo.getId());
-//
-//        if(productInfoData != null)
-//            return productInfoService.updateProduct(productInfo);
-//
-//        return new ResponseEntity<>("Unable to delete!", HttpStatus.INTERNAL_SERVER_ERROR);
-//    }
-//
-//    @DeleteMapping
-//    public Object delete(@RequestBody ProductInfo productInfo){
-//        log.info(" > [rest] Product - delete");
-//        ProductInfo productInfoData = productInfoService.findProduct(productInfo.getId());
-//
-//        try {
-//            if(productInfoData != null)
-//                productInfoService.deleteProduct(productInfo);
-//            return productInfoData;
-//        } catch (DataIntegrityViolationException e){
-//            return new ResponseEntity<>("Product '" + productInfoData.getName() + "' is in used! Unable to delete!", HttpStatus.CONFLICT);
-//        } catch (Exception e){
-//            return new ResponseEntity<>("Unable to delete!", HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-//    }
-//
-//    @PostMapping
-//    public ProductInfo insert(@RequestBody ProductInfo productInfo){
-//        log.info(" > [rest] Product - insert");
-//        return productInfoService.addProduct(productInfo);
-//    }
 
 }

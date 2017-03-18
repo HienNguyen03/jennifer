@@ -1,9 +1,6 @@
 package com.jennifer.controller.rest;
 
-
-import com.jennifer.entity.OrderDetail;
 import com.jennifer.entity.OrderInfo;
-import com.jennifer.service.OrderDetailService;
 import com.jennifer.service.OrderInfoService;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
@@ -11,9 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-
 
 /**
  * Rest controller for OrderInfo activities
@@ -43,7 +37,7 @@ public class RestOrderInfoController {
             return orderInfoUpdated;
         }
 
-        return new ResponseEntity("Unable to update!", HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>("Unable to update!", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @GetMapping("/new")
