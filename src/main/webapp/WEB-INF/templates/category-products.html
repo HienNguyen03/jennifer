@@ -5,7 +5,9 @@
     <title>Jennifer - Online shopping webstore</title>
     <object th:include="common/header :: common-header-customer" th:remove="tag"></object>
     <style>
-
+        .campaign-slider img {
+            cursor: pointer;
+        }
     </style>
 </head>
 
@@ -21,7 +23,7 @@
                 </div>
 
                 <div th:unless="${#lists.isEmpty(availableCampaigns) }" class="campaign-slider">
-                    <img th:each="campaign : ${availableCampaigns}" th:src="@{/pics/{banner}(banner=${campaign.banner})}" />
+                    <img th:each="campaign : ${availableCampaigns}" th:attr="data-camp-id=${campaign.id}" th:src="@{/pics/{banner}(banner=${campaign.banner})}" />
                 </div>
             </div>
         </div>
@@ -64,6 +66,12 @@
 
         /*<![CDATA[*/
         var category_url = /*[[@{'/categories'}]]*/"";
+
+        $('.campaign-slider img').click(function(){
+            let campId = $(this).data('camp-id');
+            console.log(campId);
+            window.location.replace("/campaign/" + campId);
+        });
 
         $('.favorite').click(function(e){
             e.preventDefault();

@@ -868,6 +868,7 @@ h2.title {
 	border:1px solid #F7F7F5;
 	overflow: hidden;
 	margin-bottom:30px;
+    box-shadow: 0px 0px 1px 0 rgba(0,0,0,0.1),0 2px 22px -3px rgba(0,0,0,0.07) !important;
 }
 
 .single-products {
@@ -1569,43 +1570,39 @@ h2.title {
   margin: 10px auto;
   border: 1px dashed #cacaca;
 }
-
+.breadcrumbs .breadcrumb li a:hover {
+  background: #efefef;
+  border-radius: 3px;
+  cursor: pointer;
+}
 .breadcrumbs .breadcrumb li a {
   background: #fff;
   color: #696763;
   padding: 3px 10px;
-}
-
-.breadcrumbs .breadcrumb li a:after {
-  content: "";
-  height: auto;
-  width: auto;
-  border-width: 5px;
-  border-style: solid;
-  border-color: transparent transparent transparent #ff7b7b;
-  position: absolute;
-  top: 21px;
-  left: 79px;
-}
-
-.breadcrumb > li {
-  padding-right: 28px;
+  margin: 0 20px;
 }
 
 .breadcrumbs .breadcrumb > li + li:before {
-  content: " ";
-  padding: 0;
+  font-family: FontAwesome;
+  content: "" !important;
+}
+.breadcrumbs .breadcrumb li:after {
+  font-family: FontAwesome;
+  content: "\f105" !important;
 }
 
-.breadcrumb>.active {
+.breadcrumbs .breadcrumb li:last-child:after {
+  font-family: FontAwesome;
+  content: "" !important;
+}
+.breadcrumbs .breadcrumb li.active a {
   background: #ff7b7b;
   color: #fff;
-  padding: 3px 7px;
+  padding: 5px 15px;
+  margin: 0 20px;
   border-radius: 3px;
   cursor: pointer;
 }
-
-
 
 #cart_items .cart_info {
   border: 1px solid #E6E4DF;
@@ -1668,14 +1665,20 @@ h2.title {
 }
 
 
-#cart_items .cart_info .cart_total_price {
+.item_total_price {
   color: #ff7b7b;
+  font-family: 'Roboto', sans-serif;
+  font-size: 23px;
+}
+
+.item_total_price.bold {
+  color: #ff7b7b;
+  font-family: 'Roboto', sans-serif;
   font-size: 24px;
 }
 
 .cart_product {
   display: block;
-  margin: 5px -15px 5px 5px;
 }
 
 .cart_quantity_button a {
@@ -1689,6 +1692,7 @@ h2.title {
   width: 35px;
   float: left;
   line-height: 29px;
+  text-decoration: none;
 }
 
 
@@ -1847,19 +1851,6 @@ h2.title {
 /*************************
 *******checkout CSS******
 **************************/
-
-.step-one {
-  margin-bottom: -10px
-}
-
-.register-req, .step-one .heading {
-  background: none repeat scroll 0 0 #F0F0E9;
-  color: #363432;
-  font-size: 20px;
-  margin-bottom: 35px;
-  padding: 10px 25px;
-  font-family: 'Roboto', sans-serif;
-}
 
 .checkout-options {
   padding-left: 20px

@@ -12,12 +12,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  * Rest API Controller for ProductInfo
@@ -51,7 +48,7 @@ public class RestFavoriteProductController {
         UserInfo userInfo = AppUtil.getCustomerFromSession();
         if(userInfo != null) {
             List<ProductInfo> productInfoList = new ArrayList<>();
-            List<FavoriteProduct> favoriteProductList = userInfo.getFavoriteProducts();
+            Set<FavoriteProduct> favoriteProductList = userInfo.getFavoriteProducts();
             for(FavoriteProduct favoriteProduct : favoriteProductList){
                 productInfoList.add(favoriteProduct.getProductInfo());
             }
@@ -93,35 +90,17 @@ public class RestFavoriteProductController {
     @DeleteMapping("/{productId}")
     public Object deleteProductToFavorite(@ModelAttribute("favoriteBag") List<ProductInfo> favoriteBag, @PathVariable int productId) {
         log.info(" > [rest] Favorite Product - deleteProductToFavorite");
-
         UserInfo userInfo = AppUtil.getCustomerFromSession();
-        log.info("."+productId);
 
-        if(userInfo != null){
-//            FavoriteProduct delFavoriteProduct = favoriteProductService.findByUserIdAndProductId(userInfo.getId(), productId);
-//            favoriteProductService.delete(delFavoriteProduct);
-//
-//            for (Iterator<ProductInfo> iter = favoriteBag.listIterator(); iter.hasNext(); ) {
-//                ProductInfo productInfo = iter.next();
-//                if (productInfo.getId() == productId) {
-//                    iter.remove();
-//                }
-//            }
-//
-//            log.info("user "+ favoriteBag.size());
-
-
+        if(userInfo != null) {
             ProductInfo productInfo = productInfoService.findProduct(productId);
             favoriteBag.remove(productInfo);
+
             FavoriteProduct favoriteProduct = new FavoriteProduct(userInfo, productInfo);
             favoriteProductService.delete(favoriteProduct);
-            userInfo.getFavoriteProducts().remove(favoriteProduct);
-            //productInfo.getFavoriteProducts().remove(userInfo);
-            userInfoService.updateUser(userInfo);
 
             return favoriteBag.size();
-
-        }else{
+        } else {
             for (Iterator<ProductInfo> iter = favoriteBag.listIterator(); iter.hasNext(); ) {
                 ProductInfo productInfo = iter.next();
                 if (productInfo.getId() == productId) {
@@ -129,7 +108,6 @@ public class RestFavoriteProductController {
                 }
             }
 
-            log.info("bag size "+ favoriteBag.size());
             return favoriteBag.size();
         }
     }

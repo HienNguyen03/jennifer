@@ -4,12 +4,11 @@
 <head>
 	<title>Cart - Jennifer webstore</title>
 	<object th:include="common/header :: common-header-customer" th:remove="tag"></object>
-	<!--<style>-->
-		<!--.favotire_product img{-->
-			<!--width: 100px;-->
-			<!--height: 120px;-->
-		<!--}-->
-	<!--</style>-->
+	<style>
+		.tr_total {
+			border-bottom: none !important;
+		}
+	</style>
 </head>
 
 <body>
@@ -19,131 +18,87 @@
 		<div class="container">
 			<div class="breadcrumbs">
 				<ol class="breadcrumb">
-				  <li><a href="#">Home</a></li>
-				  <li class="active">Shopping Cart</li>
+				  <li><a th:href="@{/}">Home</a></li>
+					<li class="active"><a th:href="@{/cart}">Shopping Cart</a></li>
 				</ol>
 			</div>
 			<div class="table-responsive cart_info">
 				<table class="table table-condensed">
 					<thead>
 						<tr class="cart_menu">
-							<td class="image">Item</td>
-							<td class="description">Name</td>
-							<td class="price">Price</td>
-							<td class="quantity">Quantity</td>
-							<td class="total">Total</td>
+							<td class="text-center">Image</td>
+							<td >Name</td>
+							<td class="item_price">Price</td>
+							<td class="text-center">Quantity</td>
+							<td class="item_price">Total</td>
 							<td></td>
 						</tr>
 					</thead>
-					<tbody>
-						<tr th:each="product : ${shoppingBag}" th:attr="id='cardProduct' + ${product.key.id}">
-							<td th:each="productImage,iter : ${#strings.arraySplit(product.key.image, ',')}" th:if="${iter.index} == 0" class="favotire_product cart_product">
-								<a th:href="${'/product/' + product.key.id}"><img th:src="@{/pics/{iName}(iName=${productImage})}" alt="" /></a>
+					<tbody class="cart_content">
+						<tr th:each="product : ${shoppingBag}" th:attr="id='cardProduct' + ${product.key.id}" class="product-record">
+							<td th:each="productImage,iter : ${#strings.arraySplit(product.key.image, ',')}" th:if="${iter.index== 0} " class="favotire_product cart_product text-center">
+								<a th:href="${'/product/' + product.key.id}"><img th:src="${'/pics/' + productImage}" alt="" /></a>
 							</td>
 							<td class="cart_description">
-								<h4><a th:href="@{'/product/'+{product.key.id}}" th:text="${product.key.name}">Colorblock Scuba</a></h4>
-								<p>Web ID: 1089772</p>
+								<h4><a th:href="${'/product/'+product.key.id}" th:text="${product.key.name}"></a></h4>
+								<p th:text="${'Reference ID: '+product.key.id}"></p>
 							</td>
-							<td class="cart_price">
+							<td class="cart_price item_price">
 								<span class="discountTag" th:if="${product.key.discount > 0}" th:text="${product.key.unitPrice}" ></span>
-								<span th:class="${'priceTag priceTag_'+{product.key.id}}" th:text="'€' + ${product.key.unitPrice * (100-product.key.discount)/ 100}"></span>
+								<span th:class="${'priceTag priceTag_'+product.key.id}" th:text="'€' + ${product.key.unitPrice * (100-product.key.discount)/ 100}"></span>
 							</td>
-							<td class="cart_quantity">
+							<td class="cart_quantity text-center">
 								<div class="cart_quantity_button">
 									<a class="cart_quantity_up" href="" th:attr="data-product-id=${product.key.id}"> + </a>
-									<input th:class="${'cart_quantity_input cart_quantity_id_'+product.key.id}" type="text" name="quantity" th:attr="value= ${product.value}" autocomplete="off" size="2" />
+									<input th:class="${'cart_quantity_input cart_quantity_id_' + product.key.id}" type="text" name="quantity" th:attr="value= ${product.value}" autocomplete="off" size="2" />
 									<a class="cart_quantity_down" href="" th:attr="data-product-id=${product.key.id}"> - </a>
 								</div>
 							</td>
-							<td class="cart_total">
-								<p th:class="${'cart_total_price cart_total_price_'+{product.key.id}}" th:text="'€' + ${(product.key.unitPrice * (100-product.key.discount)/ 100) * product.value}">$59</p>
+							<td class="cart_total item_price">
+								<span th:class="${'item_total_price cart_total_price cart_total_price_' + product.key.id}" th:text="'€' + ${(product.key.unitPrice * (100-product.key.discount)/ 100) * product.value}">$59</span>
 							</td>
 							<td class="cart_delete">
-								<a  class="cart_quantity_delete del-cart" th:attr="data-cart=${product.key.id}" href=""><i class="fa fa-times"></i></a>
+								<a class="cart_quantity_delete del-cart deleteFromBag" th:attr="data-cart=${product.key.id}" title="Delete this product"><i class="fa fa-times"></i></a>
 							</td>
+						</tr>
+						<div th:if="${not #maps.isEmpty(shoppingBag)}" th:remove="tag">
+							<tr class="tr_total">
+								<td colspan="3"></td>
+								<td class="summary">Total before tax</td>
+								<td class="text-center item_price item_total_price">
+									<span class="order_before_tax"></span>
+								</td>
+							</tr >
+							<tr class="tr_total">
+								<td colspan="3"></td>
+								<td class="summary">Tax</td>
+								<td class="text-center item_price item_total_price">
+									<span class="order_tax"></span>
+								</td>
+							</tr>
+							<tr class="tr_total">
+								<td colspan="3"></td>
+								<td class="summary">Order total</td>
+								<td class="text-center item_price item_total_price bold">
+									<span class="order_total"></span>
+								</td>
+							</tr>
+							<tr>
+								<td colspan="4"></td>
+								<td colspan="2" class="text-center shopper-info" >
+									<a class="btn btn-primary" th:href="@{/checkout}" style="margin: 20px 10px !important;">Check out</a>
+								</td>
+							</tr>
+						</div>
+
+						<tr th:if="${#maps.isEmpty(shoppingBag)}" class="emptyBag">
+							<td colspan="6" class="text-center"> No products found ! </td>
 						</tr>
 					</tbody>
 				</table>
 			</div>
 		</div>
 	</section> <!--/#cart_items-->
-
-	<section id="do_action">
-		<div class="container">
-			<div class="heading">
-				<h3>What would you like to do next?</h3>
-				<p>Choose if you have a discount code or reward points you want to use or would like to estimate your delivery cost.</p>
-			</div>
-			<div class="row">
-				<div class="col-sm-6">
-					<div class="chose_area">
-						<ul class="user_option">
-							<li>
-								<input type="checkbox" />
-								<label>Use Coupon Code</label>
-							</li>
-							<li>
-								<input type="checkbox" />
-								<label>Use Gift Voucher</label>
-							</li>
-							<li>
-								<input type="checkbox" />
-								<label>Estimate Shipping - Taxes</label>
-							</li>
-						</ul>
-						<ul class="user_info">
-							<li class="single_field">
-								<label>Country:</label>
-								<select>
-									<option>United States</option>
-									<option>Bangladesh</option>
-									<option>UK</option>
-									<option>India</option>
-									<option>Pakistan</option>
-									<option>Ucrane</option>
-									<option>Canada</option>
-									<option>Dubai</option>
-								</select>
-								
-							</li>
-							<li class="single_field">
-								<label>Region / State:</label>
-								<select>
-									<option>Select</option>
-									<option>Dhaka</option>
-									<option>London</option>
-									<option>Dillih</option>
-									<option>Lahore</option>
-									<option>Alaska</option>
-									<option>Canada</option>
-									<option>Dubai</option>
-								</select>
-							
-							</li>
-							<li class="single_field zip-field">
-								<label>Zip Code:</label>
-								<input type="text" />
-							</li>
-						</ul>
-						<a class="btn btn-default update" href="">Get Quotes</a>
-						<a class="btn btn-default check_out" href="">Continue</a>
-					</div>
-				</div>
-				<div class="col-sm-6">
-					<div class="total_area">
-						<ul>
-							<li>Cart Sub Total <span>$59</span></li>
-							<li>Eco Tax <span>$2</span></li>
-							<li>Shipping Cost <span>Free</span></li>
-							<li>Total <span>$61</span></li>
-						</ul>
-							<a class="btn btn-default update" href="">Update</a>
-							<a class="btn btn-default check_out" href="">Check Out</a>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section><!--/#do_action-->
 
 	<div th:replace="common/footer :: common-footer-customer" th:remove="tag"></div>
 
@@ -154,32 +109,23 @@
 			/*<![CDATA[*/
             $('.del-cart').click(function (e) {
                 e.preventDefault();
-                var cartProduct = 'cardProduct' + $(this).data("cart");
-                $.ajax({
-                    type: "DELETE",
-                    url: "/api/shopping-product/"+$(this).data("cart"),
-                    dataType: "json"
-                }).done(function (data, textStatus, jqXHR) {
-                    $('.added-item-cart').text(data);
-
-                    $('#' + cartProduct).remove();
-                    alertify.success("<i class='fa fa-remove'></i> Delete favorite product!");
-                }).fail(function (jqXHR, textStatus, errorThrown) {
-                    alertify.error("<i class='fa fa-exclamation-triangle'></i> " + jqXHR.responseText + "!");
-                });
+				deleteProductFromCart($(this).data("cart"));
             });
+
+            updateTotal();
 
             $('.cart_quantity_up').click(function(e){
                 e.preventDefault();
-                let productQuantity = parseFloat($(".cart_quantity_id_"+$(this).data("product-id")).val());
-                productQuantity++;
-                let currentPrice = parseFloat($(".priceTag_"+$(this).data("product-id")).text().slice(1));
+                let productId = $(this).data("product-id");
+                let productQuantity = parseFloat($(".cart_quantity_id_"+productId).val());
+				productQuantity++;
+                let currentPrice = parseFloat($(".priceTag_"+productId).text().slice(1)); // cut off the euro currency sign
                 let newPrice = productQuantity * currentPrice;
-                $(".cart_quantity_id_"+$(this).data("product-id")).val(productQuantity);
-                $(".cart_total_price_"+$(this).data("product-id")).text(newPrice);
+                $(".cart_quantity_id_"+productId).val(productQuantity);
+                $(".cart_total_price_"+productId).text('€'+parseFloat(newPrice).toFixed(2));
                 $.ajax({
                     type: "PUT",
-                    url: "/api/shopping-product/q/"+$(this).data("product-id")+"/"+productQuantity,
+                    url: "/api/shopping-product/q/"+productId+"/"+productQuantity,
                     dataType: "json"
                 }).done(function (data, textStatus, jqXHR) {
                     $('.added-item-cart').text(data);
@@ -187,27 +133,71 @@
                 }).fail(function (jqXHR, textStatus, errorThrown) {
                     alertify.error("<i class='fa fa-exclamation-triangle'></i> " + jqXHR.responseText + "!");
                 });
+                updateTotal();
 			});
 
             $('.cart_quantity_down').click(function(e){
                 e.preventDefault();
-                let productQuantity = parseFloat($(".cart_quantity_id_"+$(this).data("product-id")).val());
-                productQuantity--;
-                let currentPrice = parseFloat($(".priceTag_"+$(this).data("product-id")).text().slice(1));
+                let productId = $(this).data("product-id");
+                let productQuantity = parseFloat($(".cart_quantity_id_"+productId).val());
+
+                if(productQuantity>1) {
+                    productQuantity--;
+				} else {
+					deleteProductFromCart(productId);
+					$(this).closest("tr").fadeOut("normal", function() {
+						$(this).remove();
+					});
+
+                    return false;
+				}
+
+                let currentPrice = parseFloat($(".priceTag_"+productId).text().slice(1)); // cut off the euro currency sign
                 let newPrice = productQuantity * currentPrice;
-                $(".cart_quantity_id_"+$(this).data("product-id")).val(productQuantity);
-                $(".cart_total_price_"+$(this).data("product-id")).text(newPrice);
+                $(".cart_quantity_id_"+productId).val(productQuantity);
+				$(".cart_total_price_"+productId).text('€'+parseFloat(newPrice).toFixed(2));
                 $.ajax({
                     type: "PUT",
-                    url: "/api/shopping-product/q/"+$(this).data("product-id")+"/"+productQuantity,
+                    url: "/api/shopping-product/q/"+productId+"/"+productQuantity,
                     dataType: "json"
                 }).done(function (data, textStatus, jqXHR) {
                     $('.added-item-cart').text(data);
-                    alertify.success("<i class='fa fa-cart-plus'></i> Updated to your cart!");
+                    alertify.success("<i class='fa fa-cart-plus'></i> Updated your cart!");
                 }).fail(function (jqXHR, textStatus, errorThrown) {
                     alertify.error("<i class='fa fa-exclamation-triangle'></i> " + jqXHR.responseText + "!");
                 });
+                updateTotal();
             });
+
+            function updateTotal(){
+                var sum = 0;
+                $('.cart_total_price').each(function(){
+                    sum += parseFloat($(this).text().slice(1));
+                });
+                $('.order_total').text('€'+sum.toFixed(2));
+                $('.order_before_tax').text('€'+(sum*0.85).toFixed(2));
+                $('.order_tax').text('€'+(sum*0.15).toFixed(2));
+			};
+
+            function deleteProductFromCart(productId){
+                var cartProduct = 'cardProduct' + productId;
+                $.ajax({
+                    type: "DELETE",
+                    url: "/api/shopping-product/" + productId,
+                    dataType: "json"
+                }).done(function (data, textStatus, jqXHR) {
+                    if($(".cart_content").find("tr.product-record").length <= 1){
+                        window.location.reload();
+                    } else {
+                        $('.added-item-cart').text(data);
+                        $('#' + cartProduct).remove();
+                        alertify.success("<i class='fa fa-remove'></i> Removed from your cart!");
+                    }
+                    updateTotal();
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    alertify.error("<i class='fa fa-exclamation-triangle'></i> " + jqXHR.responseText + "!");
+                });
+			}
 
 			/*]]>*/
 

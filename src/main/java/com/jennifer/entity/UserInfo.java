@@ -1,12 +1,9 @@
 package com.jennifer.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Handles users' related activities
@@ -51,24 +48,21 @@ public class UserInfo {
     private List<OrderInfo> orderInfos = new ArrayList<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "primaryKey.userInfo", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @Fetch(FetchMode.SUBSELECT)
-    private List<ShoppingProduct> shoppingProducts = new ArrayList<>();
+    @OneToMany(mappedBy = "primaryKey.userInfo", cascade = CascadeType.ALL)
+    private Set<ShoppingProduct> shoppingProducts = new LinkedHashSet<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "primaryKey.userInfo", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @Fetch(FetchMode.SUBSELECT)
-    private List<ViewedProduct> viewedProducts = new ArrayList<>();
+    @OneToMany(mappedBy = "primaryKey.userInfo", cascade = CascadeType.ALL)
+    private Set<ViewedProduct> viewedProducts = new LinkedHashSet<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "primaryKey.userInfo", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @Fetch(FetchMode.SUBSELECT)
-    private List<FavoriteProduct> favoriteProducts = new ArrayList<>();
+    @OneToMany(mappedBy = "primaryKey.userInfo", cascade = CascadeType.ALL)
+    private Set<FavoriteProduct> favoriteProducts = new LinkedHashSet<>();
 
     public UserInfo() {
     }
 
-    public UserInfo(String fullname, String email, String password, Role role, List<ProductInfo> productInfos) {
+    public UserInfo(String fullname, String email, String password, Role role) {
         this.fullname = fullname;
         this.email = email;
         this.password = password;
@@ -139,28 +133,28 @@ public class UserInfo {
         this.orderInfos = orderInfos;
     }
 
-    public List<FavoriteProduct> getFavoriteProducts() {
-        return favoriteProducts;
-    }
-
-    public void setFavoriteProducts(List<FavoriteProduct> favoriteProducts) {
-        this.favoriteProducts = favoriteProducts;
-    }
-
-    public List<ShoppingProduct> getShoppingProducts() {
+    public Set<ShoppingProduct> getShoppingProducts() {
         return shoppingProducts;
     }
 
-    public void setShoppingProducts(List<ShoppingProduct> shoppingProducts) {
+    public void setShoppingProducts(Set<ShoppingProduct> shoppingProducts) {
         this.shoppingProducts = shoppingProducts;
     }
 
-    public List<ViewedProduct> getViewedProducts() {
+    public Set<ViewedProduct> getViewedProducts() {
         return viewedProducts;
     }
 
-    public void setViewedProducts(List<ViewedProduct> viewedProducts) {
+    public void setViewedProducts(Set<ViewedProduct> viewedProducts) {
         this.viewedProducts = viewedProducts;
+    }
+
+    public Set<FavoriteProduct> getFavoriteProducts() {
+        return favoriteProducts;
+    }
+
+    public void setFavoriteProducts(Set<FavoriteProduct> favoriteProducts) {
+        this.favoriteProducts = favoriteProducts;
     }
 
     @Override

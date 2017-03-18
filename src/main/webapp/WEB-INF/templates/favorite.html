@@ -4,15 +4,12 @@
 <head>
 	<title>Favorite - Jennifer webstore</title>
 	<object th:include="common/header :: common-header-customer" th:remove="tag"></object>
-	<!--<style>-->
-		<!--.favotire_product img{-->
-			<!--width: 100px;-->
-			<!--height: 120px;-->
-		<!--}-->
-	<!--</style>-->
+	<style>
+
+	</style>
 </head>
 
-<body>
+<body class="animated faded">
 	<div th:replace="common/navbar :: common-navbar-customer" th:remove="tag"></div>
 
 	<section id="cart_items">
@@ -20,7 +17,7 @@
 			<div class="breadcrumbs">
 				<ol class="breadcrumb">
 				  <li><a th:href="@{/}">Home</a></li>
-				  <li class="active">Favorite</li>
+					<li class="active"><a th:href="@{/favorite}">Favorite</a></li>
 				</ol>
 			</div>
 
@@ -30,26 +27,34 @@
 						<tr class="cart_menu">
 							<td class="text-center">Image</td>
 							<td>Product name</td>
-							<td>Price</td>
+							<td class="text-center">Price</td>
+							<td class="text-center">Status</td>
 							<td></td>
 						</tr>
 					</thead>
-					<tbody class="cart_content">
+					<tbody class="favorite_content">
 						<tr th:each="product : ${favoriteBag}" th:attr="id='product' + ${product.id}">
-							<td th:each="productImage,iter : ${#strings.arraySplit(product.image, ',')}" th:if="${iter.index} == 0" class="text-center favotire_product cart_product">
-								<a th:href="${'/product/' + product.id}"><img th:src="@{/pics/{iName}(iName=${productImage})}" alt="" /></a>
+							<td th:each="productImage,iter : ${#strings.arraySplit(product.image, ',')}" th:if="${iter.index == 0}" class="text-center favotire_product cart_product">
+								<a th:href="${'/product/' + product.id}"><img th:src="${'/pics/' + productImage}" alt="" /></a>
 							</td>
 							<td class="cart_description">
-								<h4><a th:href="@{'/product/'+{product.id}}" th:text="${product.name}">Colorblock Scuba</a></h4>
-								<p>Web ID: 1089772</p>
+								<h4><a th:href="${'/product/'+product.id}" th:text="${product.name}"></a></h4>
+								<p th:text="${'Reference ID: '+product.id}"></p>
 							</td>
-							<td class="cart_price">
-								<p th:text = "'€ '+ ${product.unitPrice}">$59</p>
+							<td class="cart_price item_price text-center">
+								<span class="discountTag" th:if="${product.discount > 0}" th:text="${product.unitPrice}" ></span>
+								<span th:class="${'priceTag priceTag_'+product.id}" style="font-weight: 400;" th:text="'€' + ${product.unitPrice * (100-product.discount)/ 100}"></span>
+							</td>
+							<td class="cart_status text-center">
+								<p th:text="${#strings.capitalize(product.status)}"></p>
 							</td>
 							<td class="cart_delete">
 								<!--<a class="cart_quantity_delete" th:href="${'/favorite/delete/' + product.id}"><i class="fa fa-times"></i></a>-->
-								<a class="delFavorite" th:attr="data-favorite=${product.id}" ><i class="fa fa-times"></i></a>
+								<a class="delFavorite deleteFromBag" th:attr="data-favorite=${product.id}" title="Delete this product"><i class="fa fa-times"></i></a>
 							</td>
+						</tr>
+						<tr th:if="${#lists.isEmpty(favoriteBag)}" class="emptyBag">
+							<td colspan="6" class="text-center"> No products found ! </td>
 						</tr>
 					</tbody>
 				</table>
@@ -65,19 +70,23 @@
 			/*<![CDATA[*/
 			$('.delFavorite').click(function (e) {
                 e.preventDefault();
-                console.log($(this).data("favorite"));
                 var productId = 'product' + $(this).data("favorite");
                 $.ajax({
                     type: "DELETE",
                     url: "/api/favorite-product/"+$(this).data("favorite"),
                     dataType: "json"
                 }).done(function (data, textStatus, jqXHR) {
-                    $('.added-item-favorite').text(data);
-                    $('#' + productId).remove();
-                    alertify.success("<i class='fa fa-remove'></i> Delete favorite product!");
+                    if($(".favorite_content").find("tr").length <= 1){
+                    	window.location.reload();
+                    } else {
+                        $('.added-item-favorite').text(data);
+                        $('#' + productId).remove();
+                        alertify.success("<i class='fa fa-remove'></i> Removed from your favorite!");
+					}
                 }).fail(function (jqXHR, textStatus, errorThrown) {
                     alertify.error("<i class='fa fa-exclamation-triangle'></i> " + jqXHR.responseText + "!");
                 });
+
             });
 
 			/*]]>*/

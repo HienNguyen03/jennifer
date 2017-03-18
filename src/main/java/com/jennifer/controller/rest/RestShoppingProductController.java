@@ -83,14 +83,16 @@ public class RestShoppingProductController {
     public Object deleteProductInShoppingBag(@ModelAttribute("shoppingBag") Map<ProductInfo, Integer> shoppingBag, @PathVariable int productId ){
         UserInfo userInfo = AppUtil.getCustomerFromSession();
 
-        if(userInfo != null){
+        if(userInfo != null) {
             ProductInfo productInfo = productInfoService.findProduct(productId);
+
             ShoppingProduct shoppingProduct = new ShoppingProduct(userInfo, productInfo, shoppingBag.get(productInfo));
-            shoppingBag.remove(productInfo);
             shoppingProductService.delete(shoppingProduct);
 
+            shoppingBag.remove(productInfo);
+
             return shoppingBag.size();
-        }else{
+        } else {
             ProductInfo productInfo = productInfoService.findProduct(productId);
             shoppingBag.remove(productInfo);
             return shoppingBag.size();
@@ -129,9 +131,6 @@ public class RestShoppingProductController {
     @PutMapping("/q/{productId}/{updateQuantity}")
     public Object addProductToShoppingBagQuantity(@ModelAttribute("shoppingBag") Map<ProductInfo, Integer> shoppingBag, @PathVariable int productId, @PathVariable int updateQuantity) {
         log.info(" > [rest] Shopping Product - addProductToShoppingBagQuantity");
-
-        log.info("productId: "+productId);
-        log.info("updateQuantity: "+updateQuantity);
 
         UserInfo userInfo = AppUtil.getCustomerFromSession();
         ProductInfo productInfo = productInfoService.findProduct(productId);

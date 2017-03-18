@@ -15,7 +15,7 @@ public interface ShippingAddressDao extends JpaRepository<ShippingAddress, Integ
     ShippingAddress findById(int id);
     List<ShippingAddress> findAll();
 
-    @Query(value = "SELECT sa from ShippingAddress sa where sa.userInfo.id = ?1")
+    @Query("from ShippingAddress sa where sa.userInfo.id = ?1")
     List<ShippingAddress> findByUserInfo(int id);
 
 }

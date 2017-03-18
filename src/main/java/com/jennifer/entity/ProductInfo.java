@@ -3,13 +3,10 @@ package com.jennifer.entity;
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.jennifer.controller.rest.deserializer.ProductInfoDeserializer;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Handles selling products' information
@@ -63,19 +60,16 @@ public class ProductInfo {
     private List<CampaignProduct> campaignProducts = new ArrayList<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "primaryKey.productInfo", fetch = FetchType.EAGER)
-    @Fetch(FetchMode.SUBSELECT)
-    private List<ShoppingProduct> shoppingProducts = new ArrayList<>();
+    @OneToMany(mappedBy = "primaryKey.productInfo")
+    private Set<ShoppingProduct> shoppingProducts = new LinkedHashSet<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "primaryKey.productInfo", fetch = FetchType.EAGER)
-    @Fetch(FetchMode.SUBSELECT)
-    private List<ViewedProduct> viewedProducts = new ArrayList<>();
+    @OneToMany(mappedBy = "primaryKey.productInfo")
+    private Set<ViewedProduct> viewedProducts = new LinkedHashSet<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "primaryKey.productInfo", fetch = FetchType.EAGER)
-    @Fetch(FetchMode.SUBSELECT)
-    private List<FavoriteProduct> favoriteProducts = new ArrayList<>();
+    @OneToMany(mappedBy = "primaryKey.productInfo")
+    private Set<FavoriteProduct> favoriteProducts = new LinkedHashSet<>();
 
     public ProductInfo() {
     }
@@ -193,14 +187,6 @@ public class ProductInfo {
         this.orderDetails = orderDetails;
     }
 
-    public List<ShoppingProduct> getShoppingProducts() {
-        return shoppingProducts;
-    }
-
-    public void setShoppingProducts(List<ShoppingProduct> shoppingProducts) {
-        this.shoppingProducts = shoppingProducts;
-    }
-
     public List<CampaignProduct> getCampaignProducts() {
         return campaignProducts;
     }
@@ -209,20 +195,28 @@ public class ProductInfo {
         this.campaignProducts = campaignProducts;
     }
 
-    public List<FavoriteProduct> getFavoriteProducts() {
-        return favoriteProducts;
+    public Set<ShoppingProduct> getShoppingProducts() {
+        return shoppingProducts;
     }
 
-    public void setFavoriteProducts(List<FavoriteProduct> favoriteProducts) {
-        this.favoriteProducts = favoriteProducts;
+    public void setShoppingProducts(Set<ShoppingProduct> shoppingProducts) {
+        this.shoppingProducts = shoppingProducts;
     }
 
-    public List<ViewedProduct> getViewedProducts() {
+    public Set<ViewedProduct> getViewedProducts() {
         return viewedProducts;
     }
 
-    public void setViewedProducts(List<ViewedProduct> viewedProducts) {
+    public void setViewedProducts(Set<ViewedProduct> viewedProducts) {
         this.viewedProducts = viewedProducts;
+    }
+
+    public Set<FavoriteProduct> getFavoriteProducts() {
+        return favoriteProducts;
+    }
+
+    public void setFavoriteProducts(Set<FavoriteProduct> favoriteProducts) {
+        this.favoriteProducts = favoriteProducts;
     }
 
     @Override

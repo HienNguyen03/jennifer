@@ -4,6 +4,52 @@
 <head>
 	<title>Checkout - Jennifer webstore</title>
 	<object th:include="common/header :: common-header-customer" th:remove="tag"></object>
+	<style>
+		.confirmShipping p {
+			font-size: 15px;
+		}
+		.confirmShipping p span {
+			font-weight: 600;
+		}
+		.confirmShipping tr td:first-child {
+			text-align: left;
+			width: 100px;
+		}
+		.register-req, .verify-info .heading {
+			background: none repeat scroll 0 0 #ff7b7b;
+			color: #fff;
+			font-size: 20px;
+			padding: 10px 25px;
+			font-family: 'Roboto', sans-serif;
+		}
+		.step-one .heading {
+
+		}
+		.step-one .delivery-address-option {
+			border: 1px solid #E6E4DF;
+			border-top: none;
+			padding: 10px 20px;
+		}
+
+		.step-two .heading {
+			margin-bottom: 0;
+			margin-top: 40px;
+		}
+		.step-two .payment-method-option {
+			border: 1px solid #E6E4DF;
+			border-top: none;
+			padding: 10px 20px;
+		}
+
+		.step-three .heading {
+			margin-bottom: 0;
+			margin-top: 40px;
+		}
+		.step-three thead tr td {
+			background-color: #ffefef;
+			color: #696763;
+		}
+	</style>
 </head>
 
 <body>
@@ -14,242 +60,145 @@
 			<div class="breadcrumbs">
 				<ol class="breadcrumb">
 				  	<li><a th:href="@{/}">Home</a></li>
-					<li><a th:href="@{/cart}">Cart</a></li>
-				  	<li class="active">Check out</li>
+					<li><a th:href="@{/cart}">Shopping Cart</a></li>
+				  	<li class="active"><a th:href="@{/checkout}">Check out</a></li>
 				</ol>
 			</div><!--/breadcrums-->
 
-			<div class="step-one">
-				<h2 class="heading">Delivery Address</h2>
-			</div>
-			<div class="checkout-options">
-				<h3>New User</h3>
-				<p>Checkout options</p>
-				<ul class="nav">
-					<li>
-						<label><input type="checkbox" /> Register Account</label>
-					</li>
-					<li>
-						<label><input type="checkbox" /> Guest Checkout</label>
-					</li>
-					<li>
-						<a href=""><i class="fa fa-times"></i>Cancel</a>
-					</li>
-				</ul>
-			</div><!--/checkout-options-->
-
-			<div class="register-req">
-				<p>Please use Register And Checkout to easily get access to your order history, or use Checkout as Guest</p>
-			</div><!--/register-req-->
-
-			<div class="shopper-informations">
-				<div class="row">
-					<div class="col-sm-3">
-						<div class="shopper-info">
-							<p>Shopper Information</p>
-							<form>
-								<input type="text" placeholder="Display Name" />
-								<input type="text" placeholder="User Name" />
-								<input type="password" placeholder="Password" />
-								<input type="password" placeholder="Confirm password" />
-							</form>
-							<a class="btn btn-primary" href="">Get Quotes</a>
-							<a class="btn btn-primary" href="">Continue</a>
+			<div class="verify-info step-one">
+				<div class="heading">Delivery address</div>
+				<div class="delivery-address-option">
+					<div class="row confirmShipping">
+						<div class="shopper-info col-sm-3" th:each="sa,iter : ${confirmShipping}">
+							<span class="radio"><input type="radio" name="shipToAddress" th:attr="id=${'sa_'+sa.id}" th:checked="${iter.count == 1}" /><label th:for="${'sa_'+sa.id}">Use this address</label></span>
+							<table th:if="${#strings.capitalize(sa.status) == 'Available'}">
+								<tr>
+									<td>Recipient</td>
+									<td th:text="${': '+sa.recipient}"></td>
+								</tr>
+								<tr>
+									<td>Address</td>
+									<td th:text="${': '+sa.address}"></td>
+								</tr>
+								<tr>
+									<td>City</td>
+									<td th:text="${': '+sa.city}"></td>
+								</tr>
+								<tr>
+									<td>Postal code</td>
+									<td th:text="${': '+sa.postalCode}"></td>
+								</tr>
+							</table>
 						</div>
 					</div>
-					<div class="col-sm-5 clearfix">
-						<div class="bill-to">
-							<p>Bill To</p>
-							<div class="form-one">
-								<form>
-									<input type="text" placeholder="Company Name" />
-									<input type="text" placeholder="Email*" />
-									<input type="text" placeholder="Title" />
-									<input type="text" placeholder="First Name *" />
-									<input type="text" placeholder="Middle Name" />
-									<input type="text" placeholder="Last Name *" />
-									<input type="text" placeholder="Address 1 *" />
-									<input type="text" placeholder="Address 2" />
-								</form>
-							</div>
-							<div class="form-two">
-								<form>
-									<input type="text" placeholder="Zip / Postal Code *" />
-									<select>
-										<option>-- Country --</option>
-										<option>United States</option>
-										<option>Bangladesh</option>
-										<option>UK</option>
-										<option>India</option>
-										<option>Pakistan</option>
-										<option>Ucrane</option>
-										<option>Canada</option>
-										<option>Dubai</option>
-									</select>
-									<select>
-										<option>-- State / Province / Region --</option>
-										<option>United States</option>
-										<option>Bangladesh</option>
-										<option>UK</option>
-										<option>India</option>
-										<option>Pakistan</option>
-										<option>Ucrane</option>
-										<option>Canada</option>
-										<option>Dubai</option>
-									</select>
-									<input type="password" placeholder="Confirm password" />
-									<input type="text" placeholder="Phone *" />
-									<input type="text" placeholder="Mobile Phone" />
-									<input type="text" placeholder="Fax" />
-								</form>
-							</div>
-						</div>
-					</div>
-					<div class="col-sm-4">
-						<div class="order-message">
-							<p>Shipping Order</p>
-							<textarea name="message"  placeholder="Notes about your order, Special Notes for Delivery" rows="16"></textarea>
-							<label><input type="checkbox" /> Shipping to bill address</label>
-						</div>	
-					</div>					
 				</div>
 			</div>
-			<div class="review-payment">
-				<h2>Review - Payment</h2>
+
+			<div class="verify-info step-two">
+				<div class="heading">Payment method</div>
+				<div class="payment-method-option">
+					<div class="row confirmMethod">
+						<div class="payment-info col-sm-6">
+							<span class="radio"><input type="radio" name="payBy" id="pay-pas" checked="checked" /><label for="pay-pas">Pay at store</label></span>
+							<div>
+								<p>Make payment directly at our retail stores when you come to pick up your products.</p>
+							</div>
+						</div>
+						<div class="payment-info col-sm-6">
+							<span class="radio"><input type="radio" name="payBy" id="pay-online"/><label for="pay-online">Pay online</label></span>
+							<div>
+								<p>Pay online using your Paypal account after you made an order.</p>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 
-			<div class="table-responsive cart_info">
-				<table class="table table-condensed">
-					<thead>
+			<div class="verify-info step-three">
+				<div class="heading">Order products</div>
+				<div class="table-responsive cart_info">
+					<table class="table table-condensed">
+						<thead>
 						<tr class="cart_menu">
-							<td class="image">Item</td>
-							<td class="description"></td>
-							<td class="price">Price</td>
-							<td class="quantity">Quantity</td>
-							<td class="total">Total</td>
-							<td></td>
+							<td class="text-center">Image</td>
+							<td >Name</td>
+							<td class="item_price">Price</td>
+							<td class="text-center">Quantity</td>
+							<td class="item_price">Total</td>
 						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td class="cart_product">
-								<a href=""><img th:src="@{/custom/co/images/cart/one.png}" alt="" /></a>
+						</thead>
+						<tbody class="cart_content">
+						<tr th:each="product : ${shoppingBag}" th:attr="id='cardProduct' + ${product.key.id}" class="product-record">
+							<td th:each="productImage,iter : ${#strings.arraySplit(product.key.image, ',')}" th:if="${iter.index  == 0 }" class="col-sm-2 favotire_product cart_product text-center">
+								<img th:src="${'/pics/' + productImage}" alt="" />
 							</td>
-							<td class="cart_description">
-								<h4><a href="">Colorblock Scuba</a></h4>
-								<p>Web ID: 1089772</p>
+							<td class="cart_description col-sm-4">
+								<h4 th:text="${product.key.name}"></h4>
+								<p th:text="${'Reference ID: '+product.key.id}"></p>
 							</td>
-							<td class="cart_price">
-								<p>$59</p>
+							<td class="cart_price item_price col-sm-2">
+								<span class="discountTag" th:if="${product.key.discount > 0}" th:text="${product.key.unitPrice}" ></span>
+								<span class="priceTag" th:text="'€' + ${product.key.unitPrice * (100-product.key.discount)/ 100}"></span>
 							</td>
-							<td class="cart_quantity">
-								<div class="cart_quantity_button">
-									<a class="cart_quantity_up" href=""> + </a>
-									<input class="cart_quantity_input" type="text" name="quantity" value="1" autocomplete="off" size="2" />
-									<a class="cart_quantity_down" href=""> - </a>
-								</div>
+							<td class="cart_quantity text-center col-sm-2">
+								<span th:text="${product.value}"></span>
 							</td>
-							<td class="cart_total">
-								<p class="cart_total_price">$59</p>
-							</td>
-							<td class="cart_delete">
-								<a class="cart_quantity_delete" href=""><i class="fa fa-times"></i></a>
+							<td class="cart_total item_price col-sm-2">
+								<span class="item_total_price cart_total_price" th:text="'€' + ${(product.key.unitPrice * (100-product.key.discount)/ 100) * product.value}">$59</span>
 							</td>
 						</tr>
-
-						<tr>
-							<td class="cart_product">
-								<a href=""><img th:src="@{/custom/co/images/cart/two.png}" alt="" /></a>
-							</td>
-							<td class="cart_description">
-								<h4><a href="">Colorblock Scuba</a></h4>
-								<p>Web ID: 1089772</p>
-							</td>
-							<td class="cart_price">
-								<p>$59</p>
-							</td>
-							<td class="cart_quantity">
-								<div class="cart_quantity_button">
-									<a class="cart_quantity_up" href=""> + </a>
-									<input class="cart_quantity_input" type="text" name="quantity" value="1" autocomplete="off" size="2" />
-									<a class="cart_quantity_down" href=""> - </a>
-								</div>
-							</td>
-							<td class="cart_total">
-								<p class="cart_total_price">$59</p>
-							</td>
-							<td class="cart_delete">
-								<a class="cart_quantity_delete" href=""><i class="fa fa-times"></i></a>
-							</td>
-						</tr>
-						<tr>
-							<td class="cart_product">
-								<a href=""><img th:src="@{/custom/co/images/cart/three.png}" alt="" /></a>
-							</td>
-							<td class="cart_description">
-								<h4><a href="">Colorblock Scuba</a></h4>
-								<p>Web ID: 1089772</p>
-							</td>
-							<td class="cart_price">
-								<p>$59</p>
-							</td>
-							<td class="cart_quantity">
-								<div class="cart_quantity_button">
-									<a class="cart_quantity_up" href=""> + </a>
-									<input class="cart_quantity_input" type="text" name="quantity" value="1" autocomplete="off" size="2" />
-									<a class="cart_quantity_down" href=""> - </a>
-								</div>
-							</td>
-							<td class="cart_total">
-								<p class="cart_total_price">$59</p>
-							</td>
-							<td class="cart_delete">
-								<a class="cart_quantity_delete" href=""><i class="fa fa-times"></i></a>
-							</td>
-						</tr>
-						<tr>
-							<td colspan="4"></td>
-							<td colspan="2">
-								<table class="table table-condensed total-result">
-									<tr>
-										<td>Cart Sub Total</td>
-										<td>$59</td>
-									</tr>
-									<tr>
-										<td>Exo Tax</td>
-										<td>$2</td>
-									</tr>
-									<tr class="shipping-cost">
-										<td>Shipping Cost</td>
-										<td>Free</td>										
-									</tr>
-									<tr>
-										<td>Total</td>
-										<td><span>$61</span></td>
-									</tr>
-								</table>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-			<div class="payment-options">
-					<span>
-						<label><input type="checkbox" /> Direct Bank Transfer</label>
-					</span>
-					<span>
-						<label><input type="checkbox" /> Check Payment</label>
-					</span>
-					<span>
-						<label><input type="checkbox" /> Paypal</label>
-					</span>
+						<div th:if="${not #maps.isEmpty(shoppingBag)}" th:remove="tag">
+							<tr class="tr_total">
+								<td colspan="3"></td>
+								<td class="summary">Total before tax</td>
+								<td class="text-center item_price item_total_price">
+									<span class="order_before_tax"></span>
+								</td>
+							</tr >
+							<tr class="tr_total">
+								<td colspan="3"></td>
+								<td class="summary">Tax</td>
+								<td class="text-center item_price item_total_price">
+									<span class="order_tax"></span>
+								</td>
+							</tr>
+							<tr class="tr_total">
+								<td colspan="3"></td>
+								<td class="summary">Order total</td>
+								<td class="text-center item_price item_total_price bold">
+									<span class="order_total"></span>
+								</td>
+							</tr>
+						</div>
+						</tbody>
+					</table>
 				</div>
+			</div>
 		</div>
 	</section> <!--/#cart_items-->
 
 	<div th:replace="common/footer :: common-footer-customer" th:remove="tag"></div>
 
 	<div th:replace="common/footer :: common-footer-scripts-customer" th:remove="tag"></div>
+
+	<script type="text/javascript" th:inline="javascript">
+		/*<![CDATA[*/
+
+        updateTotal();
+
+        function updateTotal(){
+            var sum = 0;
+            $('.cart_total_price').each(function(){
+                sum += parseFloat($(this).text().slice(1));
+            });
+
+            $('.order_total').text('€'+sum.toFixed(2));
+            $('.order_before_tax').text('€'+(sum*0.85).toFixed(2));
+            $('.order_tax').text('€'+(sum*0.15).toFixed(2));
+        };
+
+		/*]]>*/
+	</script>
 
 </body>
 </html>

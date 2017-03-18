@@ -3,10 +3,7 @@ package com.jennifer.controller;
 import com.jennifer.controller.rest.RestShoppingProductController;
 import com.jennifer.entity.*;
 import com.jennifer.controller.rest.RestFavoriteProductController;
-import com.jennifer.service.FavoriteProductService;
-import com.jennifer.service.MarketingCampaignService;
-import com.jennifer.service.ProductInfoService;
-import com.jennifer.service.ShoppingProductService;
+import com.jennifer.service.*;
 import com.jennifer.util.AppUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,14 +30,16 @@ public class CustomerController {
     private ShoppingProductService shoppingProductService;
     private MarketingCampaignService marketingCampaignService;
     private ProductInfoService productInfoService;
+    private ShippingAddressService shippingAddressService;
 
     @Autowired
     public CustomerController(MarketingCampaignService marketingCampaignService, ProductInfoService productInfoService,
-            FavoriteProductService favoriteProductService, ShoppingProductService shoppingProductService){
+            FavoriteProductService favoriteProductService, ShoppingProductService shoppingProductService, ShippingAddressService shippingAddressService){
         this.marketingCampaignService = marketingCampaignService;
         this.productInfoService = productInfoService;
         this.favoriteProductService = favoriteProductService;
         this.shoppingProductService = shoppingProductService;
+        this.shippingAddressService = shippingAddressService;
     }
 
     @ModelAttribute("favoriteBag")
@@ -68,8 +67,16 @@ public class CustomerController {
     }
 
     @GetMapping("/checkout")
-    public String checkout(){
-        return "checkout";
+    public String checkout(Model model){
+        UserInfo userInfo = AppUtil.getCustomerFromSession();
+
+        if(userInfo == null){
+            return "redirect:/login";
+        } else {
+            model.addAttribute("confirmShipping", shippingAddressService.findByUser(userInfo));
+            return "checkout";
+        }
+
     }
 
     @GetMapping("/cart")
@@ -87,7 +94,6 @@ public class CustomerController {
 
             model.addAttribute("shoppingBag", userShoppingBag);
         }
-        log.info("size " + shoppingBag.size() );
         return "cart";
     }
 
