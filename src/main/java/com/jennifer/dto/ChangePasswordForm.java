@@ -42,4 +42,13 @@ public class ChangePasswordForm {
     public void setOldPassword(String oldPassword) {
         this.oldPassword = oldPassword;
     }
+
+    @Override
+    public String toString() {
+        return "ChangePasswordForm{" +
+                "newPassword='" + newPassword + '\'' +
+                ", confirmPassword='" + confirmPassword + '\'' +
+                ", oldPassword='" + oldPassword + '\'' +
+                '}';
+    }
 }

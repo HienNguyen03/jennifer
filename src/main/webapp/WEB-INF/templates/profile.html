@@ -145,24 +145,24 @@
                                     <form id = "shipping-address-form">
                                         <div class="col-lg-10" style="float:none; margin:0 auto">
                                             <div class="form-group">
-                                                <label for="recipient">Recipient</label>
+                                                <label for="recipient">Recipient *</label>
                                                 <input id="recipient" name="recipient" type="text" class="form-control"
                                                        placeholder="Recipient"/>
                                             </div>
 
                                             <div class="form-group">
-                                                <label for="address">Shipping Address</label>
+                                                <label for="address">Shipping Address *</label>
                                                 <input id="address" name="address" type="text" class="form-control"
                                                        placeholder="Address"/>
                                             </div>
 
                                             <div class="form-group">
-                                                <label for="city">City</label>
+                                                <label for="city">City *</label>
                                                 <input id="city" name="city" type="text" class="form-control" placeholder="City"/>
                                             </div>
 
                                             <div class="form-group">
-                                                <label for="postalCode">Postal code</label>
+                                                <label for="postalCode">Postal code *</label>
                                                 <input id="postalCode" name="postalCode" type="number" class="form-control" placeholder="Postal code"/>
                                             </div>
 
@@ -366,7 +366,6 @@
         });
 
 
-
         let shippingAddressDB ={
 
             loadData: function (filter) { // load date from db
@@ -399,7 +398,7 @@
                     data : JSON.stringify(item),
                     dataType: "json"
                 }).done(function (updatedItemReturnedFromServer) {
-                    alertify.success("Successfully updated!");
+                    alertify.success("Successfully added!");
                 }).fail(function (jqXHR, textStatus, errorThrown) {
                     alertify.error(jqXHR.responseText);
                 });
@@ -443,7 +442,6 @@
                     .on("click", function () {
                         resetForm();
                         showDetailsDialog("Edit", args);
-                        console.log(args);
                         $('#save-address').text("Update Shipping Address");
                     });
 
@@ -485,21 +483,6 @@
 
             fields: [
                 {title: "Shipping Addresses"},
-//                {
-//                    type: "control",
-//                    modeSwitchButton: false,
-//                    editButton: false,
-//                    width: 30,
-//
-//                    headerTemplate: function () {
-//                        return $("<button>").attr("type", "button").addClass("btn btn-info btn-xs small-corner-btn").text("Add").append("</button>")
-//                            .on("click", function () {
-//                                resetForm();
-//                                $("#save-delivery").text("Add new delivery method");
-//                                showDetailsDialog("Add", {});
-//                            });
-//                    }
-//                }
             ]
         });
 
@@ -564,9 +547,6 @@
                 city: $("#city").val(),
                 postalCode: parseInt($("#postalCode").val())
             });
-            console.log("save client");
-            console.log(client)
-
 
             $("#address-user-grid").jsGrid(isNew ? "insertItem" : "updateItem", client);
 
@@ -577,8 +557,6 @@
         String.prototype.capitalize = function() {
             return this.charAt(0).toUpperCase() + this.slice(1);
         };
-
-
     });
 </script>
 

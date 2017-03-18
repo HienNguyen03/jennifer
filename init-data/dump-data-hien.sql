@@ -52,6 +52,7 @@ INSERT INTO `shipping_address` (`ID`,`RECIPIENT`,`ADDRESS`,`CITY`,`POSTAL_CODE`,
 INSERT INTO `shipping_address` (`ID`,`RECIPIENT`,`ADDRESS`,`CITY`,`POSTAL_CODE`,`STATUS`,`USER_ID`) VALUES (10,'Jackie Chan','Shanghai 34 K89','Shanghai','651200','Available',10);
 INSERT INTO `shipping_address` (`ID`,`RECIPIENT`,`ADDRESS`,`CITY`,`POSTAL_CODE`,`STATUS`,`USER_ID`) VALUES (11,'Harry Potter','London 16 L32','London','234467','Available',11);
 INSERT INTO `shipping_address` (`ID`,`RECIPIENT`,`ADDRESS`,`CITY`,`POSTAL_CODE`,`STATUS`,`USER_ID`) VALUES (12,'Manager Hien','Olympiakatu 12 B48','Vaasa','65100','Available',1);
+INSERT INTO `shipping_address` (`ID`,`RECIPIENT`,`ADDRESS`,`CITY`,`POSTAL_CODE`,`STATUS`,`USER_ID`) VALUES (13,'Lily Nguyen','Ida Aalbergin ','Helsinki','00400','Available',2);
 
 /*
 -- Query: SELECT * FROM jennifer_db.order_info

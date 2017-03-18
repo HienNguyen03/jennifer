@@ -136,8 +136,6 @@
             },
 
             deleteItem: function (item) {
-//                console.log("delete call++++>");
-//                console.log(item);
                 return $.ajax({
                     type: "DELETE",
                     url: "/api/delivery-method",
@@ -169,12 +167,10 @@
             todayHighlight: true
         // update "end-date" defaults whenever "start-date" changes
         }).on('changeDate', function(){
-            console.log($('#start-date').datepicker("getDate"));
             // set the "end-date" start to not be later than "start-date" ends:
             $('#end-date').datepicker("clearDates");
             $('#end-date').datepicker("setStartDate", dateTemplateFromServer($('#start-date').datepicker("getDate")));
         });
-        console.log($('#start-date').datepicker("getDate"));
         $('#end-date').datepicker({
             format: "dd/mm/yyyy",
             autoclose: true,
@@ -337,7 +333,6 @@
 
                 endDate: dateTemplateToServer($("#end-date").datepicker("getDate"))
             });
-            //console.log($("#end-date").datepicker("getDate"));
             $("#delivery-method-grid").jsGrid(isNew ? "insertItem" : "updateItem", client);
             $("#delivery-detailsDialog").dialog("close");
         };

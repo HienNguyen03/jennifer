@@ -37,10 +37,8 @@ public class RestUserController {
         UserInfo userInfoSession = AppUtil.getCustomerFromSession();
         log.info("Sended " + userInfo.toString());
 
-        if (userInfo.getId()!= userInfoFound.getId()){
-            return new ResponseEntity<>("Unable to update!", HttpStatus.INTERNAL_SERVER_ERROR);
         if (userInfo.getId()!= userInfoSession.getId()){
-            return new ResponseEntity("Unable to update!", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("Unable to update!", HttpStatus.INTERNAL_SERVER_ERROR);
         }else{
             UserInfo userInfoFound = userInfoService.findById(userInfoSession.getId());
             userInfoFound.setFullname(userInfo.getFullname());
@@ -51,10 +49,11 @@ public class RestUserController {
 
     @PutMapping("/password")
     public Object changePassword(@RequestBody ChangePasswordForm changePasswordForm){
+        log.info(changePasswordForm.toString());
         UserInfo userInfo = AppUtil.getCustomerFromSession();
 
         boolean passwordMatched = userInfoService.compareUserPassword(userInfo,changePasswordForm.getOldPassword());
-        if (passwordMatched){
+        if (!passwordMatched){
             return new ResponseEntity<>("Old password is not correct!", HttpStatus.INTERNAL_SERVER_ERROR);
         }else{
             return userInfoService.changePassword(userInfo, changePasswordForm.getNewPassword());

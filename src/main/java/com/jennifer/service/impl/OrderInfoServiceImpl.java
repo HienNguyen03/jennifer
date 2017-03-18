@@ -28,7 +28,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 
     @Override
     public List<OrderInfo> findAllOrders() {
-        return orderInfoDao.findAll();
+        return orderInfoDao.findAllByOrderByIdDesc();
     }
 
     @Override

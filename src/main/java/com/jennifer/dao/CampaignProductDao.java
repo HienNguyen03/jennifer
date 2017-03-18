@@ -3,13 +3,14 @@ package com.jennifer.dao;
 import com.jennifer.entity.CampaignProduct;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 /**
  * CampaignProduct data access object interface
  */
-
+@Repository
 public interface CampaignProductDao extends JpaRepository<CampaignProduct, Integer> {
 
     List<CampaignProduct> findAll();
