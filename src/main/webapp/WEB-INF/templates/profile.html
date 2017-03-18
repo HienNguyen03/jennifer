@@ -5,7 +5,14 @@
     <title>Jennifer - Online shopping webstore</title>
     <object th:include="common/header :: common-header-customer" th:remove="tag"></object>
     <style>
-
+        #change-pass-btn, #shipping-address-btn {
+            cursor: pointer;
+        }
+        .form-group label.error {
+            color: #cb2027;
+            font-size: 13px;
+            font-weight: 400;
+        }
     </style>
 </head>
 
@@ -81,7 +88,7 @@
                     <div class="col-lg-4">
                         <div class="panel plus panel-default animated fadeIn">
                             <div class="panel-heading">
-                                <i class="fa fa-lock"></i>Password
+                                <i class="fa fa-lock"></i> Password
                             </div><!-- /.panel-heading -->
 
                             <div class="panel-body">
@@ -96,6 +103,11 @@
                                         <form id = "change-password-form">
                                             <div class="col-lg-10" style="float:none; margin:0 auto">
                                                 <div class="form-group">
+                                                    <label for="oldPassword">Old password * </label>
+                                                    <input id="oldPassword" name="oldPassword" type="password" class="form-control" placeholder="Old password"/>
+                                                </div>
+
+                                                <div class="form-group">
                                                     <label for="newPassword">New password * </label>
                                                     <input id="newPassword" name="newPassword" type="password" class="form-control"
                                                            placeholder="New password"/>
@@ -105,11 +117,6 @@
                                                     <label for="confirmPassword">Confirm password * </label>
                                                     <input id="confirmPassword" name="confirmPassword" type="password" class="form-control"
                                                            placeholder="Confirm password"/>
-                                                </div>
-
-                                                <div class="form-group">
-                                                    <label for="oldPassword">Old password * </label>
-                                                    <input id="oldPassword" name="oldPassword" type="password" class="form-control" placeholder="Old password"/>
                                                 </div>
 
                                                 <div class="form-group text-center">
@@ -204,8 +211,6 @@
                 url: "/api/user/profile",
                 dataType: "json"
             }).done(function (response) {
-                console.log(response);
-
                 showDialog(response);
             });
         }
@@ -263,8 +268,8 @@
                 }
             },
             messages: {
-                managerName: "Please enter full name",
-                managerEmail: "Please enter a valid email",
+                managerName: "Please enter your full name!",
+                managerEmail: "Please enter a valid email!",
             },
 
             submitHandler: function (form) {
@@ -274,7 +279,6 @@
                         fullname: $("#managerName").val(),
                         email : $("#managerEmail").val()
                     })
-                    console.log(userProfile);
                     $.ajax({
                         type: "PUT",
                         url: "/api/user/profile",
@@ -327,8 +331,8 @@
             },
             messages: {
                 newPassword : "Password cannot be less than 6 characters or more than 20 characters !",
-                confirmPassword : "Confirm password does not match",
-                oldPassword : "Please type your current password"
+                confirmPassword : "Confirm password does not match!",
+                oldPassword : "Please type your current password!"
             },
 
             submitHandler: function (form) {

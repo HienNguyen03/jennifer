@@ -55,10 +55,10 @@ public class RestUploadController {
     public ResponseEntity delete(@PathVariable String filename) {
         Path filePath = storageService.load(filename);
         if(!new File(filePath.toString()).exists()){
-            return new ResponseEntity("No file found for name '" + filename + "'", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("No file found for name '" + filename + "'", HttpStatus.NOT_FOUND);
         }
         storageService.delete(filePath);
-        return new ResponseEntity(filename, HttpStatus.OK);
+        return new ResponseEntity<>(filename, HttpStatus.OK);
     }
 
     @GetMapping("/files/{filename:.+}")

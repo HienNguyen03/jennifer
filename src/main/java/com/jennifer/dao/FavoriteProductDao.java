@@ -3,6 +3,7 @@ package com.jennifer.dao;
 import com.jennifer.entity.FavoriteProduct;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -10,6 +11,7 @@ import java.util.List;
  * FavoriteProduct data access object interface
  */
 
+@Repository
 public interface FavoriteProductDao extends JpaRepository<FavoriteProduct, Integer> {
 
     List<FavoriteProduct> findAll();

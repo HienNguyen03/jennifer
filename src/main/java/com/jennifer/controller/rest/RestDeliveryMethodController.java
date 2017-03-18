@@ -10,8 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 /**
  * Rest controller for DeliveryMethod activities
  */
@@ -38,11 +36,10 @@ public class RestDeliveryMethodController {
         DeliveryMethod deliveryMethodFound = deliveryMethodService.findById(deliveryMethod.getId());
 
         if (deliveryMethodFound != null) {
-            DeliveryMethod deliveryMethodUpdated = deliveryMethodService.update(deliveryMethod);
-            return deliveryMethod;
+            return deliveryMethodService.update(deliveryMethod);
         }
 
-        return new ResponseEntity("Unable to update!", HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>("Unable to update!", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     //deleting data
@@ -57,9 +54,9 @@ public class RestDeliveryMethodController {
             return deliveryMethodFound;
 
         }catch (DataIntegrityViolationException e){
-            return new ResponseEntity("Product '" + deliveryMethodFound.getName() + "' is in used! Unable to delete!", HttpStatus.CONFLICT);
+            return new ResponseEntity<>("Product '" + deliveryMethodFound.getName() + "' is in used! Unable to delete!", HttpStatus.CONFLICT);
         }catch (Exception e){
-            return new ResponseEntity(" Exception", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(" Exception", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
