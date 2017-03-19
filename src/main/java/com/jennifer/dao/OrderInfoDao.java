@@ -2,6 +2,8 @@ package com.jennifer.dao;
 
 import com.jennifer.entity.OrderInfo;
 import com.jennifer.entity.UserInfo;
+import com.paypal.api.payments.Order;
+import org.apache.catalina.User;
 import org.aspectj.weaver.ast.Or;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -18,6 +20,7 @@ import java.util.List;
 public interface OrderInfoDao extends JpaRepository<OrderInfo, Integer> {
     List<OrderInfo> findAll();
     List<OrderInfo> findAllByOrderByIdDesc();
+    List<OrderInfo> findByUserInfoOrderByIdDesc(UserInfo userInfo);
     List<OrderInfo> findByUserInfo(UserInfo userInfo);
     OrderInfo findById(int id);
 
