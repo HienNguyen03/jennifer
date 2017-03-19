@@ -50,7 +50,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 
     @Override
     public List<OrderInfo> findByUserInfo(UserInfo user) {
-        return orderInfoDao.findByUserInfo(user);
+        return orderInfoDao.findByUserInfoOrderByIdDesc(user);
     }
 }
 

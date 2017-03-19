@@ -20,5 +20,5 @@ public interface OrderInfoDao extends JpaRepository<OrderInfo, Integer> {
     @Query(value = "SELECT o from OrderInfo o where o.status = ?1")
     List<OrderInfo> findByOrderStatus(String status);
 
-    List<OrderInfo> findByUserInfo(UserInfo userInfo);
+    List<OrderInfo> findByUserInfoOrderByIdDesc(UserInfo userInfo);
 }

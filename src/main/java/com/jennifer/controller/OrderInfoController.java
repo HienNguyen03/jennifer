@@ -16,10 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Controller for OrderInfo activities
@@ -44,17 +41,17 @@ public class OrderInfoController {
 
     @GetMapping("/order-history")
     public String history(Model model) throws ParseException {
-        log.info(" > HISTORY - GET");
         UserInfo userInfo = AppUtil.getCustomerFromSession();
         SimpleDateFormat format = new SimpleDateFormat("dd/mm/yyyy");
         if (userInfo!= null){
-            Map<OrderInfo,List<OrderDetail> > orderHistory = new HashMap<OrderInfo, List<OrderDetail> >();
+            Map<OrderInfo,List<OrderDetail> > orderHistory = new LinkedHashMap<>();
             List<OrderInfo> orderInfos = orderInfoService.findByUserInfo(userInfo);
 
             for (OrderInfo o: orderInfos){
                 List<OrderDetail> orderDetails = orderDetailService.findByOrder(o);
                 orderHistory.put(o, orderDetails);
             }
+
             model.addAttribute("orderHistory", orderHistory);
         }
         return "order-history";

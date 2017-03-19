@@ -140,4 +140,14 @@ public class OrderInfo {
     public void setOrderDetails(List<OrderDetail> orderDetails) {
         this.orderDetails = orderDetails;
     }
+
+    @Override
+    public String toString() {
+        return "OrderInfo{" +
+                "id=" + id +
+                ", orderDate=" + orderDate +
+                ", totalPrice=" + totalPrice +
+                ", status='" + status + '\'' +
+                '}';
+    }
 }
