@@ -1,7 +1,5 @@
 package com.jennifer.service.impl;
 
-import com.jennifer.dao.FavoriteProductDao;
-import com.jennifer.dao.ShoppingProductDao;
 import com.jennifer.dao.UserInfoDao;
 import com.jennifer.dto.CustomerDetails;
 import com.jennifer.dto.SignupForm;
@@ -82,8 +80,6 @@ public class UserInfoServiceImpl implements UserInfoService, UserDetailsService 
         List<ProductInfo> aCopyOfFavoriteBag = new ArrayList<>(favoriteBag);
         List<ProductInfo> userFavoriteProducts = new ArrayList<>();
 
-        log.info("..userId: "+userInfo.getId());
-        log.info("..favoriteBag.size: "+favoriteBag.size());
         List<FavoriteProduct> favoriteProductList = favoriteProductService.findAllByUserId(userInfo.getId());
 
         if(favoriteProductList != null && !favoriteProductList.isEmpty()){
@@ -103,7 +99,6 @@ public class UserInfoServiceImpl implements UserInfoService, UserDetailsService 
                     }
                 }
             }
-            log.info("..");
             request.getSession().setAttribute("favoriteBag", favoriteBag);
         } else {
             if(!favoriteBag.isEmpty()) {
@@ -198,23 +193,4 @@ public class UserInfoServiceImpl implements UserInfoService, UserDetailsService 
         return userInfoDao.save(userInfoFound);
     }
 
-//    @Override
-//    public List<ProductInfo> addProductToFavorite(ProductInfo productInfo) {
-//        UserInfo userInfo = AppUtil.getCustomerFromSession();
-//        if(userInfo.getProductInfos() == null){
-//            List<ProductInfo> productInfoList = new ArrayList<>();
-//            productInfoList.add(productInfo);
-//            userInfo.setProductInfos(productInfoList);
-//        } else {
-//            log.info("add here!");
-//            userInfo.getProductInfos().add(productInfo);
-//        }
-//        //userInfoDao.save(userInfo);
-//        return userInfo.getProductInfos();
-//    }
-
-//    @Override
-//    public void onApplicationEvent(AuthenticationSuccessEvent authenticationSuccessEvent) {
-//
-//    }
 }

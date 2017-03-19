@@ -12,7 +12,7 @@
     <!--</style>-->
 </head>
 
-<body>
+<body class="animated fadeIn">
 <div th:replace="common/navbar :: common-navbar-customer" th:remove="tag"></div>
 
 <section id="cart_items">
@@ -20,7 +20,7 @@
         <div class="breadcrumbs">
             <ol class="breadcrumb">
                 <li><a th:href="@{/}">Home</a></li>
-                <li class="active">Order History</li>
+                <li class="active"><a th:href="@{/order-history}">Order History</a></li>
             </ol>
         </div>
 
@@ -48,11 +48,13 @@
                         <p th:text = "'€ '+ ${order.key.totalPrice}" >$59</p>
                     </td>
                     <td class="cart_description">
-                        <p th:text = "${order.key.shippingAddress.address}+ ', ' + ${order.key.shippingAddress.city}"></p>
+                        <p th:if="${order.key.shippingAddress != null}" th:text="${order.key.shippingAddress.address}+ ', ' + ${order.key.shippingAddress.city}"></p>
+                        <p th:unless="${order.key.shippingAddress != null}" th:text="'Pick up at store'"></p>
                     </td>
 
                     <td class="cart_description">
-                        <p th:text = "${order.key.deliveryMethod.name}"></p>
+                        <p th:if="${order.key.deliveryMethod != null}" th:text="${order.key.deliveryMethod.name}"></p>
+                        <p th:unless="${order.key.deliveryMethod != null}" th:text="'Pick up at store'"></p>
                     </td>
 
                     <td class="cart_description">

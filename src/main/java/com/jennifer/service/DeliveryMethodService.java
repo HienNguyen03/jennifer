@@ -12,6 +12,7 @@ import java.util.List;
  */
 public interface DeliveryMethodService {
     List<DeliveryMethod> findAllDeliveryMethods();
+    List<DeliveryMethod> findAllAvailable();
     DeliveryMethod findById(int id);
     DeliveryMethod update(DeliveryMethod deliveryMethod);
     void delete(DeliveryMethod deliveryMethod);

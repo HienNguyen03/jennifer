@@ -34,6 +34,11 @@ public class DeliveryMethodServiceImpl implements DeliveryMethodService {
     }
 
     @Override
+    public List<DeliveryMethod> findAllAvailable() {
+        return deliveryMethodDao.findAllAvailable();
+    }
+
+    @Override
     public DeliveryMethod findById(int id) {
         return deliveryMethodDao.findById(id);
     }

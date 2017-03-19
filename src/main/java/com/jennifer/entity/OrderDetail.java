@@ -32,6 +32,17 @@ public class OrderDetail {
     @Column(name = "APPLIED_DISCOUNT")
     private int appliedDiscount;
 
+    public OrderDetail() {
+    }
+
+    public OrderDetail(OrderInfo orderInfo, ProductInfo productInfo, BigDecimal unitPrice, int quantity, int appliedDiscount) {
+        this.primaryKey.setOrderInfo(orderInfo);
+        this.primaryKey.setProductInfo(productInfo);
+        this.unitPrice = unitPrice;
+        this.quantity = quantity;
+        this.appliedDiscount = appliedDiscount;
+    }
+
     private OrderDetailId getPrimaryKey() {
         return primaryKey;
     }

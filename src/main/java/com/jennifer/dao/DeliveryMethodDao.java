@@ -20,4 +20,7 @@ public interface DeliveryMethodDao extends JpaRepository<DeliveryMethod, Integer
 
     List<DeliveryMethod> findAll();
 
+    @Query("from DeliveryMethod dm where dm.endDate >= current_date()")
+    List<DeliveryMethod> findAllAvailable();
+
 }

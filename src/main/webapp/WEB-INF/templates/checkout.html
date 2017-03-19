@@ -21,6 +21,8 @@
 			font-size: 20px;
 			padding: 10px 25px;
 			font-family: 'Roboto', sans-serif;
+			margin-bottom: 0;
+			margin-top: 20px;
 		}
 		.verify-info .no-product {
 			padding: 10px 10px;
@@ -30,34 +32,47 @@
 			border-top: none;
 		}
 
-		.step-one .delivery-address-option {
+		.step-one .payment-method-option {
+			border: 1px solid #E6E4DF;
+			border-top: 20px;
+			padding: 10px 20px;
+		}
+
+		.step-two .delivery-address-option {
 			border: 1px solid #E6E4DF;
 			border-top: none;
 			padding: 10px 20px;
 		}
 
-		.step-two .heading {
-			margin-bottom: 0;
-			margin-top: 20px;
+
+		.step-two, .step-three {
+			display: none;
 		}
-		.step-two .payment-method-option {
+		.step-three .delivery-method-option {
 			border: 1px solid #E6E4DF;
 			border-top: none;
 			padding: 10px 20px;
 		}
 
-		.step-three .heading {
-			margin-bottom: 0;
-			margin-top: 20px;
-		}
-		.step-three thead tr td {
+		.step-four thead tr td {
 			background-color: #ffefef;
 			color: #696763;
+		}
+
+		.disPayOpt {
+			display: inline-block;
+		}
+
+		.btn.pay {
+			margin: 20px 10px !important;
+			display: none;
+			width: 84%;
+			font-size: 16px;
 		}
 	</style>
 </head>
 
-<body>
+<body class="animated fadeIn">
 	<div th:replace="common/navbar :: common-navbar-customer" th:remove="tag"></div>
 
 	<section id="cart_items">
@@ -71,6 +86,26 @@
 			</div><!--/breadcrums-->
 
 			<div class="verify-info step-one">
+				<div class="heading">Payment method</div>
+				<div class="payment-method-option">
+					<div class="row confirmPayment">
+						<div class="payment-info col-sm-6">
+							<span class="radio"><input type="radio" name="payBy" id="pay-pas" checked="checked" /><label for="pay-pas">Pay at store</label></span>
+							<div>
+								<p>Make payment directly at our retail stores when you come to pick up your products.</p>
+							</div>
+						</div>
+						<div class="payment-info col-sm-6">
+							<span class="radio"><input type="radio" name="payBy" id="pay-online"/><label for="pay-online">Pay online</label></span>
+							<div>
+								<p>Pay online using your Paypal account after an order is made.</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="verify-info step-two">
 				<div class="heading">Shipping address</div>
 				<div class="delivery-address-option">
 					<div class="row confirmShipping">
@@ -97,35 +132,43 @@
 						</div>
 						<div class="shopper-info col-sm-3" th:if="${#lists.size(confirmShipping) == 0}">
 							<span>
-								<p>You have not defined any shipping address yet!</p>
-								<p>Please create one to continue! Please <a th:href="@{/profile}">click here</a> to add!</p>
+								<p>You have not listed any shipping address yet!</p>
+								<p>Please create one to continue! You can <a th:href="@{/profile}">click here</a> to create a new shipping address!</p>
 							</span>
 						</div>
 					</div>
 				</div>
 			</div>
 
-			<div class="verify-info step-two">
-				<div class="heading">Payment method</div>
-				<div class="payment-method-option">
-					<div class="row confirmMethod">
-						<div class="payment-info col-sm-6">
-							<span class="radio"><input type="radio" name="payBy" id="pay-pas" checked="checked" /><label for="pay-pas">Pay at store</label></span>
-							<div>
-								<p>Make payment directly at our retail stores when you come to pick up your products.</p>
-							</div>
-						</div>
-						<div class="payment-info col-sm-6">
-							<span class="radio"><input type="radio" name="payBy" id="pay-online"/><label for="pay-online">Pay online</label></span>
-							<div>
-								<p>Pay online using your Paypal account after you made an order.</p>
-							</div>
-						</div>
+			<div class="verify-info step-three">
+				<div class="heading">Delivery option</div>
+				<div class="delivery-method-option">
+					<div class="row">
+						<table class="col-sm-12">
+							<tr>
+								<td class="col-sm-2">
+									<select id="deliverySelection">
+										<option th:each="item : ${deliveryMethods}" th:attr="value=${item.id}" th:text="${item.name}"></option>
+									</select>
+								</td>
+								<td class="col-sm-10">
+									<div class="col-sm-12" style="padding-top: 10px;">
+										<span class="col-sm-2">Shipping cost: </span>
+										<ul class="disPayOpt col-sm-10">
+											<li th:each="item : ${deliveryMethods}" th:attr="data-delivery-id=${item.id}" th:text="${item.cost}" style="display: none;"></li>
+										</ul>
+									</div>
+								</td>
+							</tr>
+						</table>
 					</div>
-				</div>
+					<div class="row">
+						<div class="col-sm-12" style="padding: 10px 15px;">Choose a delivery option that you want to use to ship your packet(s).</div>
+					</div>
+			</div>
 			</div>
 
-			<div class="verify-info step-three">
+			<div class="verify-info step-four">
 				<div class="heading">Order products</div>
 				<div class="table-responsive cart_info">
 					<table class="table table-condensed">
@@ -175,10 +218,25 @@
 							</tr>
 							<tr class="tr_total">
 								<td colspan="3"></td>
+								<td class="summary">Shipping cost</td>
+								<td class="text-center item_price item_total_price">
+									<span class="order_shipping_cost"></span>
+								</td>
+							</tr>
+							<tr class="tr_total">
+								<td colspan="3"></td>
 								<td class="summary">Order total</td>
 								<td class="text-center item_price item_total_price bold">
 									<span class="order_total"></span>
 								</td>
+							</tr>
+							<tr class="tr_total">
+								<td colspan="3"></td>
+								<td colspan="2" class="text-center shopper-info">
+									<a class="btn btn-primary pay" id="btn-pay-at-store">Make order</a>
+									<a class="btn btn-primary pay" id="btn-pay-online">Make payment</a>
+								</td>
+
 							</tr>
 						</div>
 						</tbody>
@@ -209,8 +267,11 @@
 
 	<script type="text/javascript" th:inline="javascript">
 		/*<![CDATA[*/
+        var root = /*[[@{~}]]*/"";
 
         updateTotal();
+        $('.order_shipping_cost').text('€0.00');
+        $('#btn-pay-at-store').css('display', 'block');
 
         function updateTotal(){
             var sum = 0;
@@ -223,8 +284,59 @@
             $('.order_tax').text('€'+(sum*0.15).toFixed(2));
         };
 
+        $('.payment-info input[type=radio]').click(function() {
+            if($('#pay-online').is(':checked')) {
+                $('.step-two').fadeIn();
+                $('.step-three').fadeIn();
+                $('#deliverySelection').val($('#deliverySelection option:first').val());
+                $('.disPayOpt li').css('display', 'none');
+                $('.disPayOpt li:first-child').css('display', 'block');
+                if($('.disPayOpt li').css('display')=='block'){
+                    let newShippingCost = parseFloat($('.disPayOpt li:visible').text());
+                    let newTotalCost = parseFloat($('.order_total').text().slice(1)) + newShippingCost;
+                    $('.order_shipping_cost').text('€'+newShippingCost.toFixed(2));
+                    $('.order_total').text('€'+newTotalCost.toFixed(2));
+				}
+                $('.btn.pay').css('display','none');
+				$('#btn-pay-online').css('display','block');
+            } else {
+                $('.step-two').fadeOut();
+                $('.step-three').fadeOut();
+                $('.order_shipping_cost').text('€0.00');
+                updateTotal();
+                $('.btn.pay').css('display','none');
+                $('#btn-pay-at-store').css('display','block');
+			}
+        });
+
+        $('#deliverySelection').change(function(){
+            $('.disPayOpt li').css('display', 'none');
+
+            let cSelector = '.disPayOpt li[data-delivery-id='+$(this).val()+']';
+            $(cSelector).css('display', 'block');
+
+            let shippingCost = parseFloat($(cSelector).text());
+            let newSum = parseFloat($('.order_total').text().slice(1)) + shippingCost;
+            $('.order_shipping_cost').text('€'+shippingCost.toFixed(2));
+            $('.order_total').text('€'+newSum.toFixed(2));
+		});
+
+        $('#btn-pay-at-store').click(function(){
+            $.ajax({
+                type: "POST",
+                url: "/api/order",
+                dataType: "json"
+            }).done(function (jqXHR, textStatus, errorThrown) {
+                alertify.success("You made order successfully!");
+                setTimeout(function(){
+                    window.location = "/order-history";
+				}, 2000);
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                alertify.error(jqXHR.responseText);
+            });
+		});
+
 		/*]]>*/
 	</script>
-
 </body>
 </html>

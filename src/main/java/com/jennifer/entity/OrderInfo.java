@@ -1,8 +1,6 @@
 package com.jennifer.entity;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -51,6 +49,25 @@ public class OrderInfo {
     @JsonIgnore
     @OneToMany(mappedBy = "primaryKey.orderInfo", cascade = CascadeType.ALL)
     private List<OrderDetail> orderDetails = new ArrayList<>();
+
+    public OrderInfo() {
+    }
+
+    public OrderInfo(Date orderDate, BigDecimal totalPrice, UserInfo userInfo, String status) {
+        this.orderDate = orderDate;
+        this.totalPrice = totalPrice;
+        this.userInfo = userInfo;
+        this.status = status;
+    }
+
+    public OrderInfo(Date orderDate, BigDecimal totalPrice, UserInfo userInfo, ShippingAddress shippingAddress, DeliveryMethod deliveryMethod, String status) {
+        this.orderDate = orderDate;
+        this.totalPrice = totalPrice;
+        this.userInfo = userInfo;
+        this.shippingAddress = shippingAddress;
+        this.deliveryMethod = deliveryMethod;
+        this.status = status;
+    }
 
     public int getId() {
         return id;

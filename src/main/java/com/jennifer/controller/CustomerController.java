@@ -29,15 +29,17 @@ public class CustomerController {
     private MarketingCampaignService marketingCampaignService;
     private ProductInfoService productInfoService;
     private ShippingAddressService shippingAddressService;
+    private DeliveryMethodService deliveryMethodService;
 
     @Autowired
     public CustomerController(MarketingCampaignService marketingCampaignService, ProductInfoService productInfoService,
-            FavoriteProductService favoriteProductService, ShoppingProductService shoppingProductService, ShippingAddressService shippingAddressService){
+            FavoriteProductService favoriteProductService, ShoppingProductService shoppingProductService, ShippingAddressService shippingAddressService, DeliveryMethodService deliveryMethodService){
         this.marketingCampaignService = marketingCampaignService;
         this.productInfoService = productInfoService;
         this.favoriteProductService = favoriteProductService;
         this.shoppingProductService = shoppingProductService;
         this.shippingAddressService = shippingAddressService;
+        this.deliveryMethodService = deliveryMethodService;
     }
 
     @ModelAttribute("favoriteBag")
@@ -94,6 +96,7 @@ public class CustomerController {
         } else {
             model.addAttribute("confirmShipping", shippingAddressService.findByUser(userInfo));
             model.addAttribute("shoppingProducts", shoppingProductService.findAllByUserId(userInfo.getId()));
+            model.addAttribute("deliveryMethods", deliveryMethodService.findAllAvailable());
             return "checkout";
         }
 
@@ -107,7 +110,7 @@ public class CustomerController {
         if (userInfo!= null){
             List<ShoppingProduct> shoppingProducts = shoppingProductService.findAllByUserId(userInfo.getId());
 
-            Map<ProductInfo,Integer> userShoppingBag = new HashMap<ProductInfo,Integer>();
+            Map<ProductInfo,Integer> userShoppingBag = new HashMap<>();
             for(ShoppingProduct shoppingProduct : shoppingProducts){
                userShoppingBag.put(shoppingProduct.getProductInfo(), shoppingProduct.getQuantity());
             }

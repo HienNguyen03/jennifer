@@ -196,10 +196,15 @@
 		<script th:src="@{/custom/cm/plugin/drift/dist/Drift.js}"></script>
 		<script th:src="@{/custom/cm/plugin/alertifyjs/alertify.js}"></script>
 
+		<!-- Paypal -->
+		<script th:src="@{/custom/cm/plugin/paypal/client.min.js}"></script>
+		<script th:src="@{/custom/cm/plugin/paypal/paypal.min.js}"></script>
+
 		<script type="text/javascript" th:inline="javascript">
 			$(document).ready( function() {
 				/*<![CDATA[*/
 				var context = /*[[@{~/custom/}]]*/"";
+
 				/*]]>*/
 
                 $(function () {
