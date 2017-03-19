@@ -52,6 +52,11 @@ public class OrderInfoServiceImpl implements OrderInfoService {
     public List<OrderInfo> findByUserInfo(UserInfo user) {
         return orderInfoDao.findByUserInfoOrderByIdDesc(user);
     }
+
+    @Override
+    public OrderInfo findLastRecord(int userId) {
+        return orderInfoDao.findLatestOrder(userId).get(0);
+    }
 }
 
 

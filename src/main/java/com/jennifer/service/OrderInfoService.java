@@ -15,5 +15,6 @@ public interface OrderInfoService {
     OrderInfo update(OrderInfo orderInfo);
     int getNewOrder();
     List<OrderInfo> findByUserInfo(UserInfo user);
+    OrderInfo findLastRecord(int userId);
 
 }

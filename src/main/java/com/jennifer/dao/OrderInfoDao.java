@@ -2,6 +2,9 @@ package com.jennifer.dao;
 
 import com.jennifer.entity.OrderInfo;
 import com.jennifer.entity.UserInfo;
+import org.aspectj.weaver.ast.Or;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -15,10 +18,14 @@ import java.util.List;
 public interface OrderInfoDao extends JpaRepository<OrderInfo, Integer> {
     List<OrderInfo> findAll();
     List<OrderInfo> findAllByOrderByIdDesc();
-
+    List<OrderInfo> findByUserInfo(UserInfo userInfo);
     OrderInfo findById(int id);
-    @Query(value = "SELECT o from OrderInfo o where o.status = ?1")
+
+    @Query("from OrderInfo o where o.status = ?1")
     List<OrderInfo> findByOrderStatus(String status);
 
-    List<OrderInfo> findByUserInfoOrderByIdDesc(UserInfo userInfo);
+    List<OrderInfo> findByUserInfo_IdOrderByIdDesc(int userId, Pageable pageable);
+    default List<OrderInfo> findLatestOrder(int userId) {
+        return findByUserInfo_IdOrderByIdDesc(userId, new PageRequest(0,1));
+    }
 }

@@ -110,7 +110,7 @@
 				<div class="delivery-address-option">
 					<div class="row confirmShipping">
 						<div class="shopper-info col-sm-3" th:each="sa,iter : ${confirmShipping}">
-							<span class="radio"><input type="radio" name="shipToAddress" th:attr="id=${'sa_'+sa.id}" th:checked="${iter.count == 1}" /><label th:for="${'sa_'+sa.id}">Use this address</label></span>
+							<span class="radio"><input type="radio" name="shipToAddress" th:attr="id=${'sa_'+sa.id}, value=${sa.id}" th:checked="${iter.count == 1}" /><label th:for="${'sa_'+sa.id}">Use this address</label></span>
 							<table th:if="${#strings.capitalize(sa.status) == 'Available'}">
 								<tr>
 									<td>Recipient</td>
@@ -130,7 +130,7 @@
 								</tr>
 							</table>
 						</div>
-						<div class="shopper-info col-sm-3" th:if="${#lists.size(confirmShipping) == 0}">
+						<div class="shopper-info col-sm-12" th:if="${#lists.size(confirmShipping) == 0}">
 							<span>
 								<p>You have not listed any shipping address yet!</p>
 								<p>Please create one to continue! You can <a th:href="@{/profile}">click here</a> to create a new shipping address!</p>
@@ -235,6 +235,7 @@
 								<td colspan="2" class="text-center shopper-info">
 									<a class="btn btn-primary pay" id="btn-pay-at-store">Make order</a>
 									<a class="btn btn-primary pay" id="btn-pay-online">Make payment</a>
+									<!--<a class="btn pay" id="btn-pay-online"></a>-->
 								</td>
 
 							</tr>
@@ -299,6 +300,11 @@
 				}
                 $('.btn.pay').css('display','none');
 				$('#btn-pay-online').css('display','block');
+
+                let shippingAddress = $("input[name='shipToAddress']:checked").val();
+                if(shippingAddress == undefined) {
+                    $('#btn-pay-online').css('display', 'none');
+                }
             } else {
                 $('.step-two').fadeOut();
                 $('.step-three').fadeOut();
@@ -329,12 +335,41 @@
             }).done(function (jqXHR, textStatus, errorThrown) {
                 alertify.success("You made order successfully!");
                 setTimeout(function(){
-                    window.location = "/order-history";
+                    window.location = "/confirmation";
 				}, 2000);
             }).fail(function (jqXHR, textStatus, errorThrown) {
                 alertify.error(jqXHR.responseText);
             });
 		});
+
+//        paypal.Button.render({
+//            env: 'sandbox', // 'sandbox' or 'production'
+//			style: {
+//                size: 'responsive',
+//                label: 'checkout'
+//			},
+//            payment: function() {
+//                $.ajax({
+//                    type: "GET",
+//                    url: "/api/paypal/create-payment",
+//                    dataType: "json"
+//                }).done(function (jqXHR, textStatus, errorThrown) {
+//
+//                }).fail(function (jqXHR, textStatus, errorThrown) {
+//
+//                });
+//
+//            },
+//            onAuthorize: function(data, actions) {
+//                // Execute the payment here, when the buyer approves the transaction
+//                if (error === 'INSTRUMENT_DECLINED') {
+//                    actions.restart();
+//                }
+//            },
+//            onCancel: function(data, actions) {
+//
+//            }
+//        }, '#btn-pay-online');
 
 		/*]]>*/
 	</script>

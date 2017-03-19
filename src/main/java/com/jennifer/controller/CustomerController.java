@@ -30,16 +30,19 @@ public class CustomerController {
     private ProductInfoService productInfoService;
     private ShippingAddressService shippingAddressService;
     private DeliveryMethodService deliveryMethodService;
+    private OrderInfoService orderInfoService;
 
     @Autowired
     public CustomerController(MarketingCampaignService marketingCampaignService, ProductInfoService productInfoService,
-            FavoriteProductService favoriteProductService, ShoppingProductService shoppingProductService, ShippingAddressService shippingAddressService, DeliveryMethodService deliveryMethodService){
+            FavoriteProductService favoriteProductService, ShoppingProductService shoppingProductService, ShippingAddressService shippingAddressService,
+                              DeliveryMethodService deliveryMethodService, OrderInfoService orderInfoService){
         this.marketingCampaignService = marketingCampaignService;
         this.productInfoService = productInfoService;
         this.favoriteProductService = favoriteProductService;
         this.shoppingProductService = shoppingProductService;
         this.shippingAddressService = shippingAddressService;
         this.deliveryMethodService = deliveryMethodService;
+        this.orderInfoService = orderInfoService;
     }
 
     @ModelAttribute("favoriteBag")
@@ -154,6 +157,13 @@ public class CustomerController {
         productInfoList.remove(productInfo);
         model.addAttribute("sameCategoryProducts", productInfoList);
         return "product-details";
+    }
+
+    @GetMapping("/confirmation")
+    public String confirmation(Model model){
+        UserInfo userInfo = AppUtil.getCustomerFromSession();
+        model.addAttribute("justMadeOrder", orderInfoService.findLastRecord(userInfo.getId()));
+        return "confirm";
     }
 
 }
