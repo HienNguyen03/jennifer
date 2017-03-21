@@ -1,8 +1,6 @@
 package com.jennifer.config;
 
 import com.jennifer.config.handler.SessionTimeoutCookieFilter;
-import com.jennifer.service.impl.FavoriteProductServiceImpl;
-import com.paypal.base.rest.APIContext;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
 import org.springframework.boot.web.servlet.ErrorPage;
 import org.springframework.context.MessageSource;
@@ -119,11 +117,11 @@ public class AppConfig extends WebMvcConfigurerAdapter {
         return (container) -> container.addErrorPages(new ErrorPage(HttpStatus.NOT_FOUND, "/404"));
     }
 
-    @Bean
-    public APIContext paypalContext(){
-        String clientId = "YOUR APPLICATION CLIENT ID";
-        String clientSecret = "YOUR APPLICATION CLIENT SECRET";
-
-        return new APIContext(clientId, clientSecret, "sandbox");
-    }
+//    @Bean
+//    public APIContext paypalContext(){
+//        String clientId = "YOUR APPLICATION CLIENT ID";
+//        String clientSecret = "YOUR APPLICATION CLIENT SECRET";
+//
+//        return new APIContext(clientId, clientSecret, "sandbox");
+//    }
 }

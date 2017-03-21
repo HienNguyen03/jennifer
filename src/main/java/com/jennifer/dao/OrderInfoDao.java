@@ -2,9 +2,6 @@ package com.jennifer.dao;
 
 import com.jennifer.entity.OrderInfo;
 import com.jennifer.entity.UserInfo;
-import com.paypal.api.payments.Order;
-import org.apache.catalina.User;
-import org.aspectj.weaver.ast.Or;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
