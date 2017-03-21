@@ -9,6 +9,8 @@
         <element id="directory" name="lib">
           <element id="library" level="project" name="Maven: org.springframework.boot:spring-boot-starter-web:1.4.3.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework.boot:spring-boot-starter:1.4.3.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework.boot:spring-boot:1.4.3.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework.boot:spring-boot-autoconfigure:1.4.3.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework.boot:spring-boot-starter-logging:1.4.3.RELEASE" />
           <element id="library" level="project" name="Maven: ch.qos.logback:logback-classic:1.1.8" />
           <element id="library" level="project" name="Maven: ch.qos.logback:logback-core:1.1.8" />
@@ -17,9 +19,6 @@
           <element id="library" level="project" name="Maven: org.yaml:snakeyaml:1.17" />
           <element id="library" level="project" name="Maven: org.springframework:spring-web:4.3.5.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-webmvc:4.3.5.RELEASE" />
-          <element id="library" level="project" name="Maven: org.springframework.boot:spring-boot-devtools:1.4.3.RELEASE" />
-          <element id="library" level="project" name="Maven: org.springframework.boot:spring-boot:1.4.3.RELEASE" />
-          <element id="library" level="project" name="Maven: org.springframework.boot:spring-boot-autoconfigure:1.4.3.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-core:4.3.5.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework.boot:spring-boot-starter-security:1.4.3.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-aop:4.3.5.RELEASE" />
