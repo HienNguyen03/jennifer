@@ -4,8 +4,6 @@
         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
     <session-factory>
-        <property name="connection.url">jdbc:mysql://eu-cdbr-west-01.cleardb.com:3306/heroku_ada82626865777d</property>
-        <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
         <mapping class="com.jennifer.entity.CampaignProduct"/>
         <mapping class="com.jennifer.entity.CategoryInfo"/>
         <mapping class="com.jennifer.entity.DeliveryMethod"/>

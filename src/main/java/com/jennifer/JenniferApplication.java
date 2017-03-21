@@ -13,7 +13,6 @@ import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 @EnableConfigurationProperties(StorageProperties.class)
-@ComponentScan("com.jennifer.controller")
 public class JenniferApplication extends SpringBootServletInitializer {
 
 	public static void main(String[] args) {

@@ -46,10 +46,7 @@ public class AppConfig extends WebMvcConfigurerAdapter {
         return new RestTemplate();
     }
 
-    @Bean
-    public AuthenticationTrustResolver getAuthenticationTrustResolver() {
-        return new AuthenticationTrustResolverImpl();
-    }
+
 
     @Bean(name = "templateEngine")
     public SpringTemplateEngine getTemplateEngine() {
