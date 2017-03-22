@@ -17,7 +17,7 @@
 	<section id="slider"><!--slider-->
 		<div class="container">
 			<div class="row">
-				<div class="col-sm-12 well-lg">
+				<div class="col-sm-12">
 					<div th:if="${#lists.isEmpty(availableCampaigns) }" class="campaign-slider">
 						<img th:src="@{/custom/co/images/home/default-banner.jpg}" />
 					</div>
@@ -67,6 +67,7 @@
             speed: 300,
             fade: true,
             autoplay: true,
+            variableWidth: false,
             cssEase: 'linear',
             adaptiveHeight: true
         });

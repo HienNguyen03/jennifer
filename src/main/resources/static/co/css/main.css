@@ -73,11 +73,11 @@ a#scrollUp i{
   background: none repeat scroll 0 0 #F0F0E9;
 }
 
-.contactinfo ul li:first-child{
-    margin-left: -15px;
+.contactinfo ul li{
+  line-height: inherit;
 }
 
-.contactinfo ul li a{
+.contactinfo ul li a {
   font-size: 12px;
   color: #696763;
   font-family: 'Roboto', sans-serif;
@@ -150,8 +150,8 @@ a#scrollUp i{
   padding-left: 0;
 }
 
-.header-middle .container .row .col-sm-8 {
-	padding-right:0;
+.shop-menu {
+  text-align: right;
 }
 
 .usa {
@@ -478,9 +478,12 @@ ul.sub-menu {
   font-family: 'Roboto', sans-serif;
   font-size: 14px;
   font-weight: bold;
-  left: 25px;
   position: absolute;
-  top: 50px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+  width: 135px;
+  text-align: center;
 }
 
 .footer-widget {
@@ -571,7 +574,6 @@ ul.sub-menu {
   color: #363432;
   font-family: 'Roboto', sans-serif;
   font-weight: 400;
-  margin-left: 15px;
 }
 
 .footer-bottom p span a {
@@ -801,7 +803,7 @@ h2.title:before{
 }
 
 .shipping {
-  background-color: #F2F2F2;
+  background-color: #fff;
   margin-top: 40px;
   overflow: hidden;
   margin-bottom: 20px;
@@ -1051,6 +1053,10 @@ h2.title {
 .category-tab ul  li  a:hover{
 	background:#ff7b7b;
 	color:#fff;
+}
+
+.nav-pills {
+  padding: 4px 0;
 }
 
 .nav-tabs  li.active  a, .nav-tabs  li.active  a:hover, .nav-tabs  li.active  a:focus {
