@@ -87,6 +87,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
+		// allow Frame forward mode
+		http.headers().frameOptions().sameOrigin();
 		http
 				.authorizeRequests()
 				//.antMatchers("/", "/favicon.ico", "/public/**", "/resources/**", "/custom/**", "/lib/**").permitAll()
