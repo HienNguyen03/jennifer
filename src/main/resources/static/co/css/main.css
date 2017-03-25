@@ -495,6 +495,19 @@ ul.sub-menu {
   margin-bottom: 25px;
 }
 
+.campaign-slider {
+  -webkit-transition: 0.8s linear;
+  -moz-transition: 0.8s linear;
+  -ms-transition: 0.8s linear;
+  -o-transition: 0.8s linear;
+  transition: 0.8s linear;
+  -webkit-transition-property: opacity;
+  -moz-transition-property: opacity;
+  -ms-transition-property: opacity;
+  -o-transition-property: opacity;
+  transition-property: opacity;
+}
+
 .footer-widget .container {
   border-top: 1px solid #FFFFFF;
   padding-top: 15px;
