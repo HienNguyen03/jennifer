@@ -24,6 +24,11 @@
 			margin-bottom: 0;
 			margin-top: 20px;
 		}
+
+		.verify-info .row {
+			font-size: 15px;
+			line-height: 25px;
+		}
 		.verify-info .no-product {
 			padding: 10px 10px;
 			font-size: 16px;
@@ -38,25 +43,37 @@
 			padding: 10px 20px;
 		}
 
+		.step-one p {
+			margin: 5px auto;
+		}
+
 		.step-two .delivery-address-option {
 			border: 1px solid #E6E4DF;
 			border-top: none;
 			padding: 10px 20px;
 		}
 
-
-		.step-two, .step-three {
-			display: none;
-		}
 		.step-three .delivery-method-option {
 			border: 1px solid #E6E4DF;
 			border-top: none;
 			padding: 10px 20px;
 		}
 
+		.step-three {
+			margin-bottom: 10px;
+		}
+
+		.step-three .row {
+			margin: 5px auto;
+		}
+
 		.step-four thead tr td {
 			background-color: #ffefef;
 			color: #696763;
+		}
+
+		.step-four .cart_info {
+			margin-bottom: 25px !important;
 		}
 
 		.disPayOpt {
@@ -65,9 +82,11 @@
 
 		.btn.pay {
 			margin: 20px 10px !important;
-			display: none;
 			width: 84%;
 			font-size: 16px;
+		}
+		.verify-info:last-child {
+			margin-bottom: 10px;
 		}
 	</style>
 </head>
@@ -81,92 +100,10 @@
 				<ol class="breadcrumb">
 				  	<li><a th:href="@{/}">Home</a></li>
 					<li><a th:href="@{/cart}">Shopping Cart</a></li>
+					<li><a th:href="@{/information}">Information</a></li>
 				  	<li class="active"><a th:href="@{/checkout}">Check out</a></li>
 				</ol>
 			</div><!--/breadcrums-->
-
-			<div class="verify-info step-one">
-				<div class="heading">Payment method</div>
-				<div class="payment-method-option">
-					<div class="row confirmPayment">
-						<div class="payment-info col-sm-6">
-							<span class="radio"><input type="radio" name="payBy" id="pay-pas" checked="checked" /><label for="pay-pas">Pay at store</label></span>
-							<div>
-								<p>Make payment directly at our retail stores when you come to pick up your products.</p>
-							</div>
-						</div>
-						<div class="payment-info col-sm-6">
-							<span class="radio"><input type="radio" name="payBy" id="pay-online"/><label for="pay-online">Pay online</label></span>
-							<div>
-								<p>Pay online using your Paypal account after an order is made.</p>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<div class="verify-info step-two">
-				<div class="heading">Shipping address</div>
-				<div class="delivery-address-option">
-					<div class="row confirmShipping">
-						<div class="shopper-info col-sm-3" th:each="sa,iter : ${confirmShipping}">
-							<span class="radio"><input type="radio" name="shipToAddress" th:attr="id=${'sa_'+sa.id}, value=${sa.id}" th:checked="${iter.count == 1}" /><label th:for="${'sa_'+sa.id}">Use this address</label></span>
-							<table th:if="${#strings.capitalize(sa.status) == 'Available'}">
-								<tr>
-									<td>Recipient</td>
-									<td th:text="${': '+sa.recipient}"></td>
-								</tr>
-								<tr>
-									<td>Address</td>
-									<td th:text="${': '+sa.address}"></td>
-								</tr>
-								<tr>
-									<td>City</td>
-									<td th:text="${': '+sa.city}"></td>
-								</tr>
-								<tr>
-									<td>Postal code</td>
-									<td th:text="${': '+sa.postalCode}"></td>
-								</tr>
-							</table>
-						</div>
-						<div class="shopper-info col-sm-12" th:if="${#lists.size(confirmShipping) == 0}">
-							<span>
-								<p>You have not listed any shipping address yet!</p>
-								<p>Please create one to continue! You can <a th:href="@{/profile}">click here</a> to create a new shipping address!</p>
-							</span>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<div class="verify-info step-three">
-				<div class="heading">Delivery option</div>
-				<div class="delivery-method-option">
-					<div class="row">
-						<table class="col-sm-12">
-							<tr>
-								<td class="col-sm-2">
-									<select id="deliverySelection">
-										<option th:each="item : ${deliveryMethods}" th:attr="value=${item.id}" th:text="${item.name}"></option>
-									</select>
-								</td>
-								<td class="col-sm-10">
-									<div class="col-sm-12" style="padding-top: 10px;">
-										<span class="col-sm-2">Shipping cost: </span>
-										<ul class="disPayOpt col-sm-10">
-											<li th:each="item : ${deliveryMethods}" th:attr="data-delivery-id=${item.id}" th:text="${item.cost}" style="display: none;"></li>
-										</ul>
-									</div>
-								</td>
-							</tr>
-						</table>
-					</div>
-					<div class="row">
-						<div class="col-sm-12" style="padding: 10px 15px;">Choose a delivery option that you want to use to ship your packet(s).</div>
-					</div>
-			</div>
-			</div>
 
 			<div class="verify-info step-four">
 				<div class="heading">Order products</div>
@@ -198,69 +135,131 @@
 								<span th:text="${product.value}"></span>
 							</td>
 							<td class="cart_total item_price col-sm-2">
-								<span class="item_total_price cart_total_price" th:text="'€' + ${(product.key.unitPrice * (100-product.key.discount)/ 100) * product.value}">$59</span>
+								<span class="item_total_price cart_total_price" th:text="'€' + ${(product.key.unitPrice * (100-product.key.discount)/ 100) * product.value}"></span>
 							</td>
 						</tr>
-						<div th:if="${not #maps.isEmpty(shoppingBag)}" th:remove="tag">
-							<tr class="tr_total">
-								<td colspan="3"></td>
-								<td class="summary">Total before tax</td>
-								<td class="text-center item_price item_total_price">
-									<span class="order_before_tax"></span>
-								</td>
-							</tr >
-							<tr class="tr_total">
-								<td colspan="3"></td>
-								<td class="summary">Tax</td>
-								<td class="text-center item_price item_total_price">
-									<span class="order_tax"></span>
-								</td>
-							</tr>
-							<tr class="tr_total">
-								<td colspan="3"></td>
-								<td class="summary">Shipping cost</td>
-								<td class="text-center item_price item_total_price">
-									<span class="order_shipping_cost"></span>
-								</td>
-							</tr>
-							<tr class="tr_total">
-								<td colspan="3"></td>
-								<td class="summary">Order total</td>
-								<td class="text-center item_price item_total_price bold">
-									<span class="order_total"></span>
-								</td>
-							</tr>
-							<tr class="tr_total">
-								<td colspan="3"></td>
-								<td colspan="2" class="text-center shopper-info">
-									<a class="btn btn-primary pay" id="btn-pay-at-store">Make order</a>
-									<a class="btn btn-primary pay" id="btn-pay-online">Make payment</a>
-									<!--<a class="btn pay" id="btn-pay-online"></a>-->
-								</td>
-
-							</tr>
-						</div>
+						<tr class="tr_total">
+							<td colspan="3"></td>
+							<td class="summary">Total before tax</td>
+							<td class="text-center item_price item_total_price">
+								<span class="order_before_tax"></span>
+							</td>
+						</tr >
+						<tr class="tr_total">
+							<td colspan="3"></td>
+							<td class="summary">Tax</td>
+							<td class="text-center item_price item_total_price">
+								<span class="order_tax"></span>
+							</td>
+						</tr>
+						<tr th:if="${session.confirmPayment == 'pay-online'}" class="tr_total">
+							<td colspan="3"></td>
+							<td class="summary">Shipping cost</td>
+							<td class="text-center item_price item_total_price">
+								<span class="order_shipping_cost" th:text="${'€'+session.confirmDelivery.cost}"></span>
+							</td>
+						</tr>
+						<tr class="tr_total">
+							<td colspan="3"></td>
+							<td class="summary">Order total</td>
+							<td class="text-center item_price item_total_price bold">
+								<span class="order_total"></span>
+							</td>
+						</tr>
 						</tbody>
 					</table>
 				</div>
 			</div>
-		</div>
-		<div class="container" th:unless="${#maps.size(shoppingBag) > 0}">
-			<div class="breadcrumbs">
-				<ol class="breadcrumb">
-					<li><a th:href="@{/}">Home</a></li>
-					<li><a th:href="@{/cart}">Shopping Cart</a></li>
-					<li class="active"><a th:href="@{/checkout}">Check out</a></li>
-				</ol>
-			</div><!--/breadcrums-->
+
+			<div th:if="${#strings.equals(session.confirmPayment, 'pay-at-store')}" th:remove="tag">
+				<div class="verify-info step-one last-element">
+					<div class="heading">Payment method</div>
+					<div class="payment-method-option">
+						<div class="row confirmPayment">
+							<div class="payment-info col-sm-12">
+								<div>
+									<p>Make payment directly at our retail store when you come to pick up your products.</p>
+									<div class="well well-sm">
+										<h4>Jennifer Inc.</h4>
+										<p>Olympiakatu 10 A 11</p>
+										<p>65100, Vaasa, Finland</p>
+										<p>Mobile: +358 41 234 5678</p>
+										<p>Fax: +358 41 234 5678</p>
+										<p>Email: manager@jennifer.com</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div th:unless="${#strings.equals(session.confirmPayment, 'pay-at-store')}" th:remove="tag">
+				<div class="verify-info step-one">
+					<div class="heading">Payment method</div>
+					<div class="payment-method-option">
+						<div class="row confirmPayment">
+							<div class="payment-info col-sm-12">
+								<div>
+									<p>Pay online using your <strong>Paypal account</strong> after an order is made.</p>
+									<p>Please use below username and password for online payment in <strong>Paypal's virtual environment</strong>:</p>
+									<div class="well well-sm">
+										<p>Username: <strong>john.test@jennifer.com</strong></p>
+										<p>Password: <strong>123123123</strong></p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="verify-info step-two">
+					<div class="heading">Shipping address</div>
+					<div class="delivery-address-option">
+						<div class="row confirmShipping">
+							<div class="shopper-info col-sm-3">
+								<table>
+									<tr>
+										<td>Recipient</td>
+										<td th:text="${': '+session.confirmShipping.recipient}"></td>
+									</tr>
+									<tr>
+										<td>Address</td>
+										<td th:text="${': '+session.confirmShipping.address}"></td>
+									</tr>
+									<tr>
+										<td>City</td>
+										<td th:text="${': '+session.confirmShipping.city}"></td>
+									</tr>
+									<tr>
+										<td>Postal code</td>
+										<td th:text="${': '+session.confirmShipping.postalCode}"></td>
+									</tr>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="verify-info step-three">
+					<div class="heading">Delivery option</div>
+					<div class="delivery-method-option">
+						<div class="row">
+							<div>Chosen delivery option: <strong th:text="${session.confirmDelivery.name}"></strong></div>
+							<div>Fee: <strong th:text="${'€'+session.confirmDelivery.cost}"></strong></div>
+						</div>
+					</div>
+				</div>
+			</div>
+
 			<div class="verify-info">
-				<div class="heading">Cannot proceed to check out</div>
-				<div class="no-product">
-				There is no product in your shopping cart! Cannot proceed to check out!
+				<div class="row">
+					<span class="col-sm-9"></span>
+					<span class="text-center col-sm-3 shopper-info">
+						<a th:if="${session.confirmPayment == 'pay-at-store'}" class="btn btn-primary pay" id="btn-pay-at-store" th:href="@{/confirmation}">Make order</a>
+						<a th:if="${session.confirmPayment == 'pay-online'}" class="btn btn-primary pay" id="btn-pay-online" th:href="${redirectURL}">Make payment</a>
+					</span>
 				</div>
 			</div>
 		</div>
-	</section> <!--/#cart_items-->
+	</section>
 
 	<div th:replace="common/footer :: common-footer-customer" th:remove="tag"></div>
 
@@ -268,108 +267,27 @@
 
 	<script type="text/javascript" th:inline="javascript">
 		/*<![CDATA[*/
-        var root = /*[[@{~}]]*/"";
-
         updateTotal();
-        $('.order_shipping_cost').text('€0.00');
-        $('#btn-pay-at-store').css('display', 'block');
 
         function updateTotal(){
-            var sum = 0;
+            let sum = 0;
             $('.cart_total_price').each(function(){
                 sum += parseFloat($(this).text().slice(1));
             });
 
-            $('.order_total').text('€'+sum.toFixed(2));
+
+
             $('.order_before_tax').text('€'+(sum*0.85).toFixed(2));
             $('.order_tax').text('€'+(sum*0.15).toFixed(2));
-        };
-
-        $('.payment-info input[type=radio]').click(function() {
-            if($('#pay-online').is(':checked')) {
-                $('.step-two').fadeIn();
-                $('.step-three').fadeIn();
-                $('#deliverySelection').val($('#deliverySelection option:first').val());
-                $('.disPayOpt li').css('display', 'none');
-                $('.disPayOpt li:first-child').css('display', 'block');
-                if($('.disPayOpt li').css('display')=='block'){
-                    let newShippingCost = parseFloat($('.disPayOpt li:visible').text());
-                    let newTotalCost = parseFloat($('.order_total').text().slice(1)) + newShippingCost;
-                    $('.order_shipping_cost').text('€'+newShippingCost.toFixed(2));
-                    $('.order_total').text('€'+newTotalCost.toFixed(2));
-				}
-                $('.btn.pay').css('display','none');
-				$('#btn-pay-online').css('display','block');
-
-                let shippingAddress = $("input[name='shipToAddress']:checked").val();
-                if(shippingAddress == undefined) {
-                    $('#btn-pay-online').css('display', 'none');
-                }
-            } else {
-                $('.step-two').fadeOut();
-                $('.step-three').fadeOut();
-                $('.order_shipping_cost').text('€0.00');
-                updateTotal();
-                $('.btn.pay').css('display','none');
-                $('#btn-pay-at-store').css('display','block');
+            if($('.order_shipping_cost').length){
+                console.log("1");
+                let shippingCost = parseFloat($('.order_shipping_cost').text().slice(1));
+                $('.order_total').text('€'+(sum+shippingCost).toFixed(2));
+			} else {
+                console.log("2");
+                $('.order_total').text('€'+sum.toFixed(2));
 			}
-        });
-
-        $('#deliverySelection').change(function(){
-            $('.disPayOpt li').css('display', 'none');
-
-            let cSelector = '.disPayOpt li[data-delivery-id='+$(this).val()+']';
-            $(cSelector).css('display', 'block');
-
-            let shippingCost = parseFloat($(cSelector).text());
-            let newSum = parseFloat($('.order_total').text().slice(1)) + shippingCost;
-            $('.order_shipping_cost').text('€'+shippingCost.toFixed(2));
-            $('.order_total').text('€'+newSum.toFixed(2));
-		});
-
-        $('#btn-pay-at-store').click(function(){
-            $.ajax({
-                type: "POST",
-                url: "/api/order",
-                dataType: "json"
-            }).done(function (jqXHR, textStatus, errorThrown) {
-                alertify.success("You made order successfully!");
-                setTimeout(function(){
-                    window.location = "/confirmation";
-				}, 2000);
-            }).fail(function (jqXHR, textStatus, errorThrown) {
-                alertify.error(jqXHR.responseText);
-            });
-		});
-
-//        paypal.Button.render({
-//            env: 'sandbox', // 'sandbox' or 'production'
-//			style: {
-//                size: 'responsive',
-//                label: 'checkout'
-//			},
-//            payment: function() {
-//                $.ajax({
-//                    type: "GET",
-//                    url: "/api/paypal/create-payment",
-//                    dataType: "json"
-//                }).done(function (jqXHR, textStatus, errorThrown) {
-//
-//                }).fail(function (jqXHR, textStatus, errorThrown) {
-//
-//                });
-//
-//            },
-//            onAuthorize: function(data, actions) {
-//                // Execute the payment here, when the buyer approves the transaction
-//                if (error === 'INSTRUMENT_DECLINED') {
-//                    actions.restart();
-//                }
-//            },
-//            onCancel: function(data, actions) {
-//
-//            }
-//        }, '#btn-pay-online');
+        };
 
 		/*]]>*/
 	</script>

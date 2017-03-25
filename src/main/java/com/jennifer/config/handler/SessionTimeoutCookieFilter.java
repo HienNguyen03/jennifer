@@ -19,9 +19,7 @@ public class SessionTimeoutCookieFilter implements Filter {
     private static final Logger log = LoggerFactory.getLogger(SessionTimeoutCookieFilter.class);
 
     @Override
-    public void init(FilterConfig config) throws ServletException {
-        //log.info("Initialization SessionTimeoutCookieFilter");
-    }
+    public void init(FilterConfig config) throws ServletException { }
 
     @Override
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain filterChain) throws IOException, ServletException {
@@ -31,16 +29,10 @@ public class SessionTimeoutCookieFilter implements Filter {
         long currTime = System.currentTimeMillis();
         String expiryTime = Long.toString(currTime + httpReq.getSession().getMaxInactiveInterval() * 1000);
 
-        //log.info("----------------------------");
-        //log.info("currentTimeMillis: "+currTime);
-        //log.info("getMaxInactiveInterval: "+httpReq.getSession().getMaxInactiveInterval());
-        //log.info("Filtering ! Time: " + expiryTime);
-
-
-        long oneDay = 86400000;
+        long twoHours = 7200000;
         HttpSession session = httpReq.getSession(false);
 
-        if ((System.currentTimeMillis() - session.getCreationTime()) > oneDay) {
+        if ((System.currentTimeMillis() - session.getCreationTime()) > twoHours) {
             session.invalidate();
         } else {
             Cookie cookie = new Cookie("serverTime", Long.toString(currTime));
@@ -57,7 +49,5 @@ public class SessionTimeoutCookieFilter implements Filter {
     }
 
     @Override
-    public void destroy() {
-
-    }
+    public void destroy() { }
 }

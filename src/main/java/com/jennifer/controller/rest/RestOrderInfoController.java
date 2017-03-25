@@ -13,7 +13,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.*;
 
 /**
@@ -21,7 +23,7 @@ import java.util.*;
  */
 @RestController
 @RequestMapping("/api/order")
-@SessionAttributes({"favoriteBag", "shoppingBag"})
+@SessionAttributes({"favoriteBag", "shoppingBag", "orderAmount"})
 public class RestOrderInfoController {
     private static final Logger log = LoggerFactory.getLogger(RestDeliveryMethodController.class);
     private OrderInfoService orderInfoService;
@@ -50,50 +52,6 @@ public class RestOrderInfoController {
         }
 
         return new ResponseEntity<>("Unable to update!", HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
-    @PostMapping
-    public Object insert(Model model) {
-        try {
-            UserInfo userInfo = userInfoService.findById(AppUtil.getCustomerFromSession().getId());
-            BigDecimal totalPrice = new BigDecimal(0);
-            OrderInfo orderInfo = new OrderInfo();
-
-            List<ShoppingProduct> shoppingProductList = shoppingProductService.findAllByUserId(userInfo.getId());
-            List<OrderDetail> orderDetailList = new ArrayList<>();
-
-            for (ShoppingProduct shoppingProduct : shoppingProductList) {
-                Float productPrice = shoppingProduct.getProductInfo().getUnitPrice().floatValue() * shoppingProduct.getQuantity() * (100 - (float) shoppingProduct.getProductInfo().getDiscount()) / 100;
-                totalPrice = totalPrice.add(new BigDecimal(productPrice));
-                orderDetailList.add(new OrderDetail(orderInfo, shoppingProduct.getProductInfo(), shoppingProduct.getProductInfo().getUnitPrice(), shoppingProduct.getQuantity(), shoppingProduct.getProductInfo().getDiscount()));
-            }
-
-            orderInfo.setOrderDate(new Date());
-            orderInfo.setTotalPrice(totalPrice);
-            orderInfo.setUserInfo(userInfo);
-            orderInfo.setStatus("Pending");
-
-            orderInfo.setOrderDetails(orderDetailList);
-            orderInfoService.update(orderInfo);
-
-            int deleteLoopSize = shoppingProductList.size();
-            for (int i = 0; i < deleteLoopSize; i++)
-                shoppingProductService.delete(shoppingProductList.get(i));
-
-            List<ShoppingProduct> shoppingProducts = shoppingProductService.findAllByUserId(userInfo.getId());
-
-            Map<ProductInfo,Integer> userShoppingBag = new HashMap<>();
-            for(ShoppingProduct shoppingProduct : shoppingProducts){
-                userShoppingBag.put(shoppingProduct.getProductInfo(), shoppingProduct.getQuantity());
-            }
-
-            model.addAttribute("shoppingBag", userShoppingBag);
-
-            return shoppingProducts;
-        } catch(Exception e) {
-            return new ResponseEntity<>("Unable to make order!", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-
     }
 
     @GetMapping("/new")

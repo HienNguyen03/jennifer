@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>Confirmation - Jennifer webstore</title>
+	<object th:include="common/header :: common-header-customer" th:remove="tag"></object>
+	<style>
+		.confirmShipping p {
+			font-size: 15px;
+		}
+		.confirmShipping p span {
+			font-weight: 600;
+		}
+		.confirmShipping tr td:first-child {
+			text-align: left;
+			width: 100px;
+		}
+		.verify-info .heading {
+			background: none repeat scroll 0 0 #ff7b7b;
+			color: #fff;
+			font-size: 20px;
+			padding: 10px 25px;
+			font-family: 'Roboto', sans-serif;
+			margin-bottom: 0;
+			margin-top: 20px;
+		}
+
+		.step-one {
+			margin-bottom: 30px;
+		}
+
+		.step-one .confirm-payment {
+			border: 1px solid #E6E4DF;
+			border-top: 20px;
+			padding: 10px 20px;
+		}
+	</style>
+</head>
+
+<body class="animated fadeIn">
+	<div th:replace="common/navbar :: common-navbar-customer" th:remove="tag"></div>
+
+	<section id="cart_items">
+		<div class="container">
+			<div class="breadcrumbs">
+				<ol class="breadcrumb">
+				  	<li><a th:href="@{/}">Home</a></li>
+					<li><a th:href="@{/cart}">Shopping Cart</a></li>
+					<li><a href="#">Check out</a></li>
+				  	<li class="active"><a href="#">Fail payment</a></li>
+				</ol>
+			</div><!--/breadcrums-->
+
+			<div class="verify-info step-one">
+				<div class="heading">Error</div>
+				<div class="confirm-payment">
+					<div class="row">
+						<div class="col-sm-12">
+							Fail to make payment, please try again!
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</section> <!--/#cart_items-->
+
+	<div th:replace="common/footer :: common-footer-customer" th:remove="tag"></div>
+
+	<div th:replace="common/footer :: common-footer-scripts-customer" th:remove="tag"></div>
+
+	<script type="text/javascript" th:inline="javascript">
+		/*<![CDATA[*/
+
+
+		/*]]>*/
+	</script>
+</body>
+</html>

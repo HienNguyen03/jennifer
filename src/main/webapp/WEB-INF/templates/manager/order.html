@@ -158,6 +158,12 @@
                 {title: "User", name: "userInfo.fullname", type: "text", width: 40, align: "center" , editing: false},
                 {title: "Shipping Address", name: "shippingAddress.address", type: "text", width: 50 , editing: false},
                 {title: "Delivery Method", name: "deliveryMethod.name", type: "text", width: 30, align: "center" , editing: false},
+                {
+                    title: "Payment", name: "paymentInvoice", type: "text", width: 20, align: "center", editing: false,
+                    itemTemplate: function (data) {
+                        return data != null ? 'Paid': 'Unpaid';
+                    }
+                },
                 {title: "Status", name: "status", type: "select", width: 20, valueField: "Name", textField: "Name", selectedIndex: 0,
                     items: [
                         { Name: "Pending", Id: "1"},

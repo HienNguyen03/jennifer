@@ -91,7 +91,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.authorizeRequests()
 				//.antMatchers("/", "/favicon.ico", "/public/**", "/resources/**", "/custom/**", "/lib/**").permitAll()
 				//.antMatchers("/signup", "/session-expired", "/access-denied", "/404", "/r/**").anonymous()
-				.antMatchers("/profile", "/checkout", "/order-history", "/confirmation").hasRole("CUSTOMER")
+				.antMatchers("/profile", "/checkout", "/order-history", "/confirmation", "/information").hasRole("CUSTOMER")
 				.antMatchers("/manager/**").hasRole("MANAGER")
 
 				//.anyRequest().authenticated();

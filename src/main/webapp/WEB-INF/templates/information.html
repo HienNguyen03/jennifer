@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>Information - Jennifer webstore</title>
+	<object th:include="common/header :: common-header-customer" th:remove="tag"></object>
+	<style>
+		.confirmShipping p {
+			font-size: 14px;
+			color: #333;
+			font-weight: 400;
+			margin: 5px 5px;
+		}
+		.confirmShipping table {
+			margin-bottom: 5px;
+		}
+		.confirmShipping p span {
+			font-weight: 600;
+		}
+		.confirmShipping tr td:first-child {
+			text-align: left;
+			width: 100px;
+		}
+		.verify-info .heading {
+			background: none repeat scroll 0 0 #ff7b7b;
+			color: #fff;
+			font-size: 20px;
+			padding: 10px 25px;
+			font-family: 'Roboto', sans-serif;
+			margin-bottom: 0;
+			margin-top: 20px;
+		}
+		.verify-info .no-product {
+			padding: 10px 10px;
+			font-size: 16px;
+			margin-bottom: 40px;
+			border: 1px solid #E6E4DF;
+			border-top: none;
+		}
+		.verify-info .row {
+			font-size: 15px;
+			line-height: 25px;
+		}
+
+		.step-one .payment-method-option {
+			border: 1px solid #E6E4DF;
+			border-top: 20px;
+			padding: 10px 20px;
+		}
+
+		.step-two .delivery-address-option {
+			border: 1px solid #E6E4DF;
+			border-top: none;
+			padding: 10px 20px;
+		}
+
+
+		.step-two, .step-three {
+			display: none;
+		}
+		.step-three .delivery-method-option {
+			border: 1px solid #E6E4DF;
+			border-top: none;
+			padding: 10px 20px;
+		}
+
+		.step-four thead tr td {
+			background-color: #ffefef;
+			color: #696763;
+		}
+
+		.disPayOpt {
+			display: inline-block;
+		}
+
+		.btn.checkout {
+			margin: 20px 10px !important;
+			width: 84%;
+			font-size: 16px;
+			background-color: #ff7b7b;
+		}
+
+		.btn.checkout.disabled {
+			margin: 20px 10px !important;
+			width: 84%;
+			font-size: 16px;
+			background-color: #cacaca;
+			cursor: crosshair;
+		}
+
+		.verify-info:last-child {
+			margin-bottom: 10px;
+		}
+	</style>
+</head>
+
+<body class="animated fadeIn">
+	<div th:replace="common/navbar :: common-navbar-customer" th:remove="tag"></div>
+
+	<section id="cart_items">
+		<form id="infoForm" method="post" th:action="@{/checkout}">
+			<div class="container" th:if="${#maps.size(shoppingBag) > 0}">
+				<div class="breadcrumbs">
+					<ol class="breadcrumb">
+						<li><a th:href="@{/}">Home</a></li>
+						<li><a th:href="@{/cart}">Shopping Cart</a></li>
+						<li class="active"><a th:href="@{/information}">Information</a></li>
+					</ol>
+				</div><!--/breadcrums-->
+
+				<div class="verify-info step-one">
+					<div class="heading">Payment method</div>
+					<div class="payment-method-option">
+						<div class="row confirmPayment">
+							<div class="payment-info col-sm-6">
+								<span class="radio"><input type="radio" name="payBy" id="pay-pas" checked="checked" value="pay-at-store" /><label for="pay-pas">Pay at store</label></span>
+								<div>
+									<p>Make payment directly at our retail store when you come to pick up your products.</p>
+									<div class="well well-sm">
+										<h4>Jennifer Inc.</h4>
+										<p>Olympiakatu 10 A 11</p>
+										<p>65100, Vaasa, Finland</p>
+										<p>Mobile: +358 41 234 5678</p>
+										<p>Fax: +358 41 234 5678</p>
+										<p>Email: manager@jennifer.com</p>
+									</div>
+								</div>
+							</div>
+							<div class="payment-info col-sm-6">
+								<span class="radio"><input type="radio" name="payBy" id="pay-online" value="pay-online"/><label for="pay-online">Pay online</label></span>
+								<div>
+									<p>Pay online using your <strong>Paypal account</strong> after an order is made.</p>
+									<p>Please use below username and password for online payment in <strong>Paypal's virtual environment</strong>:</p>
+									<div class="well well-sm">
+										<p>Username: <strong>john.test@jennifer.com</strong></p>
+										<p>Password: <strong>123123123</strong></p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="verify-info step-two">
+					<div class="heading">Shipping address</div>
+					<div class="delivery-address-option">
+						<div class="row confirmShipping">
+							<div class="shopper-info col-sm-3" th:each="sa,iter : ${confirmShipping}">
+								<span class="radio"><input type="radio" name="shipToAddress" th:attr="id=${'sa_'+sa.id}, value=${sa.id}" th:checked="${iter.count == 1}" /><label th:for="${'sa_'+sa.id}">Use this address</label></span>
+								<table th:if="${#strings.capitalize(sa.status) == 'Available'}">
+									<tr>
+										<td>Recipient</td>
+										<td th:text="${': '+sa.recipient}"></td>
+									</tr>
+									<tr>
+										<td>Address</td>
+										<td th:text="${': '+sa.address}"></td>
+									</tr>
+									<tr>
+										<td>City</td>
+										<td th:text="${': '+sa.city}"></td>
+									</tr>
+									<tr>
+										<td>Postal code</td>
+										<td th:text="${': '+sa.postalCode}"></td>
+									</tr>
+								</table>
+							</div>
+							<div class="shopper-info col-sm-12" th:if="${#lists.size(confirmShipping) == 0}">
+								<span>
+									<p>You have not listed any shipping address yet!</p>
+									<p>Please create one to continue! You can <a th:href="@{/profile}">click here</a> to create a new shipping address!</p>
+								</span>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="verify-info step-three">
+					<div class="heading">Delivery option</div>
+					<div class="delivery-method-option">
+						<div class="row">
+							<table class="col-sm-12">
+								<tr>
+									<td class="col-sm-3">
+										<select id="deliverySelection" name="deliveryMethods">
+											<option th:each="item : ${deliveryMethods}" th:attr="value=${item.id}" th:text="${item.name}"></option>
+										</select>
+									</td>
+									<td class="col-sm-9">
+										<div class="col-sm-12" style="padding-top: 10px;">
+											<span class="col-sm-2">Shipping cost: </span>
+											<ul class="disPayOpt col-sm-10">
+												<li th:each="item : ${deliveryMethods}" th:attr="data-delivery-id=${item.id}" th:text="${item.cost}" style="display: none;"></li>
+											</ul>
+										</div>
+									</td>
+								</tr>
+							</table>
+						</div>
+						<div class="row">
+							<div class="col-sm-12" style="padding: 10px 15px;">Choose a delivery option that you want to use to ship your packet(s).</div>
+						</div>
+				</div>
+				</div>
+
+				<div class="verify-info step-four">
+					<div class="heading">Order products</div>
+					<div class="table-responsive cart_info">
+						<table class="table table-condensed">
+							<thead>
+							<tr class="cart_menu">
+								<td class="text-center">Image</td>
+								<td >Name</td>
+								<td class="item_price">Price</td>
+								<td class="text-center">Quantity</td>
+								<td class="item_price">Total</td>
+							</tr>
+							</thead>
+							<tbody class="cart_content">
+							<tr th:each="product : ${shoppingBag}" th:attr="id='cardProduct' + ${product.key.id}" class="product-record">
+								<td th:each="productImage,iter : ${#strings.arraySplit(product.key.image, ',')}" th:if="${iter.index  == 0 }" class="col-sm-2 favotire_product cart_product text-center">
+									<img th:src="${'/pics/' + productImage}" alt="" />
+								</td>
+								<td class="cart_description col-sm-4">
+									<h4 th:text="${product.key.name}"></h4>
+									<p th:text="${'Reference ID: '+product.key.id}"></p>
+								</td>
+								<td class="cart_price item_price col-sm-2">
+									<span class="discountTag" th:if="${product.key.discount > 0}" th:text="${product.key.unitPrice}" ></span>
+									<span class="priceTag" th:text="'€' + ${product.key.unitPrice * (100-product.key.discount)/ 100}"></span>
+								</td>
+								<td class="cart_quantity text-center col-sm-2">
+									<span th:text="${product.value}"></span>
+								</td>
+								<td class="cart_total item_price col-sm-2">
+									<span class="item_total_price cart_total_price" th:text="'€' + ${(product.key.unitPrice * (100-product.key.discount)/ 100) * product.value}">$59</span>
+								</td>
+							</tr>
+							<div th:if="${not #maps.isEmpty(shoppingBag)}" th:remove="tag">
+								<tr class="tr_total">
+									<td colspan="3"></td>
+									<td class="summary">Total before tax</td>
+									<td class="text-center item_price item_total_price">
+										<span class="order_before_tax"></span>
+									</td>
+								</tr >
+								<tr class="tr_total">
+									<td colspan="3"></td>
+									<td class="summary">Tax</td>
+									<td class="text-center item_price item_total_price">
+										<span class="order_tax"></span>
+									</td>
+								</tr>
+								<tr class="tr_total">
+									<td colspan="3"></td>
+									<td class="summary">Shipping cost</td>
+									<td class="text-center item_price item_total_price">
+										<span class="order_shipping_cost"></span>
+									</td>
+								</tr>
+								<tr class="tr_total">
+									<td colspan="3"></td>
+									<td class="summary">Order total</td>
+									<td class="text-center item_price item_total_price bold">
+										<span class="order_total"></span>
+									</td>
+								</tr>
+
+							</div>
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+				<div class="verify-info">
+					<div class="row">
+						<span class="col-sm-9"></span>
+						<span class="text-center col-sm-3 shopper-info">
+							<input type="submit" class="btn btn-primary checkout" id="btn-check-out" value="Check out" th:href="@{/checkout}" />
+						</span>
+
+					</div>
+				</div>
+			</div>
+		</form>
+		<div class="container" th:unless="${#maps.size(shoppingBag) > 0}">
+			<div class="breadcrumbs">
+				<ol class="breadcrumb">
+					<li><a th:href="@{/}">Home</a></li>
+					<li><a th:href="@{/cart}">Shopping Cart</a></li>
+					<li class="active"><a th:href="@{/information}">Information</a></li>
+				</ol>
+			</div><!--/breadcrums-->
+			<div class="verify-info">
+				<div class="heading">Cannot proceed to check out</div>
+				<div class="no-product">
+				There is no product in your shopping cart! Cannot proceed to check out!
+				</div>
+			</div>
+		</div>
+	</section> <!--/#cart_items-->
+
+	<div th:replace="common/footer :: common-footer-customer" th:remove="tag"></div>
+
+	<div th:replace="common/footer :: common-footer-scripts-customer" th:remove="tag"></div>
+
+	<script type="text/javascript" th:inline="javascript">
+		/*<![CDATA[*/
+        var root = /*[[@{~}]]*/"";
+
+        updateTotal();
+        $('.order_shipping_cost').text('€0.00');
+
+        function updateTotal(){
+            var sum = 0;
+            $('.cart_total_price').each(function(){
+                sum += parseFloat($(this).text().slice(1));
+            });
+
+            $('.order_total').text('€'+sum.toFixed(2));
+            $('.order_before_tax').text('€'+(sum*0.85).toFixed(2));
+            $('.order_tax').text('€'+(sum*0.15).toFixed(2));
+        };
+
+        var oldShippingCost = 0;
+
+        $('.payment-info input[type=radio]').click(function() {
+            if($('#pay-online').is(':checked')) {
+                $('.step-two').fadeIn();
+                $('.step-three').fadeIn();
+                $('#deliverySelection').val($('#deliverySelection option:first').val());
+                $('.disPayOpt li').css('display', 'none');
+                $('.disPayOpt li:first-child').css('display', 'block');
+                if($('.disPayOpt li').css('display')=='block'){
+                    let newShippingCost = parseFloat($('.disPayOpt li:visible').text());
+                    let newTotalCost = parseFloat($('.order_total').text().slice(1)) + newShippingCost;
+                    $('.order_shipping_cost').text('€'+newShippingCost.toFixed(2));
+                    $('.order_total').text('€'+newTotalCost.toFixed(2));
+                    oldShippingCost = newShippingCost;
+				}
+
+                let shippingAddress = $("input[name='shipToAddress']:checked").val();
+                if(shippingAddress == undefined) {
+                    $('#btn-check-out').addClass('disabled');
+                } else {
+                    $('#btn-check-out').removeClass('disabled');
+				}
+            } else {
+                $('.step-two').fadeOut();
+                $('.step-three').fadeOut();
+                $('.order_shipping_cost').text('€0.00');
+                $('#btn-check-out').removeClass('disabled');
+                updateTotal();
+			}
+        });
+
+        $('#deliverySelection').change(function(){
+            $('.disPayOpt li').css('display', 'none');
+
+            let cSelector = '.disPayOpt li[data-delivery-id='+$(this).val()+']';
+            $(cSelector).css('display', 'block');
+
+            let newShippingCost = parseFloat($(cSelector).text());
+            let newSum = parseFloat($('.order_total').text().slice(1)) + newShippingCost - oldShippingCost;
+            $('.order_shipping_cost').text('€'+newShippingCost.toFixed(2));
+            $('.order_total').text('€'+newSum.toFixed(2));
+            oldShippingCost = newShippingCost;
+		});
+
+        $('#btn-check-out').click(function(){
+
+		});
+
+		/*]]>*/
+	</script>
+</body>
+</html>

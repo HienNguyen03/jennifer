@@ -62,11 +62,11 @@
 		</dependency>
 
 
-		<!--<dependency>-->
-			<!--<groupId>com.paypal.sdk</groupId>-->
-			<!--<artifactId>rest-api-sdk</artifactId>-->
-			<!--<version>LATEST</version>-->
-		<!--</dependency>-->
+		<dependency>
+			<groupId>com.paypal.sdk</groupId>
+			<artifactId>rest-api-sdk</artifactId>
+			<version>LATEST</version>
+		</dependency>
 
 
 
@@ -92,6 +92,11 @@
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.googlecode.json-simple</groupId>
+			<artifactId>json-simple</artifactId>
+			<version>LATEST</version>
 		</dependency>
 
 

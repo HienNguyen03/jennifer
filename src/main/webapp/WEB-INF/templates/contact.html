@@ -4,6 +4,21 @@
 <head>
     <title>Contact - Jennifer webstore</title>
     <object th:include="common/header :: common-header-customer" th:remove="tag"></object>
+    <style>
+        .contact-developer {
+            margin: 10px;
+        }
+        .contact-developer div {
+            margin: 10px;
+        }
+        .credit {
+            font-size: 15px;
+            color: #696763;
+        }
+        .credit p {
+            margin-bottom: 0;
+        }
+    </style>
 </head>
 
 <body class="animated fadeIn">
@@ -13,7 +28,7 @@
     <div class="bg">
         <div class="row">
             <div class="col-sm-12">
-                <h2 class="title text-center">Contact <strong>Us</strong></h2>
+                <h2 class="title text-center" style="margin: 30px 0 0 10px">Contact <strong>Us</strong></h2>
                 <!--<div id="map" class="contact-map">-->
 
                 <div class="well-lg">
@@ -30,7 +45,7 @@
     </div>
     <div class="row">
         <div class="col-sm-8">
-            <div class="contact-form well-lg">
+            <div class="contact-form">
                 <h2 class="title text-center">Get In Touch</h2>
                 <div class="status alert alert-success" style="display: none"></div>
                 <form id="main-contact-form" class="contact-form row" name="contact-form" method="post">
@@ -56,15 +71,21 @@
         </div>
         <div class="col-sm-4">
             <div class="contact-info">
-                <h2 class="title text-center">Contact Info</h2>
-                <address style="margin-left: 50px;">
-                    <h4>Jennifer Inc.</h4>
-                    <p>Olympiakatu 10 A 11</p>
-                    <p>65100, Vaasa, Finland</p>
-                    <p>Mobile: +358 41 234 5678</p>
-                    <p>Fax: +358 41 234 5678</p>
-                    <p>Email: manager@jennifer.com</p>
+                <h2 class="title text-center">Developers</h2>
+                <address class="contact-developer text-center">
+                    <div style="margin-bottom: 20px">
+                        <h4>Hoang Phuc</h4>
+                        <p>Mobile: +358 41 491 4728</p>
+                        <p>Email: jamesho287@gmail.com</p>
+                    </div>
+                    <div>
+                        <h4>Hien Nguyen</h4>
+                        <p>Mobile: +358 41 369 6774</p>
+                        <p>Email: lily31392@gmail.com</p>
+                    </div>
                 </address>
+            </div>
+            <div class="contact-info">
                 <div class="social-networks">
                     <h2 class="title text-center">Social Networking</h2>
                     <ul>
@@ -83,6 +104,29 @@
                     </ul>
                 </div>
             </div>
+        </div>
+        <div id="credit" class="col-sm-12">
+            <h2 class="title text-center">Credits</h2>
+            <address class="credit text-center">
+                <div style="margin-bottom: 20px" class="col-sm-4">
+                    <h4>H &amp; M</h4>
+                    <p>For the demonstration of products on this webstore</p>
+                </div>
+                <div style="margin-bottom: 20px" class="col-sm-4">
+                    <h4>Themium &amp; Brainstation-23</h4>
+                    <p>For basic customer UI design on this webstore</p>
+                    <p>Powered by <strong>nopCommerce</strong></p>
+                </div>
+                <div style="margin-bottom: 20px" class="col-sm-4">
+                    <h4>Start Bootstrap</h4>
+                    <p>For basic manager UI design on this webstore</p>
+                    <p>Powered by <strong>MIT</strong></p>
+                </div>
+                <div class="col-sm-12">
+                    <h4>Other contributors</h4>
+                    <p>From the smallest part to the big module on this webstore</p>
+                </div>
+            </address>
         </div>
     </div>
 </div><!--/#contact-page-->

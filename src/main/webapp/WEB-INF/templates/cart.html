@@ -83,19 +83,20 @@
 									<span class="order_total"></span>
 								</td>
 							</tr>
-							<tr>
-								<td colspan="4"></td>
-								<td colspan="2" class="text-center shopper-info" >
-									<a class="btn btn-primary" th:href="@{/checkout}" style="margin: 20px 10px !important;">Check out</a>
-								</td>
-							</tr>
 						</div>
-
 						<tr th:if="${#maps.isEmpty(shoppingBag)}" class="emptyBag">
 							<td colspan="6" class="text-center"> No products found ! </td>
 						</tr>
 					</tbody>
 				</table>
+			</div>
+			<div th:if="${not #maps.isEmpty(shoppingBag)}" class="verify-info">
+				<div class="row">
+					<span class="col-sm-9"></span>
+					<span class="text-center col-sm-3 shopper-info">
+						<a class="btn btn-primary" th:href="@{/information}" style="margin: 20px 10px !important;">Proceed to check out</a>
+					</span>
+				</div>
 			</div>
 		</div>
 	</section> <!--/#cart_items-->

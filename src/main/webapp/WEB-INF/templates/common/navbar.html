@@ -33,40 +33,16 @@
         <div class="header-middle"><!--header-middle-->
             <div class="container">
                 <div class="row">
-                    <div class="col-sm-4">
+                    <div class="col-sm-8">
                         <div class="logo pull-left">
                             <a th:href="@{/}"><img th:src="@{/custom/co/images/home/logo.png}" alt="" /></a>
                         </div>
                     </div>
-                    <div class="col-sm-8">
+                    <div class="col-sm-4">
                         <style scoped="scoped">
 
                             .navbar-nav > ul > li {
                                 position: relative;
-                            }
-                            .added-item-favorite {
-                                position: absolute;
-                                font-size: 10px;
-                                background: #e6e6e6;
-                                color: black;
-                                border-radius: 2%;
-                                width: 20px;
-                                height: 19px;
-                                top: 16px;
-                                left: -4px;
-                                padding: 3px;
-                            }
-                            .added-item-cart {
-                                position: absolute;
-                                font-size: 10px;
-                                background: #e6e6e6;
-                                color: black;
-                                border-radius: 2%;
-                                width: 20px;
-                                height: 19px;
-                                top: 16px;
-                                left: -4px;
-                                padding: 3px;
                             }
                             .shop-menu > ul > li > a {
                                 border: 1px dashed #cacaca;
@@ -85,32 +61,44 @@
                             .shop-menu > ul > li > a:hover + span {
                                 background: #ff7b7b;
                                 color: white;
-                                transition: all 0.2s ease 0s;
-                                -moz-transition: all 0.2s ease 0s;
-                                -webkit-transition: all 0.2s ease 0s;
-                                -o-transition: all 0.2s ease 0s;
+                                transition: all 0.1s ease 0s;
+                                -moz-transition: all 0.1s ease 0s;
+                                -webkit-transition: all 0.1s ease 0s;
+                                -o-transition: all 0.1s ease 0s;
+                            }
+                            .shop-menu > ul > li > a:hover > .info-label {
+                                background: #ff7b7b;
+                                color: white;
+                                transition: all 0.1s ease 0s;
+                                -moz-transition: all 0.1s ease 0s;
+                                -webkit-transition: all 0.1s ease 0s;
+                                -o-transition: all 0.1s ease 0s;
                             }
                             .shop-menu .list-group-item {
                                 border: none;
+                                padding: 0 10px;
                             }
-
-                            .list-group-item {
-                                padding: 0;
+                            .list-group {
+                                margin-bottom: 5px;
+                            }
+                            .list-group-item > a > .info-label {
+                                font-size: 10px;
+                                background: #dedede;
+                                color: black;
+                                border-radius: 10%;
+                                padding: 3px 5px;
+                                margin: 0 2px 0 -4px;
                             }
                         </style>
                         <div class="shop-menu">
                             <ul class="nav list-group">
                                 <li class="list-group-item">
-                                    <a th:href="@{/favorite}"><i class="fa fa-heart-o"></i> Favorite</a>
-                                    <span th:if="${(session.favoriteBag == null)}" th:text="0" class="added-item-favorite text-center"></span>
-                                    <span th:unless="${(session.favoriteBag == null)}" th:text="${#lists.size(session.favoriteBag)}" class="added-item-favorite text-center"></span>
+                                    <a th:href="@{/favorite}"><span th:text="${(session.favoriteBag == null ? '0' : #lists.size(session.favoriteBag))}" class="added-item-favorite info-label text-center"></span> Favorite</a>
                                 </li>
                                 <li class="list-group-item">
-                                    <a th:href="@{/cart}"><i class="fa fa-shopping-cart"></i> Cart</a>
-                                    <span th:if="${(session.shoppingBag == null)}" th:text="0" class="added-item-cart text-center"></span>
-                                    <span th:unless="${(session.shoppingBag == null)}" th:text="${#maps.size(session.shoppingBag)}" class="added-item-cart text-center"></span>
+                                    <a th:href="@{/cart}"><span th:text="${(session.shoppingBag == null ? '0' : #maps.size(session.shoppingBag))}" class="added-item-cart info-label text-center"></span> Cart</a>
                                 </li>
-                                <li class="list-group-item"><a th:href="@{/checkout}"><i class="fa fa-sliders"></i> Checkout</a></li>
+                                <!--<li class="list-group-item"><a th:href="@{/checkout}"><i class="fa fa-sliders"></i> Checkout</a></li>-->
                                 <li class="list-group-item" sec:authorize="${isAnonymous()}" ><a th:href="@{/login}"><i class="fa fa-lock"></i> Login</a></li>
                                 <li class="list-group-item dropdown" sec:authorize="${isAuthenticated()}">
 

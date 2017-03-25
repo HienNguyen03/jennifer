@@ -1,5 +1,7 @@
 package com.jennifer.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -24,11 +26,18 @@ public class PaymentInvoice {
     @Column(name = "TOTAL_PRICE", nullable = false)
     private BigDecimal totalPrice;
 
+    @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "ORDER_ID")
     private OrderInfo orderInfo;
 
     public PaymentInvoice() {
+    }
+
+    public PaymentInvoice(Date paymentDate, BigDecimal totalPrice, OrderInfo orderInfo) {
+        this.paymentDate = paymentDate;
+        this.totalPrice = totalPrice;
+        this.orderInfo = orderInfo;
     }
 
     public int getId() {

@@ -43,7 +43,7 @@ public class OrderInfo {
     @Column(name = "STATUS", nullable = false, length = 45)
     private String status;
 
-    @OneToOne(mappedBy = "orderInfo")
+    @OneToOne(mappedBy = "orderInfo", fetch = FetchType.EAGER)
     private PaymentInvoice paymentInvoice;
 
     @JsonIgnore

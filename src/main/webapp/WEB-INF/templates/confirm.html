@@ -5,16 +5,6 @@
 	<title>Confirmation - Jennifer webstore</title>
 	<object th:include="common/header :: common-header-customer" th:remove="tag"></object>
 	<style>
-		.confirmShipping p {
-			font-size: 15px;
-		}
-		.confirmShipping p span {
-			font-weight: 600;
-		}
-		.confirmShipping tr td:first-child {
-			text-align: left;
-			width: 100px;
-		}
 		.verify-info .heading {
 			background: none repeat scroll 0 0 #ff7b7b;
 			color: #fff;
@@ -32,7 +22,30 @@
 		.step-one .confirm-payment {
 			border: 1px solid #E6E4DF;
 			border-top: 20px;
+			font-size: 15px;
 			padding: 10px 20px;
+			color: #696763;
+		}
+		.confirm-payment table {
+			margin: 20px 0;
+		}
+		.confirm-payment table thead {
+			background: #eaeaea;
+			font-weight: 500;
+		}
+		.bold-label-name {
+			color: #ff7b7b;
+			font-size: 20px;
+			font-weight: 700;
+		}
+		.bold-label {
+			color: #ff7b7b;
+			font-size: 17px;
+			font-weight: 500;
+		}
+		.cart_quantity {
+			padding-top: 10px;
+			font-weight: 500;
 		}
 	</style>
 </head>
@@ -55,8 +68,42 @@
 				<div class="heading">Confirmation</div>
 				<div class="confirm-payment">
 					<div class="row">
-						<div class="col-sm-12">
-							You have made an order (Reference ID: <span th:text="${justMadeOrder.id}"></span>) which is cost <span th:text="${justMadeOrder.totalPrice}"></span>
+						<div class="col-sm-12" th:with="confirmVerb = ${paidMethod == 'pay-online' ? 'purchased' : 'ordered'}">
+							<h4>Thank you for shopping at <span class="bold-label-name">Jennifer webstore</span>!</h4>
+							<p>Your order number is <span class="bold-label" th:text="${justMadeOrder.id}"></span> with the total amount of <span class="bold-label" th:text="${'€'+#numbers.formatDecimal(justMadeOrder.totalPrice, 0, 'COMMA', 2, 'POINT')}"></span></p>
+							<p>Below is the list of products you have just <span th:text="${confirmVerb}"></span>:</p>
+							<table class="table table-condensed">
+								<thead>
+									<tr class="cart_menu">
+										<td class="text-center">Image</td>
+										<td >Name</td>
+										<td class="item_price">Price</td>
+										<td class="text-center">Quantity</td>
+										<td class="item_price">Total</td>
+									</tr>
+								</thead>
+								<tbody class="cart_content">
+									<tr th:each="product : ${lastCheckProducts}" th:attr="id='cardProduct' + ${product.key.id}" class="product-record">
+										<td th:each="productImage,iter : ${#strings.arraySplit(product.key.image, ',')}" th:if="${iter.index  == 0 }" class="col-sm-2 favotire_product cart_product text-center">
+											<img th:src="${'/pics/' + productImage}" alt="" />
+										</td>
+										<td class="cart_description col-sm-4">
+											<h4 th:text="${product.key.name}"></h4>
+											<p th:text="${'Reference ID: '+product.key.id}"></p>
+										</td>
+										<td class="cart_price item_price col-sm-2">
+											<span class="discountTag" th:if="${product.key.discount > 0}" th:text="${product.key.unitPrice}" ></span>
+											<span class="priceTag" th:text="'€' + ${product.key.unitPrice * (100-product.key.discount)/ 100}"></span>
+										</td>
+										<td class="cart_quantity text-center col-sm-2">
+											<span th:text="${product.value}"></span>
+										</td>
+										<td class="cart_total item_price col-sm-2">
+											<span class="item_total_price cart_total_price" th:text="'€' + ${(product.key.unitPrice * (100-product.key.discount)/ 100) * product.value}"></span>
+										</td>
+									</tr>
+								</tbody>
+							</table>
 						</div>
 					</div>
 				</div>
@@ -64,6 +111,12 @@
 		</div>
 
 	</section> <!--/#cart_items-->
+
+	<div>
+		<div class="myRequest" th:text="${lastRequest}"></div>
+		<div class="myResponse" th:if="${lastResponse != null}" th:text="${lastResponse}"></div>
+		<div class="eGetMessage" th:if="${eGetMessage != null}" th:text="${eGetMessage}"></div>
+	</div>
 
 	<div th:replace="common/footer :: common-footer-customer" th:remove="tag"></div>
 
