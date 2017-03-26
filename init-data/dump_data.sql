@@ -107,12 +107,12 @@ INSERT INTO `product_info` (`ID`,`NAME`,`UNIT_PRICE`,`DISCOUNT`,`IMAGE`,`QUANTIT
 /*
 -- Query: SELECT * FROM jennifer_db.marketing_campaign
 */
-INSERT INTO `marketing_campaign` (`ID`,`EVENT`,`BANNER`,`START_DATE`,`END_DATE`,`STATUS`) VALUES (1,'Spring Sale 2016','20170303191628-29829.jpg','2016-02-08','2016-02-21','concluded');
-INSERT INTO `marketing_campaign` (`ID`,`EVENT`,`BANNER`,`START_DATE`,`END_DATE`,`STATUS`) VALUES (2,'Summer Sale 2016','20170303191642-38633.jpg','2016-05-02','2016-05-29','concluded');
-INSERT INTO `marketing_campaign` (`ID`,`EVENT`,`BANNER`,`START_DATE`,`END_DATE`,`STATUS`) VALUES (3,'Autumn Sale 2016','20170303191939-98440.jpg','2016-09-01','2016-09-18','concluded');
-INSERT INTO `marketing_campaign` (`ID`,`EVENT`,`BANNER`,`START_DATE`,`END_DATE`,`STATUS`) VALUES (4,'Winnter Sale 2016','20170303191923-33735.jpg','2016-12-12','2016-12-25','concluded');
-INSERT INTO `marketing_campaign` (`ID`,`EVENT`,`BANNER`,`START_DATE`,`END_DATE`,`STATUS`) VALUES (5,'Spring Sale 2017','20170303192046-34348.jpg','2017-03-06','2017-03-26','running');
-INSERT INTO `marketing_campaign` (`ID`,`EVENT`,`BANNER`,`START_DATE`,`END_DATE`,`STATUS`) VALUES (6,'Furniture Sale 2017','20170303192235-52779.jpg','2017-03-06','2017-04-30','running');
+INSERT INTO `marketing_campaign` (`ID`,`EVENT`,`BANNER`,`START_DATE`,`END_DATE`,`STATUS`) VALUES (1,'Spring Sale 2016','20170325212757-13351.jpg','2016-02-08','2016-02-21','concluded');
+INSERT INTO `marketing_campaign` (`ID`,`EVENT`,`BANNER`,`START_DATE`,`END_DATE`,`STATUS`) VALUES (2,'Summer Sale 2016','20170325212750-43770.jpg','2016-05-02','2016-05-29','concluded');
+INSERT INTO `marketing_campaign` (`ID`,`EVENT`,`BANNER`,`START_DATE`,`END_DATE`,`STATUS`) VALUES (3,'Autumn Sale 2016','20170325212742-84994.jpg','2016-09-01','2016-09-18','concluded');
+INSERT INTO `marketing_campaign` (`ID`,`EVENT`,`BANNER`,`START_DATE`,`END_DATE`,`STATUS`) VALUES (4,'Winnter Sale 2016','20170325212736-77447.jpg','2016-12-12','2030-12-25','running');
+INSERT INTO `marketing_campaign` (`ID`,`EVENT`,`BANNER`,`START_DATE`,`END_DATE`,`STATUS`) VALUES (5,'Spring Sale 2017','20170325212725-33306.jpg','2017-03-06','2030-03-26','running');
+INSERT INTO `marketing_campaign` (`ID`,`EVENT`,`BANNER`,`START_DATE`,`END_DATE`,`STATUS`) VALUES (6,'Furniture Sale 2017','20170325212712-60383.jpg','2017-03-06','2030-04-30','running');
 
 
 /*

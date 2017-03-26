@@ -131,9 +131,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		        .maxSessionsPreventsLogin(true)
 		        .sessionRegistry(sessionRegistry);
 
-		// allow Frame forward mode
-		http.headers().frameOptions().sameOrigin();
-
 	}
 
 	@Override
