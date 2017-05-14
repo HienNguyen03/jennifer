@@ -1,7 +1,11 @@
 package com.jennifer.config;
 
 import com.jennifer.config.handler.SessionTimeoutCookieFilter;
+import org.apache.catalina.webresources.StandardRoot;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
+import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;
 import org.springframework.boot.web.servlet.ErrorPage;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -36,6 +40,8 @@ import java.util.Locale;
 @ComponentScan("com.jennifer")
 public class AppConfig extends WebMvcConfigurerAdapter {
 
+    private static final Logger logger = LoggerFactory.getLogger(AppConfig.class);
+
     @Bean
     public SessionRegistry getSessionRegistry() {
         return new SessionRegistryImpl();
@@ -47,6 +53,17 @@ public class AppConfig extends WebMvcConfigurerAdapter {
     }
 
 
+    @Bean
+    public TomcatEmbeddedServletContainerFactory tomcatFactory() {
+        TomcatEmbeddedServletContainerFactory tomcatFactory = new TomcatEmbeddedServletContainerFactory();
+        tomcatFactory.addContextCustomizers((context) -> {
+            StandardRoot standardRoot = new StandardRoot(context);
+            standardRoot.setCacheMaxSize(40 * 1024);
+
+            logger.info(String.format(" [+] New cache size (KB): %d", context.getResources().getCacheMaxSize()));
+        });
+        return tomcatFactory;
+    }
 
     @Bean(name = "templateEngine")
     public SpringTemplateEngine getTemplateEngine() {
