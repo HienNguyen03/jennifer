@@ -47,7 +47,7 @@ public class PersistenceJPAConfig {
         em.setDataSource(dataSource());
 
         // wont work for IntelliJ, need hibernate.cfg.xml
-        em.setPackagesToScan(new String[] { "com.jennifer.entity" });
+        em.setPackagesToScan("com.jennifer.entity");
         em.setJpaProperties(additionalProperties());
         em.setJpaVendorAdapter(vendorAdapter);
 
