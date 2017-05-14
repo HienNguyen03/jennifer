@@ -1,10 +1,12 @@
 package com.jennifer.config;
 
 import com.jennifer.config.handler.SessionTimeoutCookieFilter;
+import org.apache.catalina.Context;
 import org.apache.catalina.webresources.StandardRoot;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
+import org.springframework.boot.context.embedded.EmbeddedServletContainerFactory;
 import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;
 import org.springframework.boot.web.servlet.ErrorPage;
 import org.springframework.context.MessageSource;
@@ -52,17 +54,19 @@ public class AppConfig extends WebMvcConfigurerAdapter {
         return new RestTemplate();
     }
 
-
     @Bean
-    public TomcatEmbeddedServletContainerFactory tomcatFactory() {
-        TomcatEmbeddedServletContainerFactory tomcatFactory = new TomcatEmbeddedServletContainerFactory();
-        tomcatFactory.addContextCustomizers((context) -> {
-            StandardRoot standardRoot = new StandardRoot(context);
-            standardRoot.setCacheMaxSize(40 * 1024);
+    public EmbeddedServletContainerFactory servletContainerFactory() {
+        return new TomcatEmbeddedServletContainerFactory() {
+            @Override
+            protected void postProcessContext(Context context) {
+                final int cacheSize = 40 * 1024;
+                StandardRoot standardRoot = new StandardRoot(context);
+                standardRoot.setCacheMaxSize(cacheSize);
+                context.setResources(standardRoot);
 
-            logger.info(String.format(" [+] New cache size (KB): %d", context.getResources().getCacheMaxSize()));
-        });
-        return tomcatFactory;
+                logger.info(String.format(" [+] New cache size (KB): %d", context.getResources().getCacheMaxSize()));
+            }
+        };
     }
 
     @Bean(name = "templateEngine")
