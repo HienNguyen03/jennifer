@@ -30,13 +30,15 @@
 							<td class="text-center">Price</td>
 							<td class="text-center">Status</td>
 							<td></td>
+							<td></td>
 						</tr>
 					</thead>
 					<tbody class="favorite_content">
-						<tr th:each="product : ${favoriteBag}" th:attr="id='product' + ${product.id}">
+						<tr th:each="product,idx : ${favoriteBag}" th:attr="id='product' + ${product.id}">
 							<td th:each="productImage,iter : ${#strings.arraySplit(product.image, ',')}" th:if="${iter.index == 0}" class="text-center favotire_product cart_product">
 								<a th:href="${'/product/' + product.id}"><img th:src="${'/pics/' + productImage}" alt="" /></a>
 							</td>
+
 							<td class="cart_description">
 								<h4><a th:href="${'/product/'+product.id}" th:text="${product.name}"></a></h4>
 								<p th:text="${'Reference ID: '+product.id}"></p>

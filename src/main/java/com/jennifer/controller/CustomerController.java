@@ -313,12 +313,17 @@ public class CustomerController {
         if(userInfo != null){
             List<FavoriteProduct> userFavoriteBag = favoriteProductService.findAllByUserId(userInfo.getId());
 
+
+
             List<ProductInfo> productInfos = new ArrayList<>();
             for (FavoriteProduct f : userFavoriteBag){
                 productInfos.add(f.getProductInfo());
             }
 
+            Iterable<ProductInfo> iterableee = productInfoService.findAllProducts();
+
             model.addAttribute("favoriteBag",productInfos);
+            model.addAttribute("iterableee",iterableee);
         }
         return "favorite";
     }
