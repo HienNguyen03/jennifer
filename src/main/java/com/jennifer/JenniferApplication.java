@@ -26,7 +26,7 @@ public class JenniferApplication extends SpringBootServletInitializer {
 
 	@Bean
 	CommandLineRunner init(StorageService storageService) {
-		return (args) -> {
+		return (String... args) -> {
 			//storageService.deleteAll();
 			storageService.init();
 		};
